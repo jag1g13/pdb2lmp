@@ -2,6 +2,8 @@ import os
 
 from collections import OrderedDict, namedtuple
 
+from ..pdb2lmp.fileparser import FileParser
+
 
 class MolDatabase:
     data_dir = "data"
@@ -13,24 +15,19 @@ class MolDatabase:
         Args:
             filename: Name of molecule database file to open; GROMACS rtp file.
         """
-        with open(os.path.join(MolDatabase.data_dir, filename)) as f:
-            current_mol = None
-            self.molecules = {}
-            Atom = namedtuple("Atom", ["name", "type", "charge"])
-            Molecule = namedtuple("Molecule", ["name", "atoms", "bonds", "angles", "dihedrals", "impropers"])
+        fp = FileParser(os.path.join(MolDatabase.data_dir, filename))
+        self.molecules = {}
+        Atom = namedtuple("Atom", ["name", "type", "charge"])
+        Molecule = namedtuple("Molecule", ["name", "atoms", "bonds", "angles", "dihedrals", "impropers"])
 
-            for line in f:
-                line = line.strip()
-                toks = line.split()
-                if toks[0] in {"#", ";"}:
-                    continue
-                if toks[0] == "[":
-                    if toks[1] not in {"atoms", "bonds", "angles", "dihedrals", "impropers"}:
-                        current_mol = toks[1]
-                        self.molecules[current_mol] = Molecule(current_mol, OrderedDict(), set(), set(), set(), set())
-                    elif current_mol is not None:
-                        current_mode = toks[1]
-                    assert toks[2] == "]"
-                else:
-                    if current_mode == "atoms":
-                        self.molecules[current_mol].atoms[toks[0]] = Atom(toks[0], toks[1], float(toks[2]))
+        while True:
+            mol = fp.nextsection()
+            if mol is None:
+                break
+
+            self.molecules[mol] = Molecule(mol, OrderedDict(), set(), set(), set(), set())
+            natms, nbnds, nangs, ndihs, nimps = fp.getline()
+
+            for i in range(int(natms)):
+                toks = fp.getline()
+                self.molecules[mol].atoms[toks[0]] = Atom(toks[0], toks[1], float(toks[2]))

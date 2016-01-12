@@ -1,3 +1,9 @@
 [ MEOH ]
- [ atoms ]
-  C MEOH 0.000 0
+;atoms bonds angles dihs imps
+   1     0     0     0    0
+C MEOH 0.000 0
+
+[ ETOH ]
+;atoms bonds angles dihs imps
+   1     0     0     0    0
+C ETOH 0.000 0
