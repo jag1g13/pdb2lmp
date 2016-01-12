@@ -1,0 +1,11 @@
+
+[ atomtypes ]
+;type  mass  charge  sigma  epsilon
+MEOH  30.04  -1      -1      -1
+ETOH  44.04  -1      -1      -1
+
+[ nonbond_params ]
+; i     j    sigma  epsilon
+MEOH  MEOH    -1      -1
+MEOH  ETOH    -1      -1
+ETOH  ETOH    -1      -1
