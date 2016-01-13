@@ -9,7 +9,7 @@ class FileParser:
         with open(filename) as f:
             self.lines = f.readlines()
 
-    def getline(self):
+    def getline(self, required=0):
         while True:
             if self.curr_line >= len(self.lines):
                 return None
@@ -27,7 +27,10 @@ class FileParser:
 
             break
 
-        return line.split()
+        toks = line.split()
+        while len(toks) < required:
+            toks.append(None)
+        return toks
 
     def findsection(self, section):
         self.rewind()

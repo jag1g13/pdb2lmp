@@ -15,6 +15,13 @@ class TestFileParser(unittest.TestCase):
         self.assertEqual(fp.getline(), ['MEOH', 'MEOH', '-1', '-1'])
         self.assertEqual(fp.section, "nonbond_params")
 
+    def test_getline_number(self):
+        fp = FileParser("data/mol.rtp")
+        self.assertEqual(fp.nextsection(), "MEOH")
+        self.assertEqual(fp.nextsection(), "ETOH")
+        self.assertEqual(fp.nextsection(), "WAT")
+        self.assertEqual(fp.getline(5), ["1", None, None, None, None])
+
     def test_findsection(self):
         fp = FileParser("data/atoms.dat")
         self.assertTrue(fp.findsection("atomtypes"))

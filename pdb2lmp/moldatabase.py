@@ -26,8 +26,9 @@ class MolDatabase:
                 break
 
             self.molecules[mol] = Molecule(mol, OrderedDict(), set(), set(), set(), set())
-            natms, nbnds, nangs, ndihs, nimps = fp.getline()
+            natms, nbnds, nangs, ndihs, nimps = fp.getline(5)
 
-            for i in range(int(natms)):
-                toks = fp.getline()
-                self.molecules[mol].atoms[toks[0]] = Atom(toks[0], toks[1], float(toks[2]))
+            if natms is not None:
+                for i in range(int(natms)):
+                    toks = fp.getline()
+                    self.molecules[mol].atoms[toks[0]] = Atom(toks[0], toks[1], float(toks[2]))
