@@ -4,10 +4,12 @@ from collections import namedtuple
 
 class PDBReader:
     def __init__(self, filename):
+        self.atoms = []
+        self.molecules = []
+        self.cell = []
+
         with open(filename) as pdb:
-            self.atoms = []
             Atom = namedtuple("Atom", ["name", "resname", "resid", "x", "y", "z"])
-            self.molecules = []
             Molecule = namedtuple("Molecule", ["name", "atoms"])
             last_resid = -1
 
@@ -24,5 +26,9 @@ class PDBReader:
                         last_resid = self.atoms[-1].resid
                     self.molecules[-1].atoms.append(int(line[6:11])-1)
 
-            self.natoms = len(self.atoms)
-            self.nmol = len(self.molecules)
+                if line.startswith("CRYST1"):
+                    self.cell = [float(line[6:15]), float(line[15:24]), float(line[24:33]),
+                                 float(line[33:40]), float(line[40:47]), float(line[47:54])]
+
+        self.natoms = len(self.atoms)
+        self.nmol = len(self.molecules)
