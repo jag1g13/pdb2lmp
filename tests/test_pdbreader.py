@@ -2,6 +2,7 @@ import unittest
 
 from ..pdb2lmp.pdbreader import PDBReader
 
+
 class TestPDBReader(unittest.TestCase):
     def test_open_pdb(self):
         pdb = PDBReader("data/water.pdb")
@@ -14,6 +15,12 @@ class TestPDBReader(unittest.TestCase):
         self.assertEqual(pdb.atoms[0].x, 1.837)
         self.assertEqual(pdb.atoms[0].y, 6.961)
         self.assertEqual(pdb.atoms[0].z, 2.338)
+
+    def test_parse_molecules(self):
+        pdb = PDBReader("data/water.pdb")
+        self.assertEqual(pdb.nmol, 31)
+        self.assertEqual(pdb.molecules[0].name, "WAT")
+        self.assertEqual(pdb.molecules[0].atoms, [0])
 
 
 if __name__ == '__main__':
