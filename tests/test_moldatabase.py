@@ -5,10 +5,10 @@ from ..pdb2lmp.moldatabase import MolDatabase
 
 class TestMolDatabase(unittest.TestCase):
     def test_open_database(self):
-        db = MolDatabase("mol.rtp")
+        db = MolDatabase()
 
     def test_read_database(self):
-        db = MolDatabase("mol.rtp")
+        db = MolDatabase()
         self.assertTrue("MEOH" in db.molecules)
         self.assertTrue("ETOH" in db.molecules)
         self.assertTrue("C" in db.molecules["MEOH"].atoms)

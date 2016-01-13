@@ -6,16 +6,14 @@ from ..pdb2lmp.fileparser import FileParser
 
 
 class MolDatabase:
-    data_dir = "data"
-
-    def __init__(self, filename):
+    def __init__(self):
         """
         Create a new MolDatabase object
 
         Args:
             filename: Name of molecule database file to open; GROMACS rtp file.
         """
-        fp = FileParser(os.path.join(MolDatabase.data_dir, filename))
+        fp = FileParser(os.path.join("data", "mol.rtp"))
         self.molecules = {}
         Atom = namedtuple("Atom", ["name", "type", "charge"])
         Molecule = namedtuple("Molecule", ["name", "atoms", "bonds", "angles", "dihedrals", "impropers"])

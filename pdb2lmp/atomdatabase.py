@@ -6,16 +6,14 @@ from ..pdb2lmp.fileparser import FileParser
 
 
 class AtomDatabase:
-    data_dir = "data"
-
-    def __init__(self, filename):
+    def __init__(self):
         """
         Create a new AtomDatabase object
 
         Args:
             filename: Name of atom database file to open; GROMACS rtp file.
         """
-        fp = FileParser(os.path.join(AtomDatabase.data_dir, filename))
+        fp = FileParser(os.path.join("data", "atoms.dat"))
         self.atoms = {}
         Atom = namedtuple("Atom", ["type", "mass", "charge", "sig", "eps", "lj"])
 
