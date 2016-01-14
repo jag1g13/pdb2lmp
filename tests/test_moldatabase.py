@@ -9,10 +9,10 @@ class TestMolDatabase(unittest.TestCase):
 
     def test_read_database(self):
         db = MolDatabase()
-        self.assertTrue("MEOH" in db.molecules)
-        self.assertTrue("ETOH" in db.molecules)
-        self.assertEqual(db.molecules["MEOH"].atoms["C"].name, "C")
-        self.assertEqual(db.molecules["MEOH"].atoms["C"].type, "MEOH")
+        self.assertTrue("MEO" in db.molecules)
+        self.assertTrue("ETO" in db.molecules)
+        self.assertEqual(db.molecules["MEO"].atoms["C"].name, "C")
+        self.assertEqual(db.molecules["MEO"].atoms["C"].type, "MEOH")
 
 if __name__ == '__main__':
     unittest.main()

@@ -1,9 +1,10 @@
-[ MEOH ]
+[ MEO ]
 ;atoms bonds angles dihs imps
    1     0     0     0    0
+;name type charge
 C MEOH 0.000 0
 
-[ ETOH ]
+[ ETO ]
 ;atoms bonds angles dihs imps
    1     0     0     0    0
 C ETOH 0.000 0
