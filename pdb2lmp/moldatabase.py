@@ -3,6 +3,7 @@ import os
 from collections import OrderedDict, namedtuple
 
 from ..pdb2lmp.fileparser import FileParser
+from ..pdb2lmp.atom import Atom
 
 
 class MolDatabase:
@@ -15,7 +16,6 @@ class MolDatabase:
         """
         fp = FileParser(os.path.join("data", "mol.rtp"))
         self.molecules = {}
-        Atom = namedtuple("Atom", ["name", "type", "charge"])
         Molecule = namedtuple("Molecule", ["name", "atoms", "bonds", "angles", "dihedrals", "impropers"])
 
         while True:
@@ -23,10 +23,10 @@ class MolDatabase:
             if mol is None:
                 break
 
-            self.molecules[mol] = Molecule(mol, OrderedDict(), set(), set(), set(), set())
+            self.molecules[mol] = Molecule(mol, [], set(), set(), set(), set())
             natms, nbnds, nangs, ndihs, nimps = fp.getline(5)
 
             if natms is not None:
                 for i in range(int(natms)):
                     toks = fp.getline()
-                    self.molecules[mol].atoms[toks[0]] = Atom(toks[0], toks[1], float(toks[2]))
+                    self.molecules[mol].atoms.append(Atom(toks[0], toks[1]))

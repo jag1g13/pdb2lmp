@@ -33,7 +33,7 @@ class PDB2LMP:
         for mol in self.pdb.molecules:
             if mol.name not in self.moltypes:
                 self.moltypes.append(mol.name)
-            for atomname, atom in self.moldb.molecules[mol.name].atoms.items():
+            for atom in self.moldb.molecules[mol.name].atoms:
                 if atom.type not in self.atomtypes:
                     self.atomtypes.append(atom.type)
                     self.atoms.types += 1

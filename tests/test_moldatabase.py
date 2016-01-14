@@ -11,10 +11,8 @@ class TestMolDatabase(unittest.TestCase):
         db = MolDatabase()
         self.assertTrue("MEOH" in db.molecules)
         self.assertTrue("ETOH" in db.molecules)
-        self.assertTrue("C" in db.molecules["MEOH"].atoms)
-        self.assertEqual(db.molecules["MEOH"].atoms["C"].name, "C")
-        self.assertEqual(db.molecules["MEOH"].atoms["C"].type, "MEOH")
-        self.assertEqual(db.molecules["MEOH"].atoms["C"].charge, 0)
+        self.assertEqual(db.molecules["MEOH"].atoms[0].name, "C")
+        self.assertEqual(db.molecules["MEOH"].atoms[0].type, "MEOH")
 
 if __name__ == '__main__':
     unittest.main()

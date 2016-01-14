@@ -22,6 +22,10 @@ class TestPDBReader(unittest.TestCase):
         self.assertEqual(pdb.molecules[0].name, "WAT")
         self.assertEqual(pdb.molecules[0].atoms, [0])
 
+    def test_parse_cell(self):
+        pdb = PDBReader("data/water.pdb")
+        self.assertEqual(pdb.cell, [10, 10, 10, 90, 90, 90])
+
 
 if __name__ == '__main__':
     unittest.main()
