@@ -37,5 +37,12 @@ class TestPDB2LMP(unittest.TestCase):
         conv.populate_pdb_data()
         conv.write_forcefield("mixed.ff")
 
+    def test_glc(self):
+        conv = PDB2LMP("data/glc.pdb")
+        conv.collect_types()
+        conv.populate_pdb_data()
+        conv.write_data("glc.data")
+        conv.write_forcefield("glc.ff")
+
 if __name__ == '__main__':
     unittest.main()

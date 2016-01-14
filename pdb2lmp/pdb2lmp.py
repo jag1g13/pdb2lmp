@@ -74,7 +74,7 @@ class PDB2LMP:
             data.write("\n")
             for i, atom in enumerate(self.pdb.atoms):
                 data.write("{0:6d} {1:4d} {2:8.3f} {3:8.3f} {4:8.3f} {5:4d} {6:5.2f} {7:8.3f} {8:8.3f} {9:8.3f} {10:5.2f} {11:5.2f}\n".format(
-                    i, self.atomtypes.index(atom.type), atom.x, atom.y, atom.z,
+                    i+1, self.atomtypes.index(atom.type)+1, atom.x, atom.y, atom.z,
                     atom.resid, atom.charge, 0, 0, 0, 0, 0
                 ))
 
@@ -92,19 +92,21 @@ class PDB2LMP:
             ff.write("\n")
             for i, atomtype in enumerate(self.atomtypes):
                 ff.write("mass {0:4d} {1:8.3f} # {2}\n".format(
-                    i, self.atomdb.atoms[atomtype].mass, atomtype
+                    i+1, self.atomdb.atoms[atomtype].mass, atomtype
                 ))
 
             ff.write("\n")
             for i, atomtype in enumerate(self.atomtypes):
                 ff.write("set type {0:4d} mass {1:8.3f} # {2}\n".format(
-                        i, self.atomdb.atoms[atomtype].mass, atomtype
+                        i+1, self.atomdb.atoms[atomtype].mass, atomtype
                 ))
 
             ff.write("\n")
             for i, atomtype in enumerate(self.atomtypes):
-                for j, atomtype2 in enumerate(self.atomtypes[i:]):
+                for j, atomtype2 in enumerate(self.atomtypes):
+                    if i > j:
+                        continue
                     sig, eps = self.atomdb.lj(atomtype, atomtype2)
                     ff.write("pair_coeff {0:4d} {1:4d} {2:6.3f} {3:6.3f} # {4}-{5}\n".format(
-                        i, j, eps, sig, atomtype, atomtype2
+                        i+1, j+1, eps, sig, atomtype, atomtype2
                     ))
