@@ -102,7 +102,7 @@ class PDB2LMP:
             ff.write("\n")
             for i, atomtype in enumerate(self.atomtypes):
                 for j, atomtype2 in enumerate(self.atomtypes[i:]):
+                    sig, eps = self.atomdb.lj(atomtype, atomtype2)
                     ff.write("pair_coeff {0:4d} {1:4d} {2:6.3f} {3:6.3f} # {4}-{5}\n".format(
-                        # i, j, self.atomdb.ljeps(i, j), self.atomdb.ljsig(i, j), atomtype, atomtype2
-                        i, j, 0, 0, atomtype, atomtype2
+                        i, j, eps, sig, atomtype, atomtype2
                     ))
