@@ -1,13 +1,19 @@
 
 [ atomtypes ]
 ;type  mass  charge  sigma  epsilon
-MEOH  30.04  -1      -1      -1
-ETOH  44.04  -1      -1      -1
-WAT   18.00   0      -1      -1
+WAT   18.015   0      3.050   0.367
+MEOH  30.026   0      3.725   0.536
+ETOH  44.053   0      4.200   0.592
+OXY   15.999   0      1.684   0.170
 
 [ nonbond_params ]
-; i     j    sigma  epsilon
-MEOH  MEOH    -1      -1
-MEOH  ETOH    -1      -1
-ETOH  ETOH    -1      -1
-MEOH  X       -1       0
+; i     j    h
+WAT   WAT    1.5
+WAT   MEOH   1.4
+WAT   ETOH   1.4
+WAT   OXY    1.05
+MEOH  MEOH   1.25
+MEOH  ETOH   1.25
+MEOH  OXY    1.05
+ETOH  ETOH   1.25
+ETOH  OXY    1.05

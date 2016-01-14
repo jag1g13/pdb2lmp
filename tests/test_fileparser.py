@@ -9,12 +9,9 @@ class TestFileParser(unittest.TestCase):
 
     def test_getline(self):
         fp = FileParser("data/atoms.dat")
-        self.assertEqual(fp.getline(), ['MEOH', '30.04', '-1', '-1', '-1'])
+        self.assertEqual(fp.getline(), ['WAT', '18.015', '0', '3.050', '0.367'])
         self.assertEqual(fp.section, "atomtypes")
-        self.assertEqual(fp.getline(), ['ETOH', '44.04', '-1', '-1', '-1'])
-        self.assertEqual(fp.getline(), ['WAT', '18.00', '0', '-1', '-1'])
-        self.assertEqual(fp.getline(), ['MEOH', 'MEOH', '-1', '-1'])
-        self.assertEqual(fp.section, "nonbond_params")
+        self.assertEqual(fp.getline(), ['MEOH', '30.026', '0', '3.725', '0.536'])
 
     def test_getline_number(self):
         fp = FileParser("data/mol.rtp")
@@ -31,22 +28,19 @@ class TestFileParser(unittest.TestCase):
     def test_getlinefromsection(self):
         fp = FileParser("data/atoms.dat")
         self.assertEqual(fp.getlinefromsection("atomtypes"),
-                         ['MEOH', '30.04', '-1', '-1', '-1'])
+                         ['WAT', '18.015', '0', '3.050', '0.367'])
         self.assertEqual(fp.getlinefromsection("atomtypes"),
-                         ['ETOH', '44.04', '-1', '-1', '-1'])
-        self.assertEqual(fp.getlinefromsection("atomtypes"),
-                         ['WAT', '18.00', '0', '-1', '-1'])
-        self.assertIsNone(fp.getlinefromsection("atomtypes"))
+                         ['MEOH', '30.026', '0', '3.725', '0.536'])
         self.assertEqual(fp.getlinefromsection("nonbond_params"),
-                         ['MEOH', 'MEOH', '-1', '-1'])
+                         ['WAT', 'WAT', '1.5'])
         self.assertIsNone(fp.getlinefromsection("potato"))
 
     def test_nextsection(self):
         fp = FileParser("data/atoms.dat")
         self.assertEqual(fp.nextsection(), "atomtypes")
-        self.assertEqual(fp.getline(), ['MEOH', '30.04', '-1', '-1', '-1'])
+        self.assertEqual(fp.getline(), ['WAT', '18.015', '0', '3.050', '0.367'])
         self.assertEqual(fp.nextsection(), "nonbond_params")
-        self.assertEqual(fp.getline(), ['MEOH', 'MEOH', '-1', '-1'])
+        self.assertEqual(fp.getline(), ['WAT', 'WAT', '1.5'])
         self.assertIsNone(fp.nextsection())
 
 

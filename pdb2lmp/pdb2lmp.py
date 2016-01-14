@@ -47,6 +47,8 @@ class PDB2LMP:
         for atom in self.pdb.atoms:
             if atom.type is None:
                 atom.type = self.moldb.molecules[atom.resname].atoms[atom.name].type
+            if atom.charge is None:
+                atom.charge = self.moldb.molecules[atom.resname].atoms[atom.name].charge
 
     def write_data(self, filename):
         with open(filename, "w") as data:
@@ -73,7 +75,7 @@ class PDB2LMP:
             for i, atom in enumerate(self.pdb.atoms):
                 data.write("{0:6d} {1:4d} {2:8.3f} {3:8.3f} {4:8.3f} {5:4d} {6:5.2f} {7:8.3f} {8:8.3f} {9:8.3f} {10:5.2f} {11:5.2f}\n".format(
                     i, self.atomtypes.index(atom.type), atom.x, atom.y, atom.z,
-                    atom.resid, atom.charge, 0, 0, 0, atom.diameter, atom.rotmass
+                    atom.resid, atom.charge, 0, 0, 0, 0, 0
                 ))
 
     def write_forcefield(self, filename):
