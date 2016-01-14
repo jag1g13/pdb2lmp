@@ -13,10 +13,23 @@ class TestPDB2LMP(unittest.TestCase):
         self.assertEquals(conv.moltypes, ["WAT"])
         self.assertEquals(conv.atomtypes, ["WAT"])
 
+    def test_populate_pdb_data(self):
+        conv = PDB2LMP("data/water.pdb")
+        conv.collect_types()
+        conv.populate_pdb_data()
+        self.assertEqual(conv.pdb.atoms[0].type, "WAT")
+
     def test_write_data(self):
         conv = PDB2LMP("data/water.pdb")
         conv.collect_types()
-        conv.write_data("data.wat")
+        conv.populate_pdb_data()
+        conv.write_data("test.data")
+
+    def test_write_forcefield(self):
+        conv = PDB2LMP("data/water.pdb")
+        conv.collect_types()
+        conv.populate_pdb_data()
+        conv.write_forcefield("test.ff")
 
 if __name__ == '__main__':
     unittest.main()

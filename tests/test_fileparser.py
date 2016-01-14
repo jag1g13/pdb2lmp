@@ -12,6 +12,7 @@ class TestFileParser(unittest.TestCase):
         self.assertEqual(fp.getline(), ['MEOH', '30.04', '-1', '-1', '-1'])
         self.assertEqual(fp.section, "atomtypes")
         self.assertEqual(fp.getline(), ['ETOH', '44.04', '-1', '-1', '-1'])
+        self.assertEqual(fp.getline(), ['WAT', '18.00', '0', '-1', '-1'])
         self.assertEqual(fp.getline(), ['MEOH', 'MEOH', '-1', '-1'])
         self.assertEqual(fp.section, "nonbond_params")
 
@@ -33,6 +34,8 @@ class TestFileParser(unittest.TestCase):
                          ['MEOH', '30.04', '-1', '-1', '-1'])
         self.assertEqual(fp.getlinefromsection("atomtypes"),
                          ['ETOH', '44.04', '-1', '-1', '-1'])
+        self.assertEqual(fp.getlinefromsection("atomtypes"),
+                         ['WAT', '18.00', '0', '-1', '-1'])
         self.assertIsNone(fp.getlinefromsection("atomtypes"))
         self.assertEqual(fp.getlinefromsection("nonbond_params"),
                          ['MEOH', 'MEOH', '-1', '-1'])

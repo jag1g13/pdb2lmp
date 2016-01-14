@@ -3,6 +3,7 @@
 ;type  mass  charge  sigma  epsilon
 MEOH  30.04  -1      -1      -1
 ETOH  44.04  -1      -1      -1
+WAT   18.00   0      -1      -1
 
 [ nonbond_params ]
 ; i     j    sigma  epsilon

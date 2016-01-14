@@ -23,10 +23,10 @@ class MolDatabase:
             if mol is None:
                 break
 
-            self.molecules[mol] = Molecule(mol, [], set(), set(), set(), set())
+            self.molecules[mol] = Molecule(mol, OrderedDict(), set(), set(), set(), set())
             natms, nbnds, nangs, ndihs, nimps = fp.getline(5)
 
             if natms is not None:
                 for i in range(int(natms)):
                     toks = fp.getline()
-                    self.molecules[mol].atoms.append(Atom(toks[0], toks[1]))
+                    self.molecules[mol].atoms[toks[0]] = Atom(toks[0], toks[1])
