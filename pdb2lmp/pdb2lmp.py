@@ -84,8 +84,16 @@ class PDB2LMP:
                     atom.resid, atom.charge, 0, 0, 0, 0, 0
                 ))
 
+            data.write("\n")
+            data.write("Bonds\n")
+            data.write("\n")
             for i, mol in enumerate(self.pdb.molecules):
-                pass
+                for length in self.moldb.molecules[mol.name].lengths:
+                    data.write("{0:6d} {1:4d} {2:6d} {3:6d}\n".format(
+                        i+1, self.lengthtypes.index(length.type)+1,
+                        mol.atoms[list(self.moldb.molecules[mol.name].atoms.keys()).index(length.atom1)]+1,
+                        mol.atoms[list(self.moldb.molecules[mol.name].atoms.keys()).index(length.atom2)]+1
+                    ))
 
     def write_forcefield(self, filename):
         with open(filename, "w") as ff:
