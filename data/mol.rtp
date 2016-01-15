@@ -16,10 +16,16 @@ O1 WAT 0.000 0
 
 [ GLC ]
 ;atoms bonds angles dihs imps
-   6
+   6     6
 C1 MEOH 0.000
 C2 MEOH 0.000
 C3 MEOH 0.000
 C4 MEOH 0.000
 C5 ETOH 0.000
 O5 OXY  0.000
+sugar-ring C1 C2
+sugar-ring C2 C3
+sugar-ring C3 C4
+sugar-ring C4 C5
+sugar-ring C5 O5
+sugar-ring O5 C1
