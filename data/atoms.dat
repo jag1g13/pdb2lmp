@@ -1,10 +1,10 @@
 
 [ atomtypes ]
-;type  mass  charge  sigma  epsilon
-WAT   18.015   0      3.050   0.367
-MEOH  30.026   0      3.725   0.536
-ETOH  44.053   0      4.200   0.592
-OXY   15.999   0      1.684   0.170
+;type  mass  charge  sigma  epsilon diameter rotmass
+WAT   18.015   0      3.050   0.367   5.0
+MEOH  30.026   0      3.725   0.536  12.7
+ETOH  44.053   0      4.200   0.592  12.7
+OXY   15.999   0      1.684   0.170  12.7
 
 [ nonbond_params ]
 ; i     j    h

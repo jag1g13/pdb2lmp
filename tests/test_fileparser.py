@@ -4,14 +4,17 @@ from pdb2lmp.fileparser import FileParser
 
 
 class TestFileParser(unittest.TestCase):
+    watline = ['WAT', '18.015', '0', '3.050', '0.367', '5.0']
+    meoline = ['MEOH', '30.026', '0', '3.725', '0.536', '12.7']
+
     def test_open_file(self):
         fp = FileParser("data/atoms.dat")
 
     def test_getline(self):
         fp = FileParser("data/atoms.dat")
-        self.assertEqual(fp.getline(), ['WAT', '18.015', '0', '3.050', '0.367'])
+        self.assertEqual(fp.getline(), self.watline)
         self.assertEqual(fp.section, "atomtypes")
-        self.assertEqual(fp.getline(), ['MEOH', '30.026', '0', '3.725', '0.536'])
+        self.assertEqual(fp.getline(), self.meoline)
 
     def test_getline_number(self):
         fp = FileParser("data/mol.rtp")
@@ -27,10 +30,8 @@ class TestFileParser(unittest.TestCase):
 
     def test_getlinefromsection(self):
         fp = FileParser("data/atoms.dat")
-        self.assertEqual(fp.getlinefromsection("atomtypes"),
-                         ['WAT', '18.015', '0', '3.050', '0.367'])
-        self.assertEqual(fp.getlinefromsection("atomtypes"),
-                         ['MEOH', '30.026', '0', '3.725', '0.536'])
+        self.assertEqual(fp.getlinefromsection("atomtypes"), self.watline)
+        self.assertEqual(fp.getlinefromsection("atomtypes"), self.meoline)
         self.assertEqual(fp.getlinefromsection("nonbond_params"),
                          ['WAT', 'WAT', '1.5'])
         self.assertIsNone(fp.getlinefromsection("potato"))
@@ -38,7 +39,7 @@ class TestFileParser(unittest.TestCase):
     def test_nextsection(self):
         fp = FileParser("data/atoms.dat")
         self.assertEqual(fp.nextsection(), "atomtypes")
-        self.assertEqual(fp.getline(), ['WAT', '18.015', '0', '3.050', '0.367'])
+        self.assertEqual(fp.getline(), self.watline)
         self.assertEqual(fp.nextsection(), "nonbond_params")
         self.assertEqual(fp.getline(), ['WAT', 'WAT', '1.5'])
         self.assertIsNone(fp.nextsection())

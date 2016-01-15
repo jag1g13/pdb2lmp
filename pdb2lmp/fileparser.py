@@ -41,13 +41,13 @@ class FileParser:
 
         return True
 
-    def getlinefromsection(self, section):
+    def getlinefromsection(self, section, required=0):
         if section != self.find_prev:
             self.rewind()
         self.find_prev = section
 
         while True:
-            line = self.getline()
+            line = self.getline(required)
             if line is None:
                 break
             if self.section == section:

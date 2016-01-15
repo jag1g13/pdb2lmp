@@ -120,6 +120,12 @@ class PDB2LMP:
 
             ff.write("\n")
             for i, atomtype in enumerate(self.atomtypes):
+                ff.write("set type {0:4d} diameter {1:8.3f} # {2}\n".format(
+                        i+1, self.atomdb.atoms[atomtype].diameter, atomtype
+                ))
+
+            ff.write("\n")
+            for i, atomtype in enumerate(self.atomtypes):
                 for j, atomtype2 in enumerate(self.atomtypes):
                     if i > j:
                         continue

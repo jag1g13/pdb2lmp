@@ -32,8 +32,9 @@ class Atom:
         return cls(name=name, resname=resname, resid=resid, x=x, y=y, z=z)
 
     @classmethod
-    def fromatomdb(cls, attype, mass, charge, sig, eps):
-        return cls(attype=attype, mass=mass, charge=charge, sig=sig, eps=eps)
+    def fromatomdb(cls, attype, mass, charge, sig, eps, diameter, rotmass):
+        return cls(attype=attype, mass=mass, charge=charge,
+                   sig=sig, eps=eps, diameter=diameter, rotmass=rotmass)
 
     @classmethod
     def frommoldb(cls, name, attype, charge):

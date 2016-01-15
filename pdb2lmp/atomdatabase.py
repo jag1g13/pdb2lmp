@@ -21,11 +21,18 @@ class AtomDatabase:
 
         # Read atom types
         while True:
-            toks = fp.getlinefromsection("atomtypes")
+            toks = fp.getlinefromsection("atomtypes", 7)
             if toks is None:
                 break
+
+            # If rotational mass is not listed, assume same as normal mass
+            if toks[6] is not None:
+                rotmass = float(toks[6])
+            else:
+                rotmass = float(toks[1])
             self.atoms[toks[0]] = Atom.fromatomdb(toks[0], float(toks[1]), float(toks[2]),
-                                                  float(toks[3]), float(toks[4]))
+                                                  float(toks[3]), float(toks[4]),
+                                                  float(toks[5]), rotmass)
 
         # Read h-values and produce table
         while True:
