@@ -1,6 +1,6 @@
 import unittest
 
-from ..pdb2lmp.pdbreader import PDBReader
+from pdb2lmp.pdbreader import PDBReader
 
 
 class TestPDBReader(unittest.TestCase):

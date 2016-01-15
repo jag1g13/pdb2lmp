@@ -1,6 +1,6 @@
 import unittest
 
-from ..pdb2lmp.moldatabase import MolDatabase
+from pdb2lmp.moldatabase import MolDatabase
 
 
 class TestMolDatabase(unittest.TestCase):

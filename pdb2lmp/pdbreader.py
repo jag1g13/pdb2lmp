@@ -1,6 +1,7 @@
 from collections import namedtuple
 
-from ..pdb2lmp.atom import Atom
+from pdb2lmp.atom import Atom
+
 
 class PDBReader:
     def __init__(self, filename):
@@ -9,7 +10,6 @@ class PDBReader:
         self.cell = []
 
         with open(filename) as pdb:
-            # Atom = namedtuple("Atom", ["name", "resname", "resid", "x", "y", "z"])
             Molecule = namedtuple("Molecule", ["name", "atoms"])
             last_resid = -1
 

@@ -2,8 +2,8 @@ import os
 
 from collections import OrderedDict, namedtuple
 
-from ..pdb2lmp.fileparser import FileParser
-from ..pdb2lmp.atom import Atom
+from pdb2lmp.fileparser import FileParser
+from pdb2lmp.atom import Atom
 
 
 class MolDatabase:

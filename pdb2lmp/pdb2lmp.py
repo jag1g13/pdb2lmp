@@ -1,8 +1,6 @@
-from collections import namedtuple
-
-from ..pdb2lmp.pdbreader import PDBReader
-from ..pdb2lmp.moldatabase import MolDatabase
-from ..pdb2lmp.atomdatabase import AtomDatabase
+from pdb2lmp.pdbreader import PDBReader
+from pdb2lmp.moldatabase import MolDatabase
+from pdb2lmp.atomdatabase import AtomDatabase
 
 
 class NonMatchingAtomException(Exception):

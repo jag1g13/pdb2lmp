@@ -1,6 +1,6 @@
 import unittest
 
-from ..pdb2lmp.atomdatabase import AtomDatabase
+from pdb2lmp.atomdatabase import AtomDatabase
 
 
 class TestAtomDatabase(unittest.TestCase):

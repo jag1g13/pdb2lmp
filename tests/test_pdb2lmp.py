@@ -1,6 +1,6 @@
 import unittest
 
-from ..pdb2lmp.pdb2lmp import PDB2LMP
+from pdb2lmp.pdb2lmp import PDB2LMP
 
 
 class TestPDB2LMP(unittest.TestCase):

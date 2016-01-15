@@ -38,4 +38,3 @@ class Atom:
     @classmethod
     def frommoldb(cls, name, attype, charge):
         return cls(name=name, attype=attype, charge=charge)
-

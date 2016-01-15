@@ -1,6 +1,6 @@
 import unittest
 
-from ..pdb2lmp.atom import Atom
+from pdb2lmp.atom import Atom
 
 
 class TestAtom(unittest.TestCase):

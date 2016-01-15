@@ -3,8 +3,8 @@ from math import sqrt
 
 from collections import defaultdict
 
-from ..pdb2lmp.fileparser import FileParser
-from ..pdb2lmp.atom import Atom
+from pdb2lmp.fileparser import FileParser
+from pdb2lmp.atom import Atom
 
 
 class AtomDatabase:
@@ -25,7 +25,7 @@ class AtomDatabase:
             if toks is None:
                 break
             self.atoms[toks[0]] = Atom.fromatomdb(toks[0], float(toks[1]), float(toks[2]),
-                                              float(toks[3]), float(toks[4]))
+                                                  float(toks[3]), float(toks[4]))
 
         # Read h-values and produce table
         while True:
@@ -33,7 +33,6 @@ class AtomDatabase:
             if toks is None:
                 break
             self.lj_table_eps[toks[0]][toks[1]] = float(toks[2])
-
 
     def lj(self, at1, at2):
         # From Lorentz-Berthelot combination - doesn't have h-scaling
@@ -78,4 +77,4 @@ class AtomDatabase:
 
         eps = h * sqrt(self.atoms[at1].eps * self.atoms[at2].eps)
 
-        return (sig, eps)
+        return sig, eps
