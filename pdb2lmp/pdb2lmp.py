@@ -24,7 +24,7 @@ class PDB2LMP:
         self.moltypes = []
         self.atomtypes = []
 
-        self.atoms = Counter(0, 0)
+        self.natoms = Counter(0, 0)
 
     def collect_types(self):
         atnum = 0
@@ -34,31 +34,28 @@ class PDB2LMP:
             for atom in self.moldb.molecules[mol.name].atoms.values():
                 if atom.type not in self.atomtypes:
                     self.atomtypes.append(atom.type)
-                    self.atoms.types += 1
+                    self.natoms.types += 1
                 if self.pdb.atoms[atnum].name != atom.name:
                     raise NonMatchingAtomException("Atom in PDB ({0}) does not match atom in force field ({1}).".
                                                    format(self.pdb.atoms[atnum].name, atom.name))
-                self.atoms.total += 1
+                self.natoms.total += 1
                 atnum += 1
 
     def populate_pdb_data(self):
         for atom in self.pdb.atoms:
-            if atom.type is None:
-                atom.type = self.moldb.molecules[atom.resname].atoms[atom.name].type
-            if atom.charge is None:
-                atom.charge = self.moldb.molecules[atom.resname].atoms[atom.name].charge
+            atom.populate(self.moldb.molecules[atom.resname].atoms[atom.name])
 
     def write_data(self, filename):
         with open(filename, "w") as data:
             data.write("LAMMPS 'data.' input file created by PDB2LMP\n")
             data.write("\n")
-            data.write("{0:8d} atoms\n".format(self.atoms.total))
+            data.write("{0:8d} atoms\n".format(self.natoms.total))
             data.write("{0:8d} bonds\n".format(0))
             data.write("{0:8d} angles\n".format(0))
             data.write("{0:8d} dihedrals\n".format(0))
             data.write("{0:8d} impropers\n".format(0))
             data.write("\n")
-            data.write("{0:8d} atom types\n".format(self.atoms.types))
+            data.write("{0:8d} atom types\n".format(self.natoms.types))
             data.write("{0:8d} bond types\n".format(0))
             data.write("{0:8d} angle types\n".format(0))
             data.write("{0:8d} dihedral types\n".format(0))
