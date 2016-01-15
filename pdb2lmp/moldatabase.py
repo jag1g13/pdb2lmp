@@ -16,7 +16,7 @@ class MolDatabase:
         """
         fp = FileParser(os.path.join("data", "mol.rtp"))
         self.molecules = {}
-        Molecule = namedtuple("Molecule", ["name", "atoms", "lengths", "angles", "dihedrals", "impropers"])
+        Molecule = namedtuple("Molecule", ["atoms", "lengths", "angles", "dihedrals", "impropers"])
         Length = namedtuple("Length", ["type", "atom1", "atom2"])
 
         while True:
@@ -24,7 +24,7 @@ class MolDatabase:
             if mol is None:
                 break
 
-            self.molecules[mol] = Molecule(mol, OrderedDict(), [], set(), set(), set())
+            self.molecules[mol] = Molecule(OrderedDict(), [], set(), set(), set())
             natms, nbnds, nangs, ndihs, nimps = fp.getline(5)
 
             if natms is not None:

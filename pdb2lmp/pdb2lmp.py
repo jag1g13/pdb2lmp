@@ -1,6 +1,7 @@
 from pdb2lmp.pdbreader import PDBReader
 from pdb2lmp.moldatabase import MolDatabase
 from pdb2lmp.atomdatabase import AtomDatabase
+from pdb2lmp.bonddatabase import BondDatabase
 
 
 class NonMatchingAtomException(Exception):
@@ -20,17 +21,27 @@ class PDB2LMP:
         self.pdb = PDBReader(pdbname)
         self.moldb = MolDatabase()
         self.atomdb = AtomDatabase()
+        self.bonddb = BondDatabase()
 
         self.moltypes = []
         self.atomtypes = []
+        self.lengthtypes = []
 
         self.natoms = Counter(0, 0)
+        self.nlengths = Counter(0, 0)
 
     def collect_types(self):
         atnum = 0
         for mol in self.pdb.molecules:
+
             if mol.name not in self.moltypes:
                 self.moltypes.append(mol.name)
+                for lentype in self.moldb.molecules[mol.name].lengths:
+                    self.nlengths.total += 1
+                    if lentype.type not in self.lengthtypes:
+                        self.lengthtypes.append(lentype.type)
+                        self.nlengths.types += 1
+
             for atom in self.moldb.molecules[mol.name].atoms.values():
                 if atom.type not in self.atomtypes:
                     self.atomtypes.append(atom.type)
@@ -73,6 +84,9 @@ class PDB2LMP:
                     atom.resid, atom.charge, 0, 0, 0, 0, 0
                 ))
 
+            for i, mol in enumerate(self.pdb.molecules):
+                pass
+
     def write_forcefield(self, filename):
         with open(filename, "w") as ff:
             ff.write("# Forcefield prepared by PDB2LMP\n")
@@ -105,3 +119,12 @@ class PDB2LMP:
                     ff.write("pair_coeff {0:4d} {1:4d} {2:6.3f} {3:6.3f} # {4}-{5}\n".format(
                         i+1, j+1, eps, sig, atomtype, atomtype2
                     ))
+
+            ff.write("\n")
+            for i, lentype in enumerate(self.lengthtypes):
+                ff.write("bond_coeff {0:4d} {1} {2:8.3f} {3:8.3f} # {4}\n".format(
+                    i+1, self.bonddb.lengths[lentype].style,
+                         self.bonddb.lengths[lentype].k,
+                         self.bonddb.lengths[lentype].r,
+                         lentype
+                ))
