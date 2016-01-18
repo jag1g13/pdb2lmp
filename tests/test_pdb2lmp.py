@@ -13,6 +13,20 @@ class TestPDB2LMP(unittest.TestCase):
         self.assertEquals(conv.moltypes, ["WAT"])
         self.assertEquals(conv.atomtypes, ["WAT"])
 
+    def test_collect_types_full(self):
+        conv = PDB2LMP("data/glc.pdb")
+        conv.collect_types()
+        self.assertEqual(conv.moltypes, ["GLC"])
+        self.assertEqual(conv.atomtypes, ["MEOH", "ETOH", "OXY"])
+        self.assertEqual(conv.lengthtypes, ["sugar-ring"])
+        self.assertEqual(conv.angtypes, ["sugar-ring"])
+        self.assertEqual(conv.natoms.total, 6)
+        self.assertEqual(conv.natoms.types, 3)
+        self.assertEqual(conv.nlengths.total, 6)
+        self.assertEqual(conv.nlengths.types, 1)
+        self.assertEqual(conv.nangles.total, 6)
+        self.assertEqual(conv.nangles.types, 1)
+
     def test_populate_pdb_data(self):
         conv = PDB2LMP("data/water.pdb")
         conv.collect_types()

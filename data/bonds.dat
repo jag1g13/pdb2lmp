@@ -2,3 +2,7 @@
 ; name      type     K   r0
 sugar-ring harmonic 200 1.520
 test       test     100 1.000
+
+[ angle ]
+; name      type             K   theta0
+sugar-ring  cosine/squared  120  110.0

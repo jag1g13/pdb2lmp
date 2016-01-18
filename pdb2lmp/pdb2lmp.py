@@ -26,9 +26,15 @@ class PDB2LMP:
         self.moltypes = []
         self.atomtypes = []
         self.lengthtypes = []
+        self.angtypes = []
+        self.dihtypes = []
+        self.imptypes = []
 
         self.natoms = Counter(0, 0)
         self.nlengths = Counter(0, 0)
+        self.nangles = Counter(0, 0)
+        self.ndihedrals = Counter(0, 0)
+        self.nimpropers = Counter(0, 0)
 
     def collect_types(self):
         atnum = 0
@@ -36,11 +42,30 @@ class PDB2LMP:
 
             if mol.name not in self.moltypes:
                 self.moltypes.append(mol.name)
+
                 for lentype in self.moldb.molecules[mol.name].lengths:
                     self.nlengths.total += 1
                     if lentype.type not in self.lengthtypes:
                         self.lengthtypes.append(lentype.type)
                         self.nlengths.types += 1
+
+                for angtype in self.moldb.molecules[mol.name].angles:
+                    self.nangles.total += 1
+                    if angtype.type not in self.angtypes:
+                        self.angtypes.append(angtype.type)
+                        self.nangles.types += 1
+
+                for dihtype in self.moldb.molecules[mol.name].dihedrals:
+                    self.ndihedrals.total += 1
+                    if dihtype.type not in self.dihtypes:
+                        self.dihtypes.append(dihtype.type)
+                        self.ndihedrals.types += 1
+
+                for imptype in self.moldb.molecules[mol.name].impropers:
+                    self.nimpropers.total += 1
+                    if imptype.type not in self.imptypes:
+                        self.imptypes.append(imptype.type)
+                        self.nimpropers.types += 1
 
             for atom in self.moldb.molecules[mol.name].atoms.values():
                 if atom.type not in self.atomtypes:
@@ -61,16 +86,16 @@ class PDB2LMP:
             data.write("LAMMPS 'data.' input file created by PDB2LMP\n")
             data.write("\n")
             data.write("{0:8d} atoms\n".format(self.natoms.total))
-            data.write("{0:8d} bonds\n".format(0))
-            data.write("{0:8d} angles\n".format(0))
-            data.write("{0:8d} dihedrals\n".format(0))
-            data.write("{0:8d} impropers\n".format(0))
+            data.write("{0:8d} bonds\n".format(self.nlengths.total))
+            data.write("{0:8d} angles\n".format(self.nangles.total))
+            data.write("{0:8d} dihedrals\n".format(self.ndihedrals.total))
+            data.write("{0:8d} impropers\n".format(self.nimpropers.total))
             data.write("\n")
             data.write("{0:8d} atom types\n".format(self.natoms.types))
-            data.write("{0:8d} bond types\n".format(0))
-            data.write("{0:8d} angle types\n".format(0))
-            data.write("{0:8d} dihedral types\n".format(0))
-            data.write("{0:8d} improper types\n".format(0))
+            data.write("{0:8d} bond types\n".format(self.nangles.types))
+            data.write("{0:8d} angle types\n".format(self.nangles.types))
+            data.write("{0:8d} dihedral types\n".format(self.ndihedrals.types))
+            data.write("{0:8d} improper types\n".format(self.nimpropers.types))
             data.write("\n")
             data.write("{0:8.3f} {1:8.3f} xlo xhi\n".format(0, self.pdb.cell[0]))
             data.write("{0:8.3f} {1:8.3f} ylo yhi\n".format(0, self.pdb.cell[1]))
@@ -87,12 +112,25 @@ class PDB2LMP:
             data.write("\n")
             data.write("Bonds\n")
             data.write("\n")
-            for i, mol in enumerate(self.pdb.molecules):
+            i = 1
+            for mol in self.pdb.molecules:
                 for length in self.moldb.molecules[mol.name].lengths:
                     data.write("{0:6d} {1:4d} {2:6d} {3:6d}\n".format(
-                        i+1, self.lengthtypes.index(length.type)+1,
+                        i, self.lengthtypes.index(length.type)+1,
                         mol.atoms[list(self.moldb.molecules[mol.name].atoms.keys()).index(length.atom1)]+1,
                         mol.atoms[list(self.moldb.molecules[mol.name].atoms.keys()).index(length.atom2)]+1
+                    ))
+
+            data.write("\n")
+            data.write("Angles\n")
+            data.write("\n")
+            for mol in self.pdb.molecules:
+                for angle in self.moldb.molecules[mol.name].angles:
+                    data.write("{0:6d} {1:4d} {2:6d} {3:6d} {4:6d}\n".format(
+                            i+1, self.angtypes.index(angle.type)+1,
+                            mol.atoms[list(self.moldb.molecules[mol.name].atoms.keys()).index(angle.atom1)]+1,
+                            mol.atoms[list(self.moldb.molecules[mol.name].atoms.keys()).index(angle.atom2)]+1,
+                            mol.atoms[list(self.moldb.molecules[mol.name].atoms.keys()).index(angle.atom3)]+1
                     ))
 
     def write_forcefield(self, filename):
@@ -141,4 +179,13 @@ class PDB2LMP:
                          self.bonddb.lengths[lentype].k,
                          self.bonddb.lengths[lentype].r,
                          lentype
+                ))
+
+            ff.write("\n")
+            for i, angtype in enumerate(self.angtypes):
+                ff.write("angle_coeff {0:4d} {1} {2:8.3f} {3:8.3f} # {4}\n".format(
+                        i+1, self.bonddb.angles[angtype].style,
+                        self.bonddb.angles[angtype].k,
+                        self.bonddb.angles[angtype].r,
+                        angtype
                 ))
