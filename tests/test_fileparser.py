@@ -4,8 +4,8 @@ from pdb2lmp.fileparser import FileParser
 
 
 class TestFileParser(unittest.TestCase):
-    watline = ['WAT', '18.015', '0', '3.050', '0.367', '5.0']
-    meoline = ['MEOH', '30.026', '0', '3.725', '0.536', '12.7']
+    watline = ['WAT', '18.015', '0', '3.050', '0.367', '0.541', '5.0']
+    meoline = ['MEOH', '30.026', '0', '3.725', '0.536', '0.354', '12.7']
 
     def test_open_file(self):
         fp = FileParser("data/atoms.dat")

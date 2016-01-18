@@ -14,6 +14,7 @@ class TestAtomDatabase(unittest.TestCase):
         self.assertEqual(db.atoms["MEOH"].type, "MEOH")
         self.assertEqual(db.atoms["MEOH"].mass, 30.026)
         self.assertEqual(db.atoms["MEOH"].charge, 0)
+        self.assertEqual(db.atoms["MEOH"].dipole, 0.354)
         self.assertEqual(db.atoms["MEOH"].diameter, 12.7)
         self.assertEqual(db.atoms["MEOH"].rotmass, 30.026)
         self.assertEqual(db.atoms["ETOH"].mass, 44.053)

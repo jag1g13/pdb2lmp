@@ -5,14 +5,16 @@ class Atom:
                  "x", "y", "z",
                  "diameter", "rotmass",
                  "charge", "mass",
-                 "sig", "eps"]
+                 "sig", "eps",
+                 "dipole"]
 
     def __init__(self, name=None, attype=None,
                  resname=None, resid=None,
                  x=None, y=None, z=None,
                  diameter=None, rotmass=None,
                  charge=None, mass=None,
-                 sig=None, eps=None):
+                 sig=None, eps=None,
+                 dipole=None):
         self.name = name
         self.type = attype
         self.resname = resname
@@ -26,15 +28,16 @@ class Atom:
         self.mass = mass
         self.sig = sig
         self.eps = eps
+        self.dipole = dipole
 
     @classmethod
     def frompdb(cls, name, resname, resid, x, y, z):
         return cls(name=name, resname=resname, resid=resid, x=x, y=y, z=z)
 
     @classmethod
-    def fromatomdb(cls, attype, mass, charge, sig, eps, diameter, rotmass):
+    def fromatomdb(cls, attype, mass, charge, sig, eps, dipole, diameter, rotmass):
         return cls(attype=attype, mass=mass, charge=charge,
-                   sig=sig, eps=eps, diameter=diameter, rotmass=rotmass)
+                   sig=sig, eps=eps, dipole=dipole, diameter=diameter, rotmass=rotmass)
 
     @classmethod
     def frommoldb(cls, name, attype, charge):
@@ -88,3 +91,4 @@ class Atom:
         self.mass = self.compare(self.mass, other.mass)
         self.sig = self.compare(self.sig, other.sig)
         self.eps = self.compare(self.eps, other.eps)
+        self.dipole = self.compare(self.dipole, other.dipole)

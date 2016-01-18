@@ -78,6 +78,9 @@ class PDB2LMP:
                 atnum += 1
 
     def populate_pdb_data(self):
+        for mol in self.moldb.molecules.values():
+            for atom in mol.atoms.values():
+                atom.populate(self.atomdb.atoms[atom.type])
         for atom in self.pdb.atoms:
             atom.populate(self.moldb.molecules[atom.resname].atoms[atom.name])
 
@@ -104,9 +107,11 @@ class PDB2LMP:
             data.write("Atoms\n")
             data.write("\n")
             for i, atom in enumerate(self.pdb.atoms):
+                # Write atom line
+                # Dipoles are all oriented up - this should equilibrate out quickly
                 data.write("{0:6d} {1:4d} {2:8.3f} {3:8.3f} {4:8.3f} {5:4d} {6:5.2f} {7:8.3f} {8:8.3f} {9:8.3f} {10:5.2f} {11:5.2f}\n".format(
                     i+1, self.atomtypes.index(atom.type)+1, atom.x, atom.y, atom.z,
-                    atom.resid, atom.charge, 0, 0, 0, 0, 0
+                    atom.resid, atom.charge, atom.dipole, 0, 0, 0, 0
                 ))
 
             data.write("\n")

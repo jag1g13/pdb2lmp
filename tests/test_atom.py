@@ -21,7 +21,7 @@ class TestAtom(unittest.TestCase):
             Atom.compare(1, 2)
 
     def test_atom_populate(self):
-        atom1 = Atom.fromatomdb("type", 1, -1, 0.5, -0.5, 1, -1)
+        atom1 = Atom.fromatomdb("type", 1, -1, 0.5, -0.5, 0, 1, -1)
         atom2 = Atom.frompdb("name", "resname", 1, 0.5, 0.5, 0.5)
         atom1.populate(atom2)
 
@@ -38,6 +38,7 @@ class TestAtom(unittest.TestCase):
         self.assertEqual(atom1.mass, 1)
         self.assertEqual(atom1.sig, 0.5)
         self.assertEqual(atom1.eps, -0.5)
+        self.assertEqual(atom1.dipole, 0)
 
 
 if __name__ == '__main__':
