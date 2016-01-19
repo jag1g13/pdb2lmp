@@ -113,24 +113,26 @@ class PDB2LMP:
                 # Dipoles are all oriented up - this should equilibrate out quickly
                 data.write("{0:6d} {1:4d} {2:8.3f} {3:8.3f} {4:8.3f} {5:4d} {6:5.2f} {7:8.3f} {8:8.3f} {9:8.3f} {10:5.2f} {11:5.2f}\n".format(
                     i+1, self.atomtypes.index(atom.type)+1, atom.x, atom.y, atom.z,
-                    atom.resid, atom.charge, atom.dipole, 0, 0, 0, 0
+                    atom.resid, atom.charge, atom.dipole, 0, 0, atom.diameter, atom.rotmass
                 ))
 
             data.write("\n")
             data.write("Bonds\n")
             data.write("\n")
-            i = 1
+            i = 0
             for mol in self.pdb.molecules:
                 for length in self.moldb.molecules[mol.name].lengths:
                     data.write("{0:6d} {1:4d} {2:6d} {3:6d}\n".format(
-                        i, self.lengthtypes.index(length.type)+1,
+                        i+1, self.lengthtypes.index(length.type)+1,
                         mol.atoms[list(self.moldb.molecules[mol.name].atoms.keys()).index(length.atom1)]+1,
                         mol.atoms[list(self.moldb.molecules[mol.name].atoms.keys()).index(length.atom2)]+1
                     ))
+                    i += 1
 
             data.write("\n")
             data.write("Angles\n")
             data.write("\n")
+            i = 0
             for mol in self.pdb.molecules:
                 for angle in self.moldb.molecules[mol.name].angles:
                     data.write("{0:6d} {1:4d} {2:6d} {3:6d} {4:6d}\n".format(
@@ -139,6 +141,7 @@ class PDB2LMP:
                             mol.atoms[list(self.moldb.molecules[mol.name].atoms.keys()).index(angle.atom2)]+1,
                             mol.atoms[list(self.moldb.molecules[mol.name].atoms.keys()).index(angle.atom3)]+1
                     ))
+                    i += 1
 
     def write_forcefield(self, filename):
         with open(filename, "w") as ff:
