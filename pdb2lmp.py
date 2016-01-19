@@ -1,7 +1,9 @@
-from pdb2lmp.pdbreader import PDBReader
-from pdb2lmp.moldatabase import MolDatabase
-from pdb2lmp.atomdatabase import AtomDatabase
-from pdb2lmp.bonddatabase import BondDatabase
+import argparse
+
+from lib.pdbreader import PDBReader
+from lib.moldatabase import MolDatabase
+from lib.atomdatabase import AtomDatabase
+from lib.bonddatabase import BondDatabase
 
 
 class NonMatchingAtomException(Exception):
@@ -194,3 +196,16 @@ class PDB2LMP:
                         self.bonddb.angles[angtype].r,
                         angtype
                 ))
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Convert PDB into LAMMPS input files.")
+    parser.add_argument("pdb", type=str,
+                        help="PDB to convert")
+    parser.add_argument("out", type=str, default="out",
+                        help="output filenames")
+    args = parser.parse_args()
+    conv = PDB2LMP(args.pdb)
+    conv.collect_types()
+    conv.populate_pdb_data()
+    conv.write_data(args.out + ".data")
+    conv.write_forcefield(args.out + ".ff")

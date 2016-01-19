@@ -1,7 +1,7 @@
 import os
 from collections import namedtuple
 
-from pdb2lmp.fileparser import FileParser
+from lib.fileparser import FileParser
 
 
 class BondDatabase:

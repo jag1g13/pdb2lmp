@@ -1,6 +1,6 @@
 import unittest
 
-from pdb2lmp.fileparser import FileParser
+from lib.fileparser import FileParser
 
 
 class TestFileParser(unittest.TestCase):

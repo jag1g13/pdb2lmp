@@ -1,6 +1,6 @@
 from collections import namedtuple
 
-from pdb2lmp.atom import Atom
+from lib.atom import Atom
 
 
 class PDBReader:

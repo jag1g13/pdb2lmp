@@ -1,6 +1,6 @@
 import unittest
 
-from pdb2lmp.bonddatabase import BondDatabase
+from lib.bonddatabase import BondDatabase
 
 class TestBondDatabase(unittest.TestCase):
     def test_open_database(self):
