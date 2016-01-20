@@ -17,7 +17,7 @@ class TestFileParser(unittest.TestCase):
         self.assertEqual(fp.getline(), self.meoline)
 
     def test_getline_number(self):
-        fp = FileParser("data/mol.rtp")
+        fp = FileParser("data/mol.dat")
         self.assertEqual(fp.nextsection(), "MEO")
         self.assertEqual(fp.nextsection(), "ETO")
         self.assertEqual(fp.nextsection(), "WAT")

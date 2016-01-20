@@ -14,7 +14,7 @@ class MolDatabase:
         Args:
             filename: Name of molecule database file to open; GROMACS rtp file.
         """
-        fp = FileParser(os.path.join("data", "mol.rtp"))
+        fp = FileParser(os.path.join("data", "mol.dat"))
         self.molecules = {}
         Molecule = namedtuple("Molecule", ["atoms", "lengths", "angles", "dihedrals", "impropers"])
         Length = namedtuple("Length", ["type", "atom1", "atom2"])
