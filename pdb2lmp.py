@@ -32,6 +32,11 @@ class PDB2LMP:
         self.dihtypes = []
         self.imptypes = []
 
+        self.lenstyles = []
+        self.angstyles = []
+        self.dihstyles = []
+        self.impstyles = []
+
         self.natoms = Counter(0, 0)
         self.nlengths = Counter(0, 0)
         self.nangles = Counter(0, 0)
@@ -50,24 +55,32 @@ class PDB2LMP:
                     if lentype.type not in self.lengthtypes:
                         self.lengthtypes.append(lentype.type)
                         self.nlengths.types += 1
+                        if self.bonddb.lengths[lentype.type].style not in self.lenstyles:
+                            self.lenstyles.append(self.bonddb.lengths[lentype.type].style)
 
                 for angtype in self.moldb.molecules[mol.name].angles:
                     self.nangles.total += 1
                     if angtype.type not in self.angtypes:
                         self.angtypes.append(angtype.type)
                         self.nangles.types += 1
+                        if self.bonddb.angles[angtype.type].style not in self.angstyles:
+                            self.angstyles.append(self.bonddb.angles[angtype.type].style)
 
                 for dihtype in self.moldb.molecules[mol.name].dihedrals:
                     self.ndihedrals.total += 1
                     if dihtype.type not in self.dihtypes:
                         self.dihtypes.append(dihtype.type)
                         self.ndihedrals.types += 1
+                        if self.bonddb.dihedrals[dihtype.type].style not in self.dihstyles:
+                            self.dihstyles.append(self.bonddb.dihedrals[dihtype.type].style)
 
                 for imptype in self.moldb.molecules[mol.name].impropers:
                     self.nimpropers.total += 1
                     if imptype.type not in self.imptypes:
                         self.imptypes.append(imptype.type)
                         self.nimpropers.types += 1
+                        if self.bonddb.impropers[imptype.type].style not in self.impstyles:
+                            self.impstyles.append(self.bonddb.impropers[imptype.type].style)
 
             for atom in self.moldb.molecules[mol.name].atoms.values():
                 if atom.type not in self.atomtypes:
@@ -151,7 +164,29 @@ class PDB2LMP:
             ff.write("pair_style lj/sf/dipole/sf 0.0 0.0 0.0 12.0\n")
             ff.write("special_bonds lj/coul 0.0 0.0 0.0\n")
 
-            # TODO bonded styles
+            if self.lenstyles:
+                ff.write("bond_style hybrid ")
+                for style in self.lenstyles:
+                    ff.write(style + " ")
+                ff.write("\n")
+
+            if self.angstyles:
+                ff.write("angle_style hybrid ")
+                for style in self.angstyles:
+                    ff.write(style + " ")
+                ff.write("\n")
+
+            if self.dihstyles:
+                ff.write("dihedral_style hybrid ")
+                for style in self.dihstyles:
+                    ff.write(style + " ")
+                ff.write("\n")
+
+            if self.impstyles:
+                ff.write("improper_style hybrid ")
+                for style in self.impstyles:
+                    ff.write(style + " ")
+                ff.write("\n")
 
             # TODO find out why I need both of these
             ff.write("\n")
@@ -184,13 +219,15 @@ class PDB2LMP:
 
             ff.write("\n")
             for i, lentype in enumerate(self.lengthtypes):
-                ff.write("bond_coeff {0:4d} {1} # {2}\n".format(
-                    i+1, self.bonddb.lengths[lentype], lentype))
+                ff.write("bond_coeff {0:4d} {1} {2} # {3}\n".format(
+                    i+1, self.bonddb.lengths[lentype].style,
+                    self.bonddb.lengths[lentype].params, lentype))
 
             ff.write("\n")
             for i, angtype in enumerate(self.angtypes):
-                ff.write("angle_coeff {0:4d} {1} # {2}\n".format(
-                        i+1, self.bonddb.angles[angtype], angtype))
+                ff.write("angle_coeff {0:4d} {1} {2} # {3}\n".format(
+                        i+1, self.bonddb.angles[angtype].style,
+                        self.bonddb.angles[angtype].params, angtype))
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Convert PDB into LAMMPS input files.")
