@@ -9,9 +9,9 @@ class TestBondDatabase(unittest.TestCase):
     def test_read_database(self):
         db = BondDatabase()
         self.assertTrue("sugar-ring" in db.lengths)
-        self.assertEqual(db.lengths["sugar-ring"].style, "harmonic")
-        self.assertEqual(db.lengths["sugar-ring"].k, 200)
-        self.assertEqual(db.lengths["sugar-ring"].r, 1.520)
+        self.assertEqual(db.lengths["sugar-ring"], "harmonic 200 1.520")
+        self.assertTrue("sugar-ring" in db.angles)
+        self.assertEqual(db.angles["sugar-ring"], "cosine/squared 120 110.0")
 
 if __name__ == '__main__':
     unittest.main()

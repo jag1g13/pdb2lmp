@@ -184,21 +184,13 @@ class PDB2LMP:
 
             ff.write("\n")
             for i, lentype in enumerate(self.lengthtypes):
-                ff.write("bond_coeff {0:4d} {1} {2:8.3f} {3:8.3f} # {4}\n".format(
-                    i+1, self.bonddb.lengths[lentype].style,
-                         self.bonddb.lengths[lentype].k,
-                         self.bonddb.lengths[lentype].r,
-                         lentype
-                ))
+                ff.write("bond_coeff {0:4d} {1} # {2}\n".format(
+                    i+1, self.bonddb.lengths[lentype], lentype))
 
             ff.write("\n")
             for i, angtype in enumerate(self.angtypes):
-                ff.write("angle_coeff {0:4d} {1} {2:8.3f} {3:8.3f} # {4}\n".format(
-                        i+1, self.bonddb.angles[angtype].style,
-                        self.bonddb.angles[angtype].k,
-                        self.bonddb.angles[angtype].r,
-                        angtype
-                ))
+                ff.write("angle_coeff {0:4d} {1} # {2}\n".format(
+                        i+1, self.bonddb.angles[angtype], angtype))
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Convert PDB into LAMMPS input files.")
