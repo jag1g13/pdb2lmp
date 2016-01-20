@@ -156,6 +156,36 @@ class PDB2LMP:
                     ))
                     i += 1
 
+            data.write("\n")
+            data.write("Dihedrals\n")
+            data.write("\n")
+            i = 0
+            for mol in self.pdb.molecules:
+                for dih in self.moldb.molecules[mol.name].dihedrals:
+                    data.write("{0:6d} {1:4d} {2:6d} {3:6d} {4:6d} {5:6d}\n".format(
+                            i+1, self.dihtypes.index(dih.type)+1,
+                            mol.atoms[list(self.moldb.molecules[mol.name].atoms.keys()).index(dih.atom1)]+1,
+                            mol.atoms[list(self.moldb.molecules[mol.name].atoms.keys()).index(dih.atom2)]+1,
+                            mol.atoms[list(self.moldb.molecules[mol.name].atoms.keys()).index(dih.atom3)]+1,
+                            mol.atoms[list(self.moldb.molecules[mol.name].atoms.keys()).index(dih.atom4)]+1
+                    ))
+                    i += 1
+
+            data.write("\n")
+            data.write("Impropers\n")
+            data.write("\n")
+            i = 0
+            for mol in self.pdb.molecules:
+                for imp in self.moldb.molecules[mol.name].impropers:
+                    data.write("{0:6d} {1:4d} {2:6d} {3:6d} {4:6d} {5:6d}\n".format(
+                            i+1, self.dihtypes.index(imp.type)+1,
+                            mol.atoms[list(self.moldb.molecules[mol.name].atoms.keys()).index(imp.atom1)]+1,
+                            mol.atoms[list(self.moldb.molecules[mol.name].atoms.keys()).index(imp.atom2)]+1,
+                            mol.atoms[list(self.moldb.molecules[mol.name].atoms.keys()).index(imp.atom3)]+1,
+                            mol.atoms[list(self.moldb.molecules[mol.name].atoms.keys()).index(imp.atom4)]+1
+                    ))
+                    i += 1
+
     def write_forcefield(self, filename):
         with open(filename, "w") as ff:
             ff.write("# Forcefield prepared by PDB2LMP\n")
@@ -228,6 +258,18 @@ class PDB2LMP:
                 ff.write("angle_coeff {0:4d} {1} {2} # {3}\n".format(
                         i+1, self.bonddb.angles[angtype].style,
                         self.bonddb.angles[angtype].params, angtype))
+
+            ff.write("\n")
+            for i, dihtype in enumerate(self.dihtypes):
+                ff.write("dihedral_coeff {0:4d} {1} {2} # {3}\n".format(
+                        i+1, self.bonddb.dihedrals[dihtype].style,
+                        self.bonddb.dihedrals[dihtype].params, dihtype))
+
+            ff.write("\n")
+            for i, imptype in enumerate(self.imptypes):
+                ff.write("improper_coeff {0:4d} {1} {2} # {3}\n".format(
+                        i+1, self.bonddb.impropers[imptype].style,
+                        self.bonddb.impropers[imptype].params, imptype))
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Convert PDB into LAMMPS input files.")
