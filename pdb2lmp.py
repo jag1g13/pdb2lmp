@@ -129,62 +129,66 @@ class PDB2LMP:
                     atom.resid, atom.charge, atom.dipole, 0, 0, atom.diameter, atom.rotmass
                 ))
 
-            data.write("\n")
-            data.write("Bonds\n")
-            data.write("\n")
-            i = 0
-            for mol in self.pdb.molecules:
-                for length in self.moldb.molecules[mol.name].lengths:
-                    data.write("{0:6d} {1:4d} {2:6d} {3:6d}\n".format(
-                        i+1, self.lengthtypes.index(length.type)+1,
-                        mol.atoms[list(self.moldb.molecules[mol.name].atoms.keys()).index(length.atom1)]+1,
-                        mol.atoms[list(self.moldb.molecules[mol.name].atoms.keys()).index(length.atom2)]+1
-                    ))
-                    i += 1
+            if self.nlengths.total > 0:
+                data.write("\n")
+                data.write("Bonds\n")
+                data.write("\n")
+                i = 0
+                for mol in self.pdb.molecules:
+                    for length in self.moldb.molecules[mol.name].lengths:
+                        data.write("{0:6d} {1:4d} {2:6d} {3:6d}\n".format(
+                            i+1, self.lengthtypes.index(length.type)+1,
+                            mol.atoms[list(self.moldb.molecules[mol.name].atoms.keys()).index(length.atom1)]+1,
+                            mol.atoms[list(self.moldb.molecules[mol.name].atoms.keys()).index(length.atom2)]+1
+                        ))
+                        i += 1
 
-            data.write("\n")
-            data.write("Angles\n")
-            data.write("\n")
-            i = 0
-            for mol in self.pdb.molecules:
-                for angle in self.moldb.molecules[mol.name].angles:
-                    data.write("{0:6d} {1:4d} {2:6d} {3:6d} {4:6d}\n".format(
-                            i+1, self.angtypes.index(angle.type)+1,
-                            mol.atoms[list(self.moldb.molecules[mol.name].atoms.keys()).index(angle.atom1)]+1,
-                            mol.atoms[list(self.moldb.molecules[mol.name].atoms.keys()).index(angle.atom2)]+1,
-                            mol.atoms[list(self.moldb.molecules[mol.name].atoms.keys()).index(angle.atom3)]+1
-                    ))
-                    i += 1
+            if self.nangles.total > 0:
+                data.write("\n")
+                data.write("Angles\n")
+                data.write("\n")
+                i = 0
+                for mol in self.pdb.molecules:
+                    for angle in self.moldb.molecules[mol.name].angles:
+                        data.write("{0:6d} {1:4d} {2:6d} {3:6d} {4:6d}\n".format(
+                                i+1, self.angtypes.index(angle.type)+1,
+                                mol.atoms[list(self.moldb.molecules[mol.name].atoms.keys()).index(angle.atom1)]+1,
+                                mol.atoms[list(self.moldb.molecules[mol.name].atoms.keys()).index(angle.atom2)]+1,
+                                mol.atoms[list(self.moldb.molecules[mol.name].atoms.keys()).index(angle.atom3)]+1
+                        ))
+                        i += 1
 
-            data.write("\n")
-            data.write("Dihedrals\n")
-            data.write("\n")
-            i = 0
-            for mol in self.pdb.molecules:
-                for dih in self.moldb.molecules[mol.name].dihedrals:
-                    data.write("{0:6d} {1:4d} {2:6d} {3:6d} {4:6d} {5:6d}\n".format(
-                            i+1, self.dihtypes.index(dih.type)+1,
-                            mol.atoms[list(self.moldb.molecules[mol.name].atoms.keys()).index(dih.atom1)]+1,
-                            mol.atoms[list(self.moldb.molecules[mol.name].atoms.keys()).index(dih.atom2)]+1,
-                            mol.atoms[list(self.moldb.molecules[mol.name].atoms.keys()).index(dih.atom3)]+1,
-                            mol.atoms[list(self.moldb.molecules[mol.name].atoms.keys()).index(dih.atom4)]+1
-                    ))
-                    i += 1
+            if self.ndihedrals.total > 0:
+                data.write("\n")
+                data.write("Dihedrals\n")
+                data.write("\n")
+                i = 0
+                for mol in self.pdb.molecules:
+                    for dih in self.moldb.molecules[mol.name].dihedrals:
+                        data.write("{0:6d} {1:4d} {2:6d} {3:6d} {4:6d} {5:6d}\n".format(
+                                i+1, self.dihtypes.index(dih.type)+1,
+                                mol.atoms[list(self.moldb.molecules[mol.name].atoms.keys()).index(dih.atom1)]+1,
+                                mol.atoms[list(self.moldb.molecules[mol.name].atoms.keys()).index(dih.atom2)]+1,
+                                mol.atoms[list(self.moldb.molecules[mol.name].atoms.keys()).index(dih.atom3)]+1,
+                                mol.atoms[list(self.moldb.molecules[mol.name].atoms.keys()).index(dih.atom4)]+1
+                        ))
+                        i += 1
 
-            data.write("\n")
-            data.write("Impropers\n")
-            data.write("\n")
-            i = 0
-            for mol in self.pdb.molecules:
-                for imp in self.moldb.molecules[mol.name].impropers:
-                    data.write("{0:6d} {1:4d} {2:6d} {3:6d} {4:6d} {5:6d}\n".format(
-                            i+1, self.dihtypes.index(imp.type)+1,
-                            mol.atoms[list(self.moldb.molecules[mol.name].atoms.keys()).index(imp.atom1)]+1,
-                            mol.atoms[list(self.moldb.molecules[mol.name].atoms.keys()).index(imp.atom2)]+1,
-                            mol.atoms[list(self.moldb.molecules[mol.name].atoms.keys()).index(imp.atom3)]+1,
-                            mol.atoms[list(self.moldb.molecules[mol.name].atoms.keys()).index(imp.atom4)]+1
-                    ))
-                    i += 1
+            if self.nimpropers.total > 0:
+                data.write("\n")
+                data.write("Impropers\n")
+                data.write("\n")
+                i = 0
+                for mol in self.pdb.molecules:
+                    for imp in self.moldb.molecules[mol.name].impropers:
+                        data.write("{0:6d} {1:4d} {2:6d} {3:6d} {4:6d} {5:6d}\n".format(
+                                i+1, self.dihtypes.index(imp.type)+1,
+                                mol.atoms[list(self.moldb.molecules[mol.name].atoms.keys()).index(imp.atom1)]+1,
+                                mol.atoms[list(self.moldb.molecules[mol.name].atoms.keys()).index(imp.atom2)]+1,
+                                mol.atoms[list(self.moldb.molecules[mol.name].atoms.keys()).index(imp.atom3)]+1,
+                                mol.atoms[list(self.moldb.molecules[mol.name].atoms.keys()).index(imp.atom4)]+1
+                        ))
+                        i += 1
 
     def write_forcefield(self, filename):
         with open(filename, "w") as ff:
