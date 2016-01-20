@@ -64,6 +64,7 @@ class Atom:
         elif val2 is None:
             return val1
         else:
+            print(val1, val2)
             raise Exception("Values for comparison are different and not None.")
             # print(val1, val2)
             # return val1

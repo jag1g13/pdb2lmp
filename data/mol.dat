@@ -2,28 +2,28 @@
 ;atoms bonds angles dihs imps
    1     0     0     0    0
 ;name type charge
-C MEOH 0.000 0
+C MEOH
 
 [ ETO ]
 ;atoms bonds angles dihs imps
    1     0     0     0    0
-C ETOH 0.000 0
+C ETOH
 
 [ WAT ]
 ;atoms bonds angles dihs imps
    1
-O1 WAT 0.000 0
+O1 WAT
 
 [ GLC ]
 ;atoms bonds angles dihs imps
    6     6     6     6
 ; atoms
-C1 MEOH 0.000
-C2 MEOH 0.000
-C3 MEOH 0.000
-C4 MEOH 0.000
-C5 ETOH 0.000
-O5 OXY  0.000
+C1 MEOH
+C2 MEOH
+C3 MEOH
+C4 MEOH
+C5 ETOH
+O5 OXY
 ; bonds
 sugar-ring C1 C2
 sugar-ring C2 C3
@@ -45,3 +45,39 @@ sugar-dih-1 C3 C4 C5 O5
 sugar-dih-2 C4 C5 O5 C1
 sugar-dih-1 C5 O5 C1 C2
 sugar-dih-2 O5 C1 C2 C3
+
+[ DPC ]
+15
+CHO  CHO   0.7
+PHO  PHO  -0.7
+GLY  GLY
+EST1 EST
+TA1  TAIL
+TA2  TAIL
+TA3  TAIL
+TA4  TAIL
+TA5  TAIL
+EST2 EST
+TB1  TAIL
+TB2  TAIL
+TB3  TAIL
+TB4  TAIL
+TB5  TAIL
+
+[ DPE ]
+15
+AMI  AMI   0.7
+PHO  PHO  -0.7
+GLY  GLY
+EST1 EST
+TA1  TAIL
+TA2  TAIL
+TA3  TAIL
+TA4  TAIL
+TA5  TAIL
+EST2 EST
+TB1  TAIL
+TB2  TAIL
+TB3  TAIL
+TB4  TAIL
+TB5  TAIL

@@ -32,7 +32,9 @@ class MolDatabase:
 
             if natms is not None:
                 for i in range(int(natms)):
-                    toks = fp.getline()
+                    toks = fp.getline(3)
+                    if toks[2] is None:
+                        toks[2] = "0"
                     self.molecules[mol].atoms[toks[0]] = Atom.frommoldb(toks[0], toks[1], float(toks[2]))
 
             if nbnds is not None:
