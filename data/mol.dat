@@ -16,7 +16,7 @@ O1 WAT
 
 [ GLC ]
 ;atoms bonds angles dihs imps
-   6     6     6     6
+   6     6     6     6    5
 ; atoms
 C1 MEOH
 C2 MEOH
@@ -45,6 +45,12 @@ sugar-dih-1 C3 C4 C5 O5
 sugar-dih-2 C4 C5 O5 C1
 sugar-dih-1 C5 O5 C1 C2
 sugar-dih-2 O5 C1 C2 C3
+; impropers
+dipole-cone-2 C1 C2 O5 C1
+dipole-cone-1 C2 C3 C1 C2
+dipole-cone-2 C3 C4 C2 C3
+dipole-cone-1 C4 C5 C3 C4
+dipole-cone-2 C5 O5 C4 C5
 
 [ DPC ]
 15

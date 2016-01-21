@@ -22,3 +22,5 @@ dipole-1     dipole  50  -60
 dipole-2     dipole  50   60
 
 [ improper ]
+dipole-cone-1 dipole/cone   200   120   60
+dipole-cone-2 dipole/cone   200  -120   60
