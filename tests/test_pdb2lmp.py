@@ -18,7 +18,7 @@ class TestPDB2LMP(unittest.TestCase):
         conv.collect_types()
         self.assertEqual(conv.moltypes, ["GLC"])
         self.assertEqual(conv.atomtypes, ["MEOH", "ETOH", "OXY"])
-        self.assertEqual(conv.lengthtypes, ["sugar-ring"])
+        self.assertEqual(conv.lentypes, ["sugar-ring"])
         self.assertEqual(conv.angtypes, ["sugar-ring"])
         self.assertEqual(conv.natoms.total, 6)
         self.assertEqual(conv.natoms.types, 3)

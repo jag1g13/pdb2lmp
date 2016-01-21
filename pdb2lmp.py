@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import argparse
 
 from lib.pdbreader import PDBReader
@@ -27,7 +29,7 @@ class PDB2LMP:
 
         self.moltypes = []
         self.atomtypes = []
-        self.lengthtypes = []
+        self.lentypes = []
         self.angtypes = []
         self.dihtypes = []
         self.imptypes = []
@@ -44,51 +46,40 @@ class PDB2LMP:
         self.nimpropers = Counter(0, 0)
 
     def collect_types(self):
+
+        def collect_type(values, counter, db_vals, typelist, stylelist):
+            for val in values:
+                counter.total += 1
+                if val.type not in typelist:
+                    typelist.append(val.type)
+                    counter.types += 1
+                    if db_vals[val.type].style not in stylelist:
+                        stylelist.append(db_vals[val.type].style)
+
         atnum = 0
+
         for mol in self.pdb.molecules:
+            dbmol = self.moldb.molecules[mol.name]
 
             if mol.name not in self.moltypes:
                 self.moltypes.append(mol.name)
 
-                for lentype in self.moldb.molecules[mol.name].lengths:
-                    self.nlengths.total += 1
-                    if lentype.type not in self.lengthtypes:
-                        self.lengthtypes.append(lentype.type)
-                        self.nlengths.types += 1
-                        if self.bonddb.lengths[lentype.type].style not in self.lenstyles:
-                            self.lenstyles.append(self.bonddb.lengths[lentype.type].style)
+                collect_type(dbmol.lengths, self.nlengths, self.bonddb.lengths,
+                             self.lentypes, self.lenstyles)
+                collect_type(dbmol.angles, self.nangles, self.bonddb.angles,
+                             self.angtypes, self.angstyles)
+                collect_type(dbmol.dihedrals, self.ndihedrals, self.bonddb.dihedrals,
+                             self.dihtypes, self.dihstyles)
+                collect_type(dbmol.impropers, self.nimpropers, self.bonddb.impropers,
+                             self.imptypes, self.impstyles)
 
-                for angtype in self.moldb.molecules[mol.name].angles:
-                    self.nangles.total += 1
-                    if angtype.type not in self.angtypes:
-                        self.angtypes.append(angtype.type)
-                        self.nangles.types += 1
-                        if self.bonddb.angles[angtype.type].style not in self.angstyles:
-                            self.angstyles.append(self.bonddb.angles[angtype.type].style)
-
-                for dihtype in self.moldb.molecules[mol.name].dihedrals:
-                    self.ndihedrals.total += 1
-                    if dihtype.type not in self.dihtypes:
-                        self.dihtypes.append(dihtype.type)
-                        self.ndihedrals.types += 1
-                        if self.bonddb.dihedrals[dihtype.type].style not in self.dihstyles:
-                            self.dihstyles.append(self.bonddb.dihedrals[dihtype.type].style)
-
-                for imptype in self.moldb.molecules[mol.name].impropers:
-                    self.nimpropers.total += 1
-                    if imptype.type not in self.imptypes:
-                        self.imptypes.append(imptype.type)
-                        self.nimpropers.types += 1
-                        if self.bonddb.impropers[imptype.type].style not in self.impstyles:
-                            self.impstyles.append(self.bonddb.impropers[imptype.type].style)
-
-            for atom in self.moldb.molecules[mol.name].atoms.values():
+            for atom in dbmol.atoms.values():
                 if atom.type not in self.atomtypes:
                     self.atomtypes.append(atom.type)
                     self.natoms.types += 1
                 if self.pdb.atoms[atnum].name != atom.name:
-                    raise NonMatchingAtomException("Atom in PDB ({0}) does not match atom in force field ({1}).".
-                                                   format(self.pdb.atoms[atnum].name, atom.name))
+                    raise NonMatchingAtomException("Atom {0} in PDB ({1}) does not match atom in force field ({2}).".
+                                                   format(atnum, self.pdb.atoms[atnum].name, atom.name))
                 self.natoms.total += 1
                 atnum += 1
 
@@ -129,17 +120,19 @@ class PDB2LMP:
                     atom.resid, atom.charge, atom.dipole, 0, 0, atom.diameter, atom.rotmass
                 ))
 
+
             if self.nlengths.total > 0:
                 data.write("\n")
                 data.write("Bonds\n")
                 data.write("\n")
                 i = 0
                 for mol in self.pdb.molecules:
+                    atom_list = list(self.moldb.molecules[mol.name].atoms.keys())
                     for length in self.moldb.molecules[mol.name].lengths:
                         data.write("{0:6d} {1:4d} {2:6d} {3:6d}\n".format(
-                            i+1, self.lengthtypes.index(length.type)+1,
-                            mol.atoms[list(self.moldb.molecules[mol.name].atoms.keys()).index(length.atom1)]+1,
-                            mol.atoms[list(self.moldb.molecules[mol.name].atoms.keys()).index(length.atom2)]+1
+                            i+1, self.lentypes.index(length.type)+1,
+                            mol.atoms[atom_list.index(length.atom1)]+1,
+                            mol.atoms[atom_list.index(length.atom2)]+1
                         ))
                         i += 1
 
@@ -149,12 +142,13 @@ class PDB2LMP:
                 data.write("\n")
                 i = 0
                 for mol in self.pdb.molecules:
+                    atom_list = list(self.moldb.molecules[mol.name].atoms.keys())
                     for angle in self.moldb.molecules[mol.name].angles:
                         data.write("{0:6d} {1:4d} {2:6d} {3:6d} {4:6d}\n".format(
                                 i+1, self.angtypes.index(angle.type)+1,
-                                mol.atoms[list(self.moldb.molecules[mol.name].atoms.keys()).index(angle.atom1)]+1,
-                                mol.atoms[list(self.moldb.molecules[mol.name].atoms.keys()).index(angle.atom2)]+1,
-                                mol.atoms[list(self.moldb.molecules[mol.name].atoms.keys()).index(angle.atom3)]+1
+                                mol.atoms[atom_list.index(angle.atom1)]+1,
+                                mol.atoms[atom_list.index(angle.atom2)]+1,
+                                mol.atoms[atom_list.index(angle.atom3)]+1
                         ))
                         i += 1
 
@@ -164,13 +158,14 @@ class PDB2LMP:
                 data.write("\n")
                 i = 0
                 for mol in self.pdb.molecules:
+                    atom_list = list(self.moldb.molecules[mol.name].atoms.keys())
                     for dih in self.moldb.molecules[mol.name].dihedrals:
                         data.write("{0:6d} {1:4d} {2:6d} {3:6d} {4:6d} {5:6d}\n".format(
                                 i+1, self.dihtypes.index(dih.type)+1,
-                                mol.atoms[list(self.moldb.molecules[mol.name].atoms.keys()).index(dih.atom1)]+1,
-                                mol.atoms[list(self.moldb.molecules[mol.name].atoms.keys()).index(dih.atom2)]+1,
-                                mol.atoms[list(self.moldb.molecules[mol.name].atoms.keys()).index(dih.atom3)]+1,
-                                mol.atoms[list(self.moldb.molecules[mol.name].atoms.keys()).index(dih.atom4)]+1
+                                mol.atoms[atom_list.index(dih.atom1)]+1,
+                                mol.atoms[atom_list.index(dih.atom2)]+1,
+                                mol.atoms[atom_list.index(dih.atom3)]+1,
+                                mol.atoms[atom_list.index(dih.atom4)]+1
                         ))
                         i += 1
 
@@ -180,13 +175,14 @@ class PDB2LMP:
                 data.write("\n")
                 i = 0
                 for mol in self.pdb.molecules:
+                    atom_list = list(self.moldb.molecules[mol.name].atoms.keys())
                     for imp in self.moldb.molecules[mol.name].impropers:
                         data.write("{0:6d} {1:4d} {2:6d} {3:6d} {4:6d} {5:6d}\n".format(
-                                i+1, self.dihtypes.index(imp.type)+1,
-                                mol.atoms[list(self.moldb.molecules[mol.name].atoms.keys()).index(imp.atom1)]+1,
-                                mol.atoms[list(self.moldb.molecules[mol.name].atoms.keys()).index(imp.atom2)]+1,
-                                mol.atoms[list(self.moldb.molecules[mol.name].atoms.keys()).index(imp.atom3)]+1,
-                                mol.atoms[list(self.moldb.molecules[mol.name].atoms.keys()).index(imp.atom4)]+1
+                                i+1, self.imptypes.index(imp.type)+1,
+                                mol.atoms[atom_list.index(imp.atom1)]+1,
+                                mol.atoms[atom_list.index(imp.atom2)]+1,
+                                mol.atoms[atom_list.index(imp.atom3)]+1,
+                                mol.atoms[atom_list.index(imp.atom4)]+1
                         ))
                         i += 1
 
@@ -198,41 +194,22 @@ class PDB2LMP:
             ff.write("pair_style lj/sf/dipole/sf 0.0 0.0 0.0 12.0\n")
             ff.write("special_bonds lj/coul 0.0 0.0 0.0\n")
 
-            if self.lenstyles:
-                ff.write("bond_style hybrid ")
-                for style in self.lenstyles:
-                    ff.write(style + " ")
-                ff.write("\n")
+            def write_styles(styles, header):
+                if styles is not []:
+                    ff.write(header)
+                    for style in styles:
+                        ff.write(" " + style)
+                    ff.write("\n")
 
-            if self.angstyles:
-                ff.write("angle_style hybrid ")
-                for style in self.angstyles:
-                    ff.write(style + " ")
-                ff.write("\n")
+            write_styles(self.lenstyles, "bond_style hybrid")
+            write_styles(self.angstyles, "angle_style hybrid")
+            write_styles(self.dihstyles, "dihedral_style hybrid")
+            write_styles(self.impstyles, "improper_style hybrid")
 
-            if self.dihstyles:
-                ff.write("dihedral_style hybrid ")
-                for style in self.dihstyles:
-                    ff.write(style + " ")
-                ff.write("\n")
-
-            if self.impstyles:
-                ff.write("improper_style hybrid ")
-                for style in self.impstyles:
-                    ff.write(style + " ")
-                ff.write("\n")
-
-            # TODO find out why I need both of these
             ff.write("\n")
             for i, atomtype in enumerate(self.atomtypes):
                 ff.write("mass {0:4d} {1:8.3f} # {2}\n".format(
                     i+1, self.atomdb.atoms[atomtype].mass, atomtype
-                ))
-
-            ff.write("\n")
-            for i, atomtype in enumerate(self.atomtypes):
-                ff.write("set type {0:4d} mass {1:8.3f} # {2}\n".format(
-                        i+1, self.atomdb.atoms[atomtype].mass, atomtype
                 ))
 
             ff.write("\n")
@@ -251,29 +228,17 @@ class PDB2LMP:
                         i+1, j+1, eps, sig, atomtype, atomtype2
                     ))
 
-            ff.write("\n")
-            for i, lentype in enumerate(self.lengthtypes):
-                ff.write("bond_coeff {0:4d} {1} {2} # {3}\n".format(
-                    i+1, self.bonddb.lengths[lentype].style,
-                    self.bonddb.lengths[lentype].params, lentype))
+            def write_types(types, db_vals, line_prefix):
+                if types is not []:
+                    ff.write("\n")
+                    for i, tipe in enumerate(types):
+                        ff.write(line_prefix + " {0:4d} {1} {2} # {3}\n".format(
+                            i+1, db_vals[tipe].style, db_vals[tipe].params, tipe))
 
-            ff.write("\n")
-            for i, angtype in enumerate(self.angtypes):
-                ff.write("angle_coeff {0:4d} {1} {2} # {3}\n".format(
-                        i+1, self.bonddb.angles[angtype].style,
-                        self.bonddb.angles[angtype].params, angtype))
-
-            ff.write("\n")
-            for i, dihtype in enumerate(self.dihtypes):
-                ff.write("dihedral_coeff {0:4d} {1} {2} # {3}\n".format(
-                        i+1, self.bonddb.dihedrals[dihtype].style,
-                        self.bonddb.dihedrals[dihtype].params, dihtype))
-
-            ff.write("\n")
-            for i, imptype in enumerate(self.imptypes):
-                ff.write("improper_coeff {0:4d} {1} {2} # {3}\n".format(
-                        i+1, self.bonddb.impropers[imptype].style,
-                        self.bonddb.impropers[imptype].params, imptype))
+            write_types(self.lentypes, self.bonddb.lengths, "bond_coeff")
+            write_types(self.angtypes, self.bonddb.angles, "angle_coeff")
+            write_types(self.dihtypes, self.bonddb.dihedrals, "dihedral_coeff")
+            write_types(self.imptypes, self.bonddb.impropers, "improper_coeff")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Convert PDB into LAMMPS input files.")
