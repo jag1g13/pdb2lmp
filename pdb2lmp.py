@@ -120,71 +120,24 @@ class PDB2LMP:
                     atom.resid, atom.charge, atom.dipole, 0, 0, atom.diameter, atom.rotmass
                 ))
 
-
-            if self.nlengths.total > 0:
-                data.write("\n")
-                data.write("Bonds\n")
-                data.write("\n")
+            def write_bonds(n, types, header):
+                if n <= 0:
+                    return
+                data.write("\n" + header + "\n\n")
                 i = 0
                 for mol in self.pdb.molecules:
                     atom_list = list(self.moldb.molecules[mol.name].atoms.keys())
-                    for length in self.moldb.molecules[mol.name].lengths:
-                        data.write("{0:6d} {1:4d} {2:6d} {3:6d}\n".format(
-                            i+1, self.lentypes.index(length.type)+1,
-                            mol.atoms[atom_list.index(length.atom1)]+1,
-                            mol.atoms[atom_list.index(length.atom2)]+1
-                        ))
+                    for bond in getattr(self.moldb.molecules[mol.name], header.lower()):
+                        data.write("{0:6d} {1:4d}".format(i+1, types.index(bond.type) + 1))
+                        for atom in bond.atoms:
+                            data.write(" {0:6d}".format(mol.atoms[atom_list.index(atom)] + 1))
+                        data.write("\n")
                         i += 1
 
-            if self.nangles.total > 0:
-                data.write("\n")
-                data.write("Angles\n")
-                data.write("\n")
-                i = 0
-                for mol in self.pdb.molecules:
-                    atom_list = list(self.moldb.molecules[mol.name].atoms.keys())
-                    for angle in self.moldb.molecules[mol.name].angles:
-                        data.write("{0:6d} {1:4d} {2:6d} {3:6d} {4:6d}\n".format(
-                                i+1, self.angtypes.index(angle.type)+1,
-                                mol.atoms[atom_list.index(angle.atom1)]+1,
-                                mol.atoms[atom_list.index(angle.atom2)]+1,
-                                mol.atoms[atom_list.index(angle.atom3)]+1
-                        ))
-                        i += 1
-
-            if self.ndihedrals.total > 0:
-                data.write("\n")
-                data.write("Dihedrals\n")
-                data.write("\n")
-                i = 0
-                for mol in self.pdb.molecules:
-                    atom_list = list(self.moldb.molecules[mol.name].atoms.keys())
-                    for dih in self.moldb.molecules[mol.name].dihedrals:
-                        data.write("{0:6d} {1:4d} {2:6d} {3:6d} {4:6d} {5:6d}\n".format(
-                                i+1, self.dihtypes.index(dih.type)+1,
-                                mol.atoms[atom_list.index(dih.atom1)]+1,
-                                mol.atoms[atom_list.index(dih.atom2)]+1,
-                                mol.atoms[atom_list.index(dih.atom3)]+1,
-                                mol.atoms[atom_list.index(dih.atom4)]+1
-                        ))
-                        i += 1
-
-            if self.nimpropers.total > 0:
-                data.write("\n")
-                data.write("Impropers\n")
-                data.write("\n")
-                i = 0
-                for mol in self.pdb.molecules:
-                    atom_list = list(self.moldb.molecules[mol.name].atoms.keys())
-                    for imp in self.moldb.molecules[mol.name].impropers:
-                        data.write("{0:6d} {1:4d} {2:6d} {3:6d} {4:6d} {5:6d}\n".format(
-                                i+1, self.imptypes.index(imp.type)+1,
-                                mol.atoms[atom_list.index(imp.atom1)]+1,
-                                mol.atoms[atom_list.index(imp.atom2)]+1,
-                                mol.atoms[atom_list.index(imp.atom3)]+1,
-                                mol.atoms[atom_list.index(imp.atom4)]+1
-                        ))
-                        i += 1
+            write_bonds(self.nlengths.total, self.lentypes, "Bonds")
+            write_bonds(self.nangles.total, self.angtypes, "Angles")
+            write_bonds(self.ndihedrals.total, self.dihtypes, "Dihedrals")
+            write_bonds(self.nimpropers.total, self.imptypes, "Impropers")
 
     def write_forcefield(self, filename):
         with open(filename, "w") as ff:

@@ -16,14 +16,18 @@ class MolDatabase:
         """
         fp = FileParser(os.path.join("data", "mol.dat"))
         self.molecules = {}
-        Molecule = namedtuple("Molecule", ["atoms", "lengths", "angles", "dihedrals", "impropers"])
+        Molecule = namedtuple("Molecule",
+                              ["atoms", "lengths", "angles", "dihedrals", "impropers", "bonds"])
 
         while True:
             mol = fp.nextsection()
             if mol is None:
                 break
 
-            self.molecules[mol] = Molecule(OrderedDict(), [], [], [], [])
+            self.molecules[mol] = Molecule(OrderedDict(), [], [], [], [], None)
+            # Set Molecule.bonds as alias to Molecule.lengths
+            # Allows us to use getattr(Molecule, header.lower()) in pdb2lmp.write_data.write_bonds
+            self.molecules[mol] = self.molecules[mol]._replace(bonds=self.molecules[mol].lengths)
             natms, nbnds, nangs, ndihs, nimps = fp.getline(5)
 
             if natms is not None:
@@ -40,8 +44,8 @@ class MolDatabase:
 
     @staticmethod
     def get_bonds(fp, n, store):
-        Bond = namedtuple("Bond", ["type", "atom1", "atom2", "atom3", "atom4"])
+        Bond = namedtuple("Bond", ["type", "atoms"])
         if n is not None:
             for i in range(int(n)):
-                toks = fp.getline(5)
-                store.append(Bond(*toks))
+                toks = fp.getline()
+                store.append(Bond(toks[0], toks[1:]))
