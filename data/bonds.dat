@@ -1,13 +1,14 @@
 [ length ]
-; name      type     K     r0
-sugar-ring harmonic 200   1.520
-test       test     100   1.000
-cho-pho    harmonic 1.506 4.770
-pho-gly    harmonic 1.506 4.410
-gly-est    harmonic 1.506 4.140
-est-tail   harmonic 1.506 4.095
-tail-tail  harmonic 1.506 4.050
-ami-pho    harmonic 1.506 4.365
+; name              type     K     r0
+sugar-ring          harmonic 200   1.520
+sugar-glycosidic    harmonic 1.000 2.600
+test                test     100   1.000
+cho-pho             harmonic 1.506 4.770
+pho-gly             harmonic 1.506 4.410
+gly-est             harmonic 1.506 4.140
+est-tail            harmonic 1.506 4.095
+tail-tail           harmonic 1.506 4.050
+ami-pho             harmonic 1.506 4.365
 
 [ angle ]
 ; name      type             K   theta0
@@ -16,10 +17,21 @@ dipole      dipole           10  109.0
 
 [ dihedral ]
 ; name type params...
-sugar-dih-1 fourier   2    1.00 3 0 0.25 1 -120
-sugar-dih-2 fourier   2    1.00 3 0 0.25 1  120
+sugar-dih-1       fourier   2    1.00 3 0 0.25 1 -120
+sugar-dih-2       fourier   2    1.00 3 0 0.25 1  120
+sugar-dih-10pc-1  fourier   2    0.75 3 0 0.01 1 -120
+sugar-dih-10pc-2  fourier   2    0.75 3 0 0.01 1  120
+sugar-dih-30pc-1  fourier   2    0.75 3 0 -0.1 1 -120
+sugar-dih-30pc-2  fourier   2    0.75 3 0 -0.1 1  120
+sugar-dih-80pc-1  fourier   2    0.75 3 0 -0.32 1 -120
+sugar-dih-80pc-2  fourier   2    0.75 3 0 -0.32 1  120
 dipole-1     dipole  50  -60
 dipole-2     dipole  50   60
+sugar-glyc-ax-ax  charmm    10.0 1 160 0.0
+sugar-glyc-ax-eq  charmm    10.0 1 185 0.0
+; eq-ax - do we need both minima?
+sugar-glyc-eq-ax  charmm     5.0 1  95 0.0
+sugar-glyc-eq-eq  charmm     5.0 1  80 0.0
 
 [ improper ]
 dipole-cone-1 dipole/cone   200   120   60
