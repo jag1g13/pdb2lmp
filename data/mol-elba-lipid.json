@@ -1,0 +1,45 @@
+{
+  "version":{
+    "lipids": 1
+  },
+  "molecules":{
+    "DPC":{
+      "atoms":[
+        {"name": "CHO",  "type": "CHO", "charge":  0.7},
+        {"name": "PHO",  "type": "PHO", "charge": -0.7},
+        {"name": "GLY",  "type": "GLY"},
+        {"name": "EST1", "type": "EST"},
+        {"name": "TA1",  "type": "TAIL"},
+        {"name": "TA2",  "type": "TAIL"},
+        {"name": "TA3",  "type": "TAIL"},
+        {"name": "TA4",  "type": "TAIL"},
+        {"name": "TA5",  "type": "TAIL"},
+        {"name": "EST2", "type": "EST"},
+        {"name": "TB1",  "type": "TAIL"},
+        {"name": "TB2",  "type": "TAIL"},
+        {"name": "TB3",  "type": "TAIL"},
+        {"name": "TB4",  "type": "TAIL"},
+        {"name": "TB5",  "type": "TAIL"}
+      ]
+    },
+    "DPE":{
+      "atoms":[
+        {"name": "AMI",  "type": "AMI", "charge":  0.7},
+        {"name": "PHO",  "type": "PHO", "charge": -0.7},
+        {"name": "GLY",  "type": "GLY"},
+        {"name": "EST1", "type": "EST"},
+        {"name": "TA1",  "type": "TAIL"},
+        {"name": "TA2",  "type": "TAIL"},
+        {"name": "TA3",  "type": "TAIL"},
+        {"name": "TA4",  "type": "TAIL"},
+        {"name": "TA5",  "type": "TAIL"},
+        {"name": "EST2", "type": "EST"},
+        {"name": "TB1",  "type": "TAIL"},
+        {"name": "TB2",  "type": "TAIL"},
+        {"name": "TB3",  "type": "TAIL"},
+        {"name": "TB4",  "type": "TAIL"},
+        {"name": "TB5",  "type": "TAIL"}
+      ]
+    }
+  }
+}

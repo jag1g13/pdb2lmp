@@ -1,0 +1,12 @@
+{
+  "include":[
+    "mol-elba-lipid.json"
+  ],
+  "molecules":{
+    "WAT":{
+      "atoms":[
+        {"name": "O1",  "type": "WAT"}
+      ]
+    }
+  }
+}
