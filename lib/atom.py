@@ -64,10 +64,7 @@ class Atom:
         elif val2 is None:
             return val1
         else:
-            print(val1, val2)
             raise Exception("Values for comparison are different and not None.")
-            # print(val1, val2)
-            # return val1
 
     def populate(self, other):
         """
@@ -79,17 +76,6 @@ class Atom:
         Returns: Nothing
 
         """
-        self.name = self.compare(self.name, other.name)
-        self.type = self.compare(self.type, other.type)
-        self.resname = self.compare(self.resname, other.resname)
-        self.resid = self.compare(self.resid, other.resid)
-        self.x = self.compare(self.x, other.x)
-        self.y = self.compare(self.y, other.y)
-        self.z = self.compare(self.z, other.z)
-        self.diameter = self.compare(self.diameter, other.diameter)
-        self.rotmass = self.compare(self.rotmass, other.rotmass)
-        self.charge = self.compare(self.charge, other.charge)
-        self.mass = self.compare(self.mass, other.mass)
-        self.sig = self.compare(self.sig, other.sig)
-        self.eps = self.compare(self.eps, other.eps)
-        self.dipole = self.compare(self.dipole, other.dipole)
+        for item in self.__slots__:
+            self.__setattr__(item, Atom.compare(self.__getattribute__(item),
+                                                other.__getattribute__(item)))

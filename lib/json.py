@@ -27,18 +27,26 @@ class Parser:
             self._json = json.load(f, object_hook=AttrDict)
 
         # Recurse through include lists and add to self._json
-        while self._json.include:
-            include_file = os.path.join(os.path.dirname(filename), self._json.include.pop())
-            with open(include_file) as include_file:
-                include_json = json.load(include_file, object_hook=AttrDict)
+        try:
+            while self._json.include:
+                include_file = os.path.join(os.path.dirname(filename), self._json.include.pop())
+                with open(include_file) as include_file:
+                    include_json = json.load(include_file, object_hook=AttrDict)
 
-            for sec_name, sec_data in include_json.items():
-                try:
-                    self._json[sec_name] += sec_data
-                except TypeError:
-                    self._json[sec_name].update(sec_data)
-                except KeyError:
-                    self._json[sec_name] = sec_data
+                for sec_name, sec_data in include_json.items():
+                    try:
+                        # Assume is list
+                        self._json[sec_name] += sec_data
+                    except TypeError:
+                        # Is actually a dictionary
+                        self._json[sec_name].update(sec_data)
+                    except KeyError:
+                        # Doesn't exist in self._json, add it
+                        self._json[sec_name] = sec_data
+            del self._json.include
+        except AttributeError:
+            # File doesn't have an include section
+            pass
 
         self._records = self._json
         if section is not None:
