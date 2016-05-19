@@ -64,13 +64,13 @@ class PDB2LMP:
             if mol.name not in self.moltypes:
                 self.moltypes.append(mol.name)
 
-                collect_type(dbmol.lengths, self.nlengths, self.bonddb.lengths,
+                collect_type(dbmol.lengths, self.nlengths, self.bonddb.length,
                              self.lentypes, self.lenstyles)
-                collect_type(dbmol.angles, self.nangles, self.bonddb.angles,
+                collect_type(dbmol.angles, self.nangles, self.bonddb.angle,
                              self.angtypes, self.angstyles)
-                collect_type(dbmol.dihedrals, self.ndihedrals, self.bonddb.dihedrals,
+                collect_type(dbmol.dihedrals, self.ndihedrals, self.bonddb.dihedral,
                              self.dihtypes, self.dihstyles)
-                collect_type(dbmol.impropers, self.nimpropers, self.bonddb.impropers,
+                collect_type(dbmol.impropers, self.nimpropers, self.bonddb.improper,
                              self.imptypes, self.impstyles)
 
             for atom in dbmol.atoms.values():
@@ -188,10 +188,10 @@ class PDB2LMP:
                         ff.write(line_prefix + " {0:4d} {1} {2} # {3}\n".format(
                             i+1, db_vals[tipe].style, db_vals[tipe].params, tipe))
 
-            write_types(self.lentypes, self.bonddb.lengths, "bond_coeff")
-            write_types(self.angtypes, self.bonddb.angles, "angle_coeff")
-            write_types(self.dihtypes, self.bonddb.dihedrals, "dihedral_coeff")
-            write_types(self.imptypes, self.bonddb.impropers, "improper_coeff")
+            write_types(self.lentypes, self.bonddb.length, "bond_coeff")
+            write_types(self.angtypes, self.bonddb.angle, "angle_coeff")
+            write_types(self.dihtypes, self.bonddb.dihedral, "dihedral_coeff")
+            write_types(self.imptypes, self.bonddb.improper, "improper_coeff")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Convert PDB into LAMMPS input files.")

@@ -3,7 +3,6 @@ from math import sqrt
 
 from collections import defaultdict
 
-# from lib.fileparser import FileParser
 from lib.json import Parser
 from lib.atom import Atom
 
