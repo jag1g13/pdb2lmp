@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import argparse
 
@@ -16,8 +16,11 @@ class Counter:
     __slots__ = ["total", "types"]
 
     def __init__(self, total=0, types=0):
-        self.total = 0
-        self.types = 0
+        self.total = total
+        self.types = types
+
+    def __repr__(self):
+        return "<Counter: (total={0}, types={1})>".format(self.total, self.types)
 
 
 class PDB2LMP:
@@ -39,11 +42,11 @@ class PDB2LMP:
         self.dihstyles = []
         self.impstyles = []
 
-        self.natoms = Counter(0, 0)
-        self.nlengths = Counter(0, 0)
-        self.nangles = Counter(0, 0)
-        self.ndihedrals = Counter(0, 0)
-        self.nimpropers = Counter(0, 0)
+        self.natoms = Counter()
+        self.nlengths = Counter()
+        self.nangles = Counter()
+        self.ndihedrals = Counter()
+        self.nimpropers = Counter()
 
     def collect_types(self):
 
@@ -101,7 +104,7 @@ class PDB2LMP:
             data.write("{0:8d} impropers\n".format(self.nimpropers.total))
             data.write("\n")
             data.write("{0:8d} atom types\n".format(self.natoms.types))
-            data.write("{0:8d} bond types\n".format(self.nangles.types))
+            data.write("{0:8d} bond types\n".format(self.nlengths.types))
             data.write("{0:8d} angle types\n".format(self.nangles.types))
             data.write("{0:8d} dihedral types\n".format(self.ndihedrals.types))
             data.write("{0:8d} improper types\n".format(self.nimpropers.types))
@@ -112,11 +115,11 @@ class PDB2LMP:
             data.write("\n")
             data.write("Atoms\n")
             data.write("\n")
-            for i, atom in enumerate(self.pdb.atoms):
+            for i, atom in enumerate(self.pdb.atoms, start=1):
                 # Write atom line
                 # Dipoles are all oriented up - this should equilibrate out quickly
                 data.write("{0:6d} {1:4d} {2:8.3f} {3:8.3f} {4:8.3f} {5:4d} {6:5.2f} {7:8.3f} {8:8.3f} {9:8.3f} {10:5.2f} {11:5.2f}\n".format(
-                    i+1, self.atomtypes.index(atom.type)+1, atom.x, atom.y, atom.z,
+                    i, self.atomtypes.index(atom.type)+1, atom.x, atom.y, atom.z,
                     atom.resid, atom.charge, atom.dipole, 0, 0, atom.diameter, atom.rotmass
                 ))
 
@@ -124,13 +127,26 @@ class PDB2LMP:
                 if n <= 0:
                     return
                 data.write("\n" + header + "\n\n")
-                i = 0
-                for mol in self.pdb.molecules:
+                i = 1
+                for ii, mol in enumerate(self.pdb.molecules):
                     atom_list = list(self.moldb.molecules[mol.name].atoms.keys())
                     for bond in getattr(self.moldb.molecules[mol.name], header.lower()):
-                        data.write("{0:6d} {1:4d}".format(i+1, types.index(bond.type) + 1))
+                        data.write("{0:6d} {1:4d}".format(i, types.index(bond.type) + 1))
                         for atom in bond.atoms:
-                            data.write(" {0:6d}".format(mol.atoms[atom_list.index(atom)] + 1))
+                            try:
+                                atom_num = mol.atoms[atom_list.index(atom)]
+                            except ValueError:
+                                if atom.startswith("+"):
+                                    other_mol = self.pdb.molecules[ii + 1]
+                                    other_atom_list = list(self.moldb.molecules[other_mol.name].atoms.keys())
+                                    atom_num = other_mol.atoms[other_atom_list.index(atom[1:])]
+                                elif atom.startswith("-"):
+                                    other_mol = self.pdb.molecules[ii - 1]
+                                    other_atom_list = list(self.moldb.molecules[other_mol.name].atoms.keys())
+                                    atom_num = other_mol.atoms[other_atom_list.index(atom[1:])]
+                                else:
+                                    raise
+                            data.write(" {0:6d}".format(atom_num + 1))
                         data.write("\n")
                         i += 1
 
@@ -144,11 +160,11 @@ class PDB2LMP:
             ff.write("# Forcefield prepared by PDB2LMP\n")
             ff.write("\n")
             # TODO change these to "0.0 1.0 1.0 12.0" - ELBA standard
-            ff.write("pair_style lj/sf/dipole/sf 0.0 0.0 0.0 12.0\n")
+            ff.write("pair_style lj/sf/dipole/sf 12.0\n")
             ff.write("special_bonds lj/coul 0.0 0.0 0.0\n")
 
             def write_styles(styles, header):
-                if styles is not []:
+                if styles:
                     ff.write(header)
                     for style in styles:
                         ff.write(" " + style)
@@ -160,33 +176,33 @@ class PDB2LMP:
             write_styles(self.impstyles, "improper_style hybrid")
 
             ff.write("\n")
-            for i, atomtype in enumerate(self.atomtypes):
+            for i, atomtype in enumerate(self.atomtypes, start=1):
                 ff.write("mass {0:4d} {1:8.3f} # {2}\n".format(
-                    i+1, self.atomdb.atoms[atomtype].mass, atomtype
+                    i, self.atomdb.atoms[atomtype].mass, atomtype
                 ))
 
             ff.write("\n")
-            for i, atomtype in enumerate(self.atomtypes):
+            for i, atomtype in enumerate(self.atomtypes, start=1):
                 ff.write("set type {0:4d} diameter {1:8.3f} # {2}\n".format(
-                        i+1, self.atomdb.atoms[atomtype].diameter, atomtype
+                        i, self.atomdb.atoms[atomtype].diameter, atomtype
                 ))
 
             ff.write("\n")
-            for i, atomtype in enumerate(self.atomtypes):
-                for j, atomtype2 in enumerate(self.atomtypes):
+            for i, atomtype in enumerate(self.atomtypes, start=1):
+                for j, atomtype2 in enumerate(self.atomtypes, start=1):
                     if i > j:
                         continue
                     sig, eps = self.atomdb.lj(atomtype, atomtype2)
                     ff.write("pair_coeff {0:4d} {1:4d} {2:6.3f} {3:6.3f} # {4}-{5}\n".format(
-                        i+1, j+1, eps, sig, atomtype, atomtype2
+                        i, j, eps, sig, atomtype, atomtype2
                     ))
 
             def write_types(types, db_vals, line_prefix):
                 if types is not []:
                     ff.write("\n")
-                    for i, tipe in enumerate(types):
+                    for i, tipe in enumerate(types, start=1):
                         ff.write(line_prefix + " {0:4d} {1} {2} # {3}\n".format(
-                            i+1, db_vals[tipe].style, db_vals[tipe].params, tipe))
+                            i, db_vals[tipe].style, db_vals[tipe].params, tipe))
 
             write_types(self.lentypes, self.bonddb.length, "bond_coeff")
             write_types(self.angtypes, self.bonddb.angle, "angle_coeff")

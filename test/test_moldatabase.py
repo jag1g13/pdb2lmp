@@ -34,5 +34,10 @@ class TestMolDatabase(unittest.TestCase):
         self.assertEqual(db.molecules["GLC"].angles[5].atoms[1], "C1")
         self.assertEqual(db.molecules["GLC"].angles[5].atoms[2], "C2")
 
+    def test_polymer_type(self):
+        db = MolDatabase()
+        self.assertTrue("sugar" in db.molecules["GLC"].polymer_type)
+        self.assertTrue("sugar" not in db.molecules["MEO"].polymer_type)
+
 if __name__ == '__main__':
     unittest.main()

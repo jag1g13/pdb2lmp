@@ -3,7 +3,7 @@
     "length":{
       "test":             "test     100     1.000",
       "sugar-ring":       "harmonic 200     1.520",
-      "sugar-glycosidic": "harmonic   1.0   2.600",
+      "sugar-glyc":       "harmonic   1.0   2.600",
       "cho-pho":          "harmonic   1.506 4.770",
       "pho-gly":          "harmonic   1.506 4.410",
       "gly-est":          "harmonic   1.506 4.140",

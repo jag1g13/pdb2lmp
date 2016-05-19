@@ -7,7 +7,7 @@ from lib.atom import Atom
 
 
 class Molecule:
-    __slots__ = ["atoms", "lengths", "angles", "dihedrals", "impropers", "bonds"]
+    __slots__ = ["atoms", "lengths", "angles", "dihedrals", "impropers", "bonds", "polymer_type"]
 
     def __init__(self, **kwargs):
         self.atoms = OrderedDict()
@@ -15,9 +15,13 @@ class Molecule:
         self.angles = []
         self.dihedrals = []
         self.impropers = []
+        self.polymer_type = set()
 
         for key, value in kwargs.items():
-            getattr(self, key).extend(value)
+            try:
+                getattr(self, key).extend(value)
+            except AttributeError:
+                getattr(self, key).update(value)
 
         self.bonds = self.lengths
 

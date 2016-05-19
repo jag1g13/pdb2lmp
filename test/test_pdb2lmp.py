@@ -26,6 +26,10 @@ class TestPDB2LMP(unittest.TestCase):
         self.assertEqual(conv.nlengths.types, 1)
         self.assertEqual(conv.nangles.total, 6)
         self.assertEqual(conv.nangles.types, 1)
+        self.assertEqual(conv.ndihedrals.total, 6)
+        self.assertEqual(conv.ndihedrals.types, 2)
+        self.assertEqual(conv.nimpropers.total, 5)
+        self.assertEqual(conv.nimpropers.types, 2)
 
     def test_populate_pdb_data(self):
         conv = PDB2LMP("data/water.pdb")
