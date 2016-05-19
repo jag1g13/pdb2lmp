@@ -35,7 +35,7 @@ class TestPDB2LMP(unittest.TestCase):
         conv = PDB2LMP("data/water.pdb")
         conv.collect_types()
         conv.populate_pdb_data()
-        self.assertEqual(conv.pdb.atoms[0].type, "WAT")
+        self.assertEqual(conv.coords.atoms[0].type, "WAT")
 
     def test_write_data(self):
         conv = PDB2LMP("data/water.pdb")
@@ -61,6 +61,13 @@ class TestPDB2LMP(unittest.TestCase):
         conv.populate_pdb_data()
         conv.write_data("glc.data")
         conv.write_forcefield("glc.ff")
+
+    def test_gro(self):
+        conv = PDB2LMP("data/water.gro")
+        conv.collect_types()
+        conv.populate_pdb_data()
+        conv.write_data("from_gro.data")
+        conv.write_forcefield("from_gro.ff")
 
 if __name__ == '__main__':
     unittest.main()

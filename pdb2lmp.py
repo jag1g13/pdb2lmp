@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 
 import argparse
+import os
 
-from lib.pdbreader import PDBReader
+from lib.coordreaders import PDBReader, GROReader
 from lib.moldatabase import MolDatabase
 from lib.atomdatabase import AtomDatabase
 from lib.bonddatabase import BondDatabase
@@ -24,8 +25,12 @@ class Counter:
 
 
 class PDB2LMP:
-    def __init__(self, pdbname):
-        self.pdb = PDBReader(pdbname)
+    def __init__(self, infile):
+        formats = {"pdb": PDBReader,
+                   "gro": GROReader}
+        coords = formats[os.path.splitext(infile)[1][1:]](infile)
+
+        self.coords = coords
         self.moldb = MolDatabase()
         self.atomdb = AtomDatabase()
         self.bonddb = BondDatabase()
@@ -61,7 +66,7 @@ class PDB2LMP:
 
         atnum = 0
 
-        for mol in self.pdb.molecules:
+        for mol in self.coords.molecules:
             dbmol = self.moldb.molecules[mol.name]
 
             if mol.name not in self.moltypes:
@@ -80,9 +85,9 @@ class PDB2LMP:
                 if atom.type not in self.atomtypes:
                     self.atomtypes.append(atom.type)
                     self.natoms.types += 1
-                if self.pdb.atoms[atnum].name != atom.name:
+                if self.coords.atoms[atnum].name != atom.name:
                     raise NonMatchingAtomException("Atom {0} in PDB ({1}) does not match atom in force field ({2}).".
-                                                   format(atnum, self.pdb.atoms[atnum].name, atom.name))
+                                                   format(atnum, self.coords.atoms[atnum].name, atom.name))
                 self.natoms.total += 1
                 atnum += 1
 
@@ -90,7 +95,7 @@ class PDB2LMP:
         for mol in self.moldb.molecules.values():
             for atom in mol.atoms.values():
                 atom.populate(self.atomdb.atoms[atom.type])
-        for atom in self.pdb.atoms:
+        for atom in self.coords.atoms:
             atom.populate(self.moldb.molecules[atom.resname].atoms[atom.name])
 
     def write_data(self, filename):
@@ -109,13 +114,13 @@ class PDB2LMP:
             data.write("{0:8d} dihedral types\n".format(self.ndihedrals.types))
             data.write("{0:8d} improper types\n".format(self.nimpropers.types))
             data.write("\n")
-            data.write("{0:8.3f} {1:8.3f} xlo xhi\n".format(0, self.pdb.cell[0]))
-            data.write("{0:8.3f} {1:8.3f} ylo yhi\n".format(0, self.pdb.cell[1]))
-            data.write("{0:8.3f} {1:8.3f} zlo zhi\n".format(0, self.pdb.cell[2]))
+            data.write("{0:8.3f} {1:8.3f} xlo xhi\n".format(0, self.coords.cell[0]))
+            data.write("{0:8.3f} {1:8.3f} ylo yhi\n".format(0, self.coords.cell[1]))
+            data.write("{0:8.3f} {1:8.3f} zlo zhi\n".format(0, self.coords.cell[2]))
             data.write("\n")
             data.write("Atoms\n")
             data.write("\n")
-            for i, atom in enumerate(self.pdb.atoms, start=1):
+            for i, atom in enumerate(self.coords.atoms, start=1):
                 # Write atom line
                 # Dipoles are all oriented up - this should equilibrate out quickly
                 data.write("{0:6d} {1:4d} {2:8.3f} {3:8.3f} {4:8.3f} {5:4d} {6:5.2f} {7:8.3f} {8:8.3f} {9:8.3f} {10:5.2f} {11:5.2f}\n".format(
@@ -128,7 +133,7 @@ class PDB2LMP:
                     return
                 data.write("\n" + header + "\n\n")
                 i = 1
-                for ii, mol in enumerate(self.pdb.molecules):
+                for ii, mol in enumerate(self.coords.molecules):
                     atom_list = list(self.moldb.molecules[mol.name].atoms.keys())
                     for bond in getattr(self.moldb.molecules[mol.name], header.lower()):
                         data.write("{0:6d} {1:4d}".format(i, types.index(bond.type) + 1))
@@ -137,11 +142,11 @@ class PDB2LMP:
                                 atom_num = mol.atoms[atom_list.index(atom)]
                             except ValueError:
                                 if atom.startswith("+"):
-                                    other_mol = self.pdb.molecules[ii + 1]
+                                    other_mol = self.coords.molecules[ii + 1]
                                     other_atom_list = list(self.moldb.molecules[other_mol.name].atoms.keys())
                                     atom_num = other_mol.atoms[other_atom_list.index(atom[1:])]
                                 elif atom.startswith("-"):
-                                    other_mol = self.pdb.molecules[ii - 1]
+                                    other_mol = self.coords.molecules[ii - 1]
                                     other_atom_list = list(self.moldb.molecules[other_mol.name].atoms.keys())
                                     atom_num = other_mol.atoms[other_atom_list.index(atom[1:])]
                                 else:
@@ -210,14 +215,15 @@ class PDB2LMP:
             write_types(self.imptypes, self.bonddb.improper, "improper_coeff")
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Convert PDB into LAMMPS input files.")
-    parser.add_argument("pdb", type=str,
-                        help="PDB to convert")
-    parser.add_argument("out", type=str, default="out",
+    parser = argparse.ArgumentParser(description="Convert PDB/GRO into LAMMPS input files.")
+    parser.add_argument("infile", type=str,
+                        help="PDB/GRO to convert")
+    parser.add_argument("outfiles", type=str, default="out",
                         help="output filenames")
     args = parser.parse_args()
-    conv = PDB2LMP(args.pdb)
+
+    conv = PDB2LMP(args.infile)
     conv.collect_types()
     conv.populate_pdb_data()
-    conv.write_data(args.out + ".data")
-    conv.write_forcefield(args.out + ".ff")
+    conv.write_data(args.outfiles + ".data")
+    conv.write_forcefield(args.outfiles + ".ff")
