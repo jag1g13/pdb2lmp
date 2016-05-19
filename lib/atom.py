@@ -35,13 +35,13 @@ class Atom:
         return cls(name=name, resname=resname, resid=resid, x=x, y=y, z=z)
 
     @classmethod
-    def frommoldb(cls, name, attype, charge):
-        return cls(name=name, type=attype, charge=charge)
-
-    @classmethod
     def from_atom_db(cls, **kwargs):
         if "rotmass" not in kwargs:
             kwargs["rotmass"] = kwargs["mass"]
+        return cls(**kwargs)
+
+    @classmethod
+    def from_dict(cls, **kwargs):
         return cls(**kwargs)
 
     @staticmethod

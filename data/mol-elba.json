@@ -1,6 +1,7 @@
 {
   "include":[
-    "mol-elba-lipid.json"
+    "mol-elba-lipid.json",
+    "mol-elba-sugar.json"
   ],
   "molecules":{
     "WAT":{

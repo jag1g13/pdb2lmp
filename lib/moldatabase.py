@@ -1,51 +1,41 @@
 import os
 
-from collections import OrderedDict, namedtuple
+from collections import OrderedDict
 
-from lib.fileparser import FileParser
+from lib.json import Parser
 from lib.atom import Atom
 
 
+class Molecule:
+    __slots__ = ["atoms", "lengths", "angles", "dihedrals", "impropers", "bonds"]
+
+    def __init__(self, **kwargs):
+        self.atoms = OrderedDict()
+        self.lengths = []
+        self.angles = []
+        self.dihedrals = []
+        self.impropers = []
+
+        for key, value in kwargs.items():
+            getattr(self, key).extend(value)
+
+        self.bonds = self.lengths
+
+
 class MolDatabase:
-    def __init__(self):
+    def __init__(self, filename=os.path.join("data", "mol-elba.json")):
         """
         Create a new MolDatabase object
 
         Args:
-            filename: Name of molecule database file to open; GROMACS rtp file.
+            filename: Name of molecule database file to open.
         """
-        fp = FileParser(os.path.join("data", "mol.dat"))
+        db = Parser(filename)
+        self.version = db.version
         self.molecules = {}
-        Molecule = namedtuple("Molecule",
-                              ["atoms", "lengths", "angles", "dihedrals", "impropers", "bonds"])
 
-        while True:
-            mol = fp.nextsection()
-            if mol is None:
-                break
-
-            self.molecules[mol] = Molecule(OrderedDict(), [], [], [], [], None)
-            # Set Molecule.bonds as alias to Molecule.lengths
-            # Allows us to use getattr(Molecule, header.lower()) in pdb2lmp.write_data.write_bonds
-            self.molecules[mol] = self.molecules[mol]._replace(bonds=self.molecules[mol].lengths)
-            natms, nbnds, nangs, ndihs, nimps = fp.getline(5)
-
-            if natms is not None:
-                for i in range(int(natms)):
-                    toks = fp.getline(3)
-                    if toks[2] is None:
-                        toks[2] = "0"
-                    self.molecules[mol].atoms[toks[0]] = Atom.frommoldb(toks[0], toks[1], float(toks[2]))
-
-            self.get_bonds(fp, nbnds, self.molecules[mol].lengths)
-            self.get_bonds(fp, nangs, self.molecules[mol].angles)
-            self.get_bonds(fp, ndihs, self.molecules[mol].dihedrals)
-            self.get_bonds(fp, nimps, self.molecules[mol].impropers)
-
-    @staticmethod
-    def get_bonds(fp, n, store):
-        Bond = namedtuple("Bond", ["type", "atoms"])
-        if n is not None:
-            for i in range(int(n)):
-                toks = fp.getline()
-                store.append(Bond(toks[0], toks[1:]))
+        for name, data in db.molecules.items():
+            atoms = data.pop("atoms")
+            self.molecules[name] = Molecule(**data)
+            for atom in atoms:
+                self.molecules[name].atoms[atom.name] = Atom.from_dict(**atom)
