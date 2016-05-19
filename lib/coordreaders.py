@@ -58,14 +58,14 @@ class GROReader(CoordReader):
                 line = f.readline()
                 self.atoms.append(Atom.frompdb(line[10:15].strip(),
                                                line[5:10].strip(),
-                                               int(line[15:20]),
+                                               int(line[0:5]),
                                                10*float(line[20:28]),
                                                10*float(line[28:36]),
                                                10*float(line[36:44])))
                 if self.atoms[-1].resid != last_resid:
                     self.molecules.append(Molecule(self.atoms[-1].resname, []))
                     last_resid = self.atoms[-1].resid
-                self.molecules[-1].atoms.append(int(line[0:5])-1)
+                self.molecules[-1].atoms.append(int(line[15:20])-1)
 
             line = f.readline()
             self.cell = [10*float(line[0:10]), 10*float(line[10:20]), 10*float(line[20:30])]

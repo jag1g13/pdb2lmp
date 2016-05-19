@@ -20,3 +20,5 @@ docs/_build/
 
 # IDE
 .idea/
+
+/tmp

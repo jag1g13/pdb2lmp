@@ -114,9 +114,10 @@ class PDB2LMP:
             data.write("{0:8d} dihedral types\n".format(self.ndihedrals.types))
             data.write("{0:8d} improper types\n".format(self.nimpropers.types))
             data.write("\n")
-            data.write("{0:8.3f} {1:8.3f} xlo xhi\n".format(0, self.coords.cell[0]))
-            data.write("{0:8.3f} {1:8.3f} ylo yhi\n".format(0, self.coords.cell[1]))
-            data.write("{0:8.3f} {1:8.3f} zlo zhi\n".format(0, self.coords.cell[2]))
+            cell = [val / 2 for val in self.coords.cell]
+            data.write("{0:8.3f} {1:8.3f} xlo xhi\n".format(-cell[0], cell[0]))
+            data.write("{0:8.3f} {1:8.3f} ylo yhi\n".format(-cell[1], cell[1]))
+            data.write("{0:8.3f} {1:8.3f} zlo zhi\n".format(-cell[2], cell[2]))
             data.write("\n")
             data.write("Atoms\n")
             data.write("\n")

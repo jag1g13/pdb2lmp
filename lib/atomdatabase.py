@@ -8,14 +8,18 @@ from lib.atom import Atom
 
 
 class AtomDatabase:
-    def __init__(self, filename=os.path.join("data", "atoms.json")):
+    def __init__(self, filename=None):
         """
         Create a new AtomDatabase object
 
         Args:
             filename: Name of atom database file to open.
         """
-        db = Parser(os.path.join(filename))
+        if filename is None:
+            filename = os.path.join(os.path.dirname(os.path.dirname(__file__)),
+                                    os.path.join("data", "atoms.json"))
+
+        db = Parser(filename)
         self.atoms = {}
         self._lj_table_eps = defaultdict(dict)
 

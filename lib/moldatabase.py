@@ -27,13 +27,17 @@ class Molecule:
 
 
 class MolDatabase:
-    def __init__(self, filename=os.path.join("data", "mol-elba.json")):
+    def __init__(self, filename=None):
         """
         Create a new MolDatabase object
 
         Args:
             filename: Name of molecule database file to open.
         """
+        if filename is None:
+            filename = os.path.join(os.path.dirname(os.path.dirname(__file__)),
+                                    os.path.join("data", "mol-elba.json"))
+
         db = Parser(filename)
         self.version = db.version
         self.molecules = {}
