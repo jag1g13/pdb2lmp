@@ -5,18 +5,18 @@ class Atom:
                  "x", "y", "z",
                  "diameter", "rotmass",
                  "charge", "mass",
-                 "sig", "eps",
+                 "sigma", "epsilon",
                  "dipole"]
 
-    def __init__(self, name=None, attype=None,
+    def __init__(self, name=None, type=None,
                  resname=None, resid=None,
                  x=None, y=None, z=None,
                  diameter=None, rotmass=None,
                  charge=None, mass=None,
-                 sig=None, eps=None,
+                 sigma=None, epsilon=None,
                  dipole=None):
         self.name = name
-        self.type = attype
+        self.type = type
         self.resname = resname
         self.resid = resid
         self.x = x
@@ -26,8 +26,8 @@ class Atom:
         self.rotmass = rotmass
         self.charge = charge
         self.mass = mass
-        self.sig = sig
-        self.eps = eps
+        self.sigma = sigma
+        self.epsilon = epsilon
         self.dipole = dipole
 
     @classmethod
@@ -35,13 +35,14 @@ class Atom:
         return cls(name=name, resname=resname, resid=resid, x=x, y=y, z=z)
 
     @classmethod
-    def fromatomdb(cls, attype, mass, charge, sig, eps, dipole, diameter, rotmass):
-        return cls(attype=attype, mass=mass, charge=charge,
-                   sig=sig, eps=eps, dipole=dipole, diameter=diameter, rotmass=rotmass)
+    def frommoldb(cls, name, attype, charge):
+        return cls(name=name, type=attype, charge=charge)
 
     @classmethod
-    def frommoldb(cls, name, attype, charge):
-        return cls(name=name, attype=attype, charge=charge)
+    def from_atom_db(cls, **kwargs):
+        if "rotmass" not in kwargs:
+            kwargs["rotmass"] = kwargs["mass"]
+        return cls(**kwargs)
 
     @staticmethod
     def compare(val1, val2):

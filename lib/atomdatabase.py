@@ -3,85 +3,50 @@ from math import sqrt
 
 from collections import defaultdict
 
-from lib.fileparser import FileParser
+# from lib.fileparser import FileParser
+from lib.json import Parser
 from lib.atom import Atom
 
 
 class AtomDatabase:
-    def __init__(self):
+    def __init__(self, filename=os.path.join("data", "atoms.json")):
         """
         Create a new AtomDatabase object
 
         Args:
-            filename: Name of atom database file to open; GROMACS rtp file.
+            filename: Name of atom database file to open.
         """
-        fp = FileParser(os.path.join("data", "atoms.dat"))
+        db = Parser(os.path.join(filename))
         self.atoms = {}
-        self.lj_table_eps = defaultdict(dict)
+        self._lj_table_eps = defaultdict(dict)
 
         # Read atom types
-        while True:
-            toks = fp.getlinefromsection("atomtypes", 8)
-            if toks is None:
-                break
+        for name, data in db.atoms.items():
+            self.atoms[name] = Atom.from_atom_db(type=name, **data)
 
-            # If rotational mass is not listed, assume same as normal mass
-            if toks[7] is not None:
-                rotmass = float(toks[7])
-            else:
-                rotmass = float(toks[1])
-            self.atoms[toks[0]] = Atom.fromatomdb(toks[0], float(toks[1]), float(toks[2]),
-                                                  float(toks[3]), float(toks[4]),
-                                                  float(toks[5]), float(toks[6]), rotmass)
+        for name1, atom1 in self.atoms.items():
+            for name2, atom2 in self.atoms.items():
 
-        # Read h-values and produce table
-        while True:
-            toks = fp.getlinefromsection("nonbond_params")
-            if toks is None:
-                break
-            self.lj_table_eps[toks[0]][toks[1]] = float(toks[2])
+                try:
+                    h = db.h_values[name1][name2]
+                except KeyError:
+                    try:
+                        h = db.h_values[name2][name1]
+                    except KeyError:
+                        h = 1.
+
+                self._lj_table_eps[name1][name2] = h * sqrt(atom1.epsilon * atom2.epsilon)
 
     def lj(self, at1, at2):
-        # From Lorentz-Berthelot combination - doesn't have h-scaling
-        sig = (self.atoms[at1].sig + self.atoms[at2].sig) / 2.
+        """
+        Return Lennard-Jones sigma and epsilon values for a bead pair using Lorentz-Berthelot combination.
+        Args:
+            at1: First atom/bead
+            at2: Second atom/bead
 
-        # Look for various combinations of 2 atoms and X - generic atom
-        h = None
-        # Try to find as requested
-        if at1 in self.lj_table_eps:
-            if at2 in self.lj_table_eps[at1]:
-                h = self.lj_table_eps[at1][at2]
+        Returns:
+            (sigma, epsilon)
+        """
+        sig = (self.atoms[at1].sigma + self.atoms[at2].sigma) / 2.
 
-        # Swapped
-        if h is None and at2 in self.lj_table_eps:
-            if at1 in self.lj_table_eps[at2]:
-                h = self.lj_table_eps[at2][at1]
-
-        # Order requested but generic X in 2nd place
-        if h is None and at1 in self.lj_table_eps:
-            if "X" in self.lj_table_eps[at1]:
-                h = self.lj_table_eps[at1]["X"]
-
-        # Swapped with generic X in 2nd place
-        if h is None and at2 in self.lj_table_eps:
-            if "X" in self.lj_table_eps[at2]:
-                h = self.lj_table_eps[at2]["X"]
-
-        if h is None and "X" in self.lj_table_eps:
-            # Order requested but X in first place
-            if at2 in self.lj_table_eps["X"]:
-                h = self.lj_table_eps["X"][at2]
-            # Swapped with X in 1st place
-            if at1 in self.lj_table_eps["X"]:
-                h = self.lj_table_eps["X"][at1]
-            # X in both places
-            elif "X" in self.lj_table_eps["X"]:
-                h = self.lj_table_eps["X"]["X"]
-
-        # Not in table - assume 1
-        if h is None:
-            h = 1
-
-        eps = h * sqrt(self.atoms[at1].eps * self.atoms[at2].eps)
-
-        return sig, eps
+        return sig, self._lj_table_eps[at1][at2]

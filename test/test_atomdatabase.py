@@ -19,12 +19,6 @@ class TestAtomDatabase(unittest.TestCase):
         self.assertEqual(db.atoms["MEOH"].rotmass, 30.026)
         self.assertEqual(db.atoms["ETOH"].mass, 44.053)
 
-    def test_read_database_lj(self):
-        db = AtomDatabase()
-        self.assertTrue("MEOH" in db.lj_table_eps)
-        self.assertTrue("ETOH" in db.lj_table_eps["MEOH"])
-        self.assertEqual(db.lj_table_eps["MEOH"]["ETOH"], 1.25)
-
     def test_lj(self):
         db = AtomDatabase()
         self.helper_tuple_compare(db.lj("MEOH", "ETOH"), (3.963, 0.704))

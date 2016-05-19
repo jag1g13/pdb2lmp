@@ -6,23 +6,23 @@
       "sigma":    3.050,
       "epsilon":  0.367,
       "dipole":   0.541,
-      "diam":     5.0
+      "diameter": 5.0
     },
     "MEOH": {
-      "mass":    30.026,
-      "charge":   0,
-      "sigma":    3.725,
-      "epsilon":  0.536,
-      "dipole":   0.354,
-      "diam":    12.7
+      "mass":     30.026,
+      "charge":    0,
+      "sigma":     3.725,
+      "epsilon":   0.536,
+      "dipole":    0.354,
+      "diameter": 12.7
     },
     "ETOH": {
-      "mass":    44.053,
-      "charge":   0,
-      "sigma":    4.200,
-      "epsilon":  0.592,
-      "dipole":   0.352,
-      "diam":    12.7
+      "mass":     44.053,
+      "charge":    0,
+      "sigma":     4.200,
+      "epsilon":   0.592,
+      "dipole":    0.352,
+      "diameter": 12.7
     },
     "OXY": {
       "mass":    15.999,
@@ -30,7 +30,7 @@
       "sigma":    1.684,
       "epsilon":  0.170,
       "dipole":   0,
-      "diam":     0
+      "diameter": 0
     },
     "CHO": {
       "mass":    90,
@@ -38,7 +38,7 @@
       "sigma":    5.4,
       "epsilon":  1.434,
       "dipole":   0,
-      "diam":     0
+      "diameter": 0
     },
     "AMI": {
       "mass":    42,
@@ -46,7 +46,7 @@
       "sigma":    4.5,
       "epsilon":  0.837,
       "dipole":   0,
-      "diam":     0
+      "diameter": 0
     },
     "PHO": {
       "mass":    90,
@@ -54,23 +54,23 @@
       "sigma":    5.2,
       "epsilon":  1.434,
       "dipole":   0,
-      "diam":     0
+      "diameter": 0
     },
     "GLY": {
-      "mass":    62,
-      "charge":   0,
-      "sigma":    4.6,
-      "epsilon":  0.956,
-      "dipole":   0.333,
-      "diam":     12.7
+      "mass":     62,
+      "charge":    0,
+      "sigma":     4.6,
+      "epsilon":   0.956,
+      "dipole":    0.333,
+      "diameter": 12.7
     },
     "EST": {
-      "mass":    62,
-      "charge":   0,
-      "sigma":    4.6,
-      "epsilon":  0.956,
-      "dipole":   0.416,
-      "diam":     12.7
+      "mass":     62,
+      "charge":    0,
+      "sigma":     4.6,
+      "epsilon":   0.956,
+      "dipole":    0.416,
+      "diameter": 12.7
     },
     "TAIL": {
       "mass":    42,
@@ -78,10 +78,10 @@
       "sigma":    4.5,
       "epsilon":  0.837,
       "dipole":   0,
-      "diam":     0
+      "diameter": 0
     }
   },
-  "h-values":{
+  "h_values":{
     "WAT":{
       "WAT":  1.5,
       "MEOH": 1.4,
