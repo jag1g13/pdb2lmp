@@ -7,7 +7,8 @@ from lib.atom import Atom
 
 
 class Molecule:
-    __slots__ = ["atoms", "lengths", "angles", "dihedrals", "impropers", "bonds", "polymer_type"]
+    __slots__ = ["atoms", "lengths", "angles", "dihedrals",
+                 "impropers", "bonds", "polymer_type", "templates"]
 
     def __init__(self, **kwargs):
         self.atoms = OrderedDict()
@@ -16,6 +17,7 @@ class Molecule:
         self.dihedrals = []
         self.impropers = []
         self.polymer_type = set()
+        self.templates = set()
 
         for key, value in kwargs.items():
             try:
@@ -24,6 +26,13 @@ class Molecule:
                 getattr(self, key).update(value)
 
         self.bonds = self.lengths
+
+    def extend(self, mol):
+        for key in self.__slots__:
+            try:
+                getattr(self, key).extend(getattr(mol, key))
+            except AttributeError:
+                getattr(self, key).update(getattr(mol, key))
 
 
 class MolDatabase:
@@ -43,7 +52,14 @@ class MolDatabase:
         self.molecules = {}
 
         for name, data in db.molecules.items():
-            atoms = data.pop("atoms")
+            try:
+                atoms = data.pop("atoms")
+            except KeyError:
+                atoms = []
             self.molecules[name] = Molecule(**data)
             for atom in atoms:
                 self.molecules[name].atoms[atom.name] = Atom.from_dict(**atom)
+
+        for mol in self.molecules.values():
+            for template in mol.templates:
+                mol.extend(self.molecules[template])

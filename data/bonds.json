@@ -12,8 +12,13 @@
       "ami-pho":          "harmonic   1.506 4.365"
     },
     "angle":{
-      "sugar-ring":       "cosine/squared 120 110.0",
-      "dipole":           "dipole          10 109.0"
+      "sugar-ring":       "cosine/squared 120     110.0",
+      "dipole":           "dipole          10     109.0",
+      "cho-pho-gly":      "cosine/squared   3.585 115.0",
+      "pho-gly-est":      "cosine/squared   3.585  90.0",
+      "tail-sat":         "cosine/squared   3.585 180.0",
+      "tail-unsat":       "cosine/squared   3.585 120.0",
+      "gly-dipole":       "dipole           1.195   0.0"
     },
     "dihedral":{
       "sugar-dih-1":      "fourier 2    1.00 3 0    0.25 1 -120",
@@ -26,8 +31,10 @@
       "sugar-dih-80pc-2": "fourier 2    0.75 3 0   -0.32 1  120",
       "dipole-1":         "dipole  50 -60",
       "dipole-2":         "dipole  50  60",
+      "sugar-glyc-ax":    "charmm  10.0 1 170 0.0",
       "sugar-glyc-ax-ax": "charmm  10.0 1 160 0.0",
       "sugar-glyc-ax-eq": "charmm  10.0 1 185 0.0",
+      "sugar-glyc-eq":    "charmm   5.0 1  85 0.0",
       "sugar-glyc-eq-ax": "charmm   5.0 1  95 0.0",
       "sugar-glyc-eq-eq": "charmm   5.0 1  80 0.0"
     },

@@ -29,12 +29,12 @@ class PDBReader(CoordReader):
 
             for line in f:
                 if line.startswith("ATOM  "):
-                    self.atoms.append(Atom.frompdb(line[12:16].strip(),
-                                                   line[17:20].strip(),
+                    self.atoms.append(Atom.frompdb(line[13:17].strip(),
+                                                   line[17:21].strip(),
                                                    int(line[22:26]),
                                                    float(line[30:38]),
                                                    float(line[38:46]),
-                                                   float(line[47:55])))
+                                                   float(line[46:54])))
                     if self.atoms[-1].resid != last_resid:
                         self.molecules.append(Molecule(self.atoms[-1].resname, []))
                         last_resid = self.atoms[-1].resid

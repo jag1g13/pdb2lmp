@@ -16,7 +16,7 @@ class TestPDB2LMP(unittest.TestCase):
     def test_collect_types_full(self):
         conv = PDB2LMP("data/glc.pdb")
         conv.collect_types()
-        self.assertEqual(conv.moltypes, ["GLC"])
+        self.assertEqual(conv.moltypes, ["0GA"])
         self.assertEqual(conv.atomtypes, ["MEOH", "ETOH", "OXY"])
         self.assertEqual(conv.lentypes, ["sugar-ring"])
         self.assertEqual(conv.angtypes, ["sugar-ring"])
@@ -41,13 +41,13 @@ class TestPDB2LMP(unittest.TestCase):
         conv = PDB2LMP("data/water.pdb")
         conv.collect_types()
         conv.populate_pdb_data()
-        conv.write_data("test.data")
+        conv.write_data("water.data")
 
     def test_write_forcefield(self):
         conv = PDB2LMP("data/water.pdb")
         conv.collect_types()
         conv.populate_pdb_data()
-        conv.write_forcefield("test.ff")
+        conv.write_forcefield("water.ff")
 
     def test_write_forcefield_mixed(self):
         conv = PDB2LMP("data/mixed.pdb")

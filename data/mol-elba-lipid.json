@@ -3,9 +3,8 @@
     "lipids": 1
   },
   "molecules":{
-    "DPC":{
+    "DOPX":{
       "atoms":[
-        {"name": "CHO",  "type": "CHO", "charge":  0.7},
         {"name": "PHO",  "type": "PHO", "charge": -0.7},
         {"name": "GLY",  "type": "GLY"},
         {"name": "EST1", "type": "EST"},
@@ -20,11 +19,66 @@
         {"name": "TB3",  "type": "TAIL"},
         {"name": "TB4",  "type": "TAIL"},
         {"name": "TB5",  "type": "TAIL"}
+      ],
+      "lengths":[
+        {"type": "pho-gly",   "atoms":["PHO",  "GLY"]},
+        {"type": "gly-est",   "atoms":["GLY",  "EST1"]},
+        {"type": "est-tail",  "atoms":["EST1", "TA1"]},
+        {"type": "tail-tail", "atoms":["TA1",  "TA2"]},
+        {"type": "tail-tail", "atoms":["TA2",  "TA3"]},
+        {"type": "tail-tail", "atoms":["TA3",  "TA4"]},
+        {"type": "tail-tail", "atoms":["TA4",  "TA5"]},
+        {"type": "gly-est",   "atoms":["GLY",  "EST2"]},
+        {"type": "est-tail",  "atoms":["EST2", "TB1"]},
+        {"type": "tail-tail", "atoms":["TB1",  "TB2"]},
+        {"type": "tail-tail", "atoms":["TB2",  "TB3"]},
+        {"type": "tail-tail", "atoms":["TB3",  "TB4"]},
+        {"type": "tail-tail", "atoms":["TB4",  "TB5"]}
+      ],
+      "angles":[
+        {"type":"pho-gly-est", "atoms":["PHO",  "GLY",  "EST1"]},
+        {"type":"pho-gly-est", "atoms":["PHO",  "GLY",  "EST2"]},
+        {"type":"gly-dipole",  "atoms":["GLY",  "PHO",  "PHO"]},
+        {"type":"gly-dipole",  "atoms":["EST1", "TA1",  "TA1"]},
+        {"type":"gly-dipole",  "atoms":["EST2", "TB1",  "TB1"]},
+        {"type":"tail-sat",    "atoms":["GLY",  "EST1", "TA1"]},
+        {"type":"tail-sat",    "atoms":["EST1", "TA1",  "TA2"]},
+        {"type":"tail-unsat",  "atoms":["TA1",  "TA2",  "TA3"]},
+        {"type":"tail-sat",    "atoms":["TA2",  "TA3",  "TA4"]},
+        {"type":"tail-sat",    "atoms":["TA3",  "TA4",  "TA5"]},
+        {"type":"tail-sat",    "atoms":["GLY",  "EST2", "TB1"]},
+        {"type":"tail-sat",    "atoms":["EST2", "TB1",  "TB2"]},
+        {"type":"tail-unsat",  "atoms":["TB1",  "TB2",  "TB3"]},
+        {"type":"tail-sat",    "atoms":["TB2",  "TB3",  "TB4"]},
+        {"type":"tail-sat",    "atoms":["TB3",  "TB4",  "TB5"]}
       ]
     },
-    "DPE":{
+    "DOPC":{
+      "templates":["DOPX"],
       "atoms":[
-        {"name": "AMI",  "type": "AMI", "charge":  0.7},
+        {"name": "CHO",  "type": "CHO", "charge":  0.7}
+      ],
+      "lengths":[
+        {"type": "cho-pho", "atoms":["CHO", "PHO"]}
+      ],
+      "angles":[
+        {"type": "cho-pho-gly", "atoms":["CHO", "PHO", "GLY"]}
+      ]
+    },
+    "DOPE":{
+      "templates":["DOPX"],
+      "atoms":[
+        {"name": "AMI",  "type": "AMI", "charge":  0.7}
+      ],
+      "lengths":[
+        {"type": "ami-pho", "atoms":["AMI", "PHO"]}
+      ],
+      "angles":[
+        {"type": "cho-pho-gly", "atoms":["AMI", "PHO", "GLY"]}
+      ]
+    },
+    "DSPX":{
+      "atoms":[
         {"name": "PHO",  "type": "PHO", "charge": -0.7},
         {"name": "GLY",  "type": "GLY"},
         {"name": "EST1", "type": "EST"},
@@ -39,6 +93,62 @@
         {"name": "TB3",  "type": "TAIL"},
         {"name": "TB4",  "type": "TAIL"},
         {"name": "TB5",  "type": "TAIL"}
+      ],
+      "lengths":[
+        {"type": "pho-gly",   "atoms":["PHO",  "GLY"]},
+        {"type": "gly-est",   "atoms":["GLY",  "EST1"]},
+        {"type": "est-tail",  "atoms":["EST1", "TA1"]},
+        {"type": "tail-tail", "atoms":["TA1",  "TA2"]},
+        {"type": "tail-tail", "atoms":["TA2",  "TA3"]},
+        {"type": "tail-tail", "atoms":["TA3",  "TA4"]},
+        {"type": "tail-tail", "atoms":["TA4",  "TA5"]},
+        {"type": "gly-est",   "atoms":["GLY",  "EST2"]},
+        {"type": "est-tail",  "atoms":["EST2", "TB1"]},
+        {"type": "tail-tail", "atoms":["TB1",  "TB2"]},
+        {"type": "tail-tail", "atoms":["TB2",  "TB3"]},
+        {"type": "tail-tail", "atoms":["TB3",  "TB4"]},
+        {"type": "tail-tail", "atoms":["TB4",  "TB5"]}
+      ],
+      "angles":[
+        {"type":"pho-gly-est", "atoms":["PHO",  "GLY",  "EST1"]},
+        {"type":"pho-gly-est", "atoms":["PHO",  "GLY",  "EST2"]},
+        {"type":"gly-dipole",  "atoms":["GLY",  "PHO",  "PHO"]},
+        {"type":"gly-dipole",  "atoms":["EST1", "TA1",  "TA1"]},
+        {"type":"gly-dipole",  "atoms":["EST2", "TB1",  "TB1"]},
+        {"type":"tail-sat",    "atoms":["GLY",  "EST1", "TA1"]},
+        {"type":"tail-sat",    "atoms":["EST1", "TA1",  "TA2"]},
+        {"type":"tail-sat",    "atoms":["TA1",  "TA2",  "TA3"]},
+        {"type":"tail-sat",    "atoms":["TA2",  "TA3",  "TA4"]},
+        {"type":"tail-sat",    "atoms":["TA3",  "TA4",  "TA5"]},
+        {"type":"tail-sat",    "atoms":["GLY",  "EST2", "TB1"]},
+        {"type":"tail-sat",    "atoms":["EST2", "TB1",  "TB2"]},
+        {"type":"tail-sat",    "atoms":["TB1",  "TB2",  "TB3"]},
+        {"type":"tail-sat",    "atoms":["TB2",  "TB3",  "TB4"]},
+        {"type":"tail-sat",    "atoms":["TB3",  "TB4",  "TB5"]}
+      ]
+    },
+    "DSPC":{
+      "templates":["DSPX"],
+      "atoms":[
+        {"name": "CHO",  "type": "CHO", "charge":  0.7}
+      ],
+      "lengths":[
+        {"type": "cho-pho", "atoms":["CHO", "PHO"]}
+      ],
+      "angles":[
+        {"type": "cho-pho-gly", "atoms":["CHO", "PHO", "GLY"]}
+      ]
+    },
+    "DSPE":{
+      "templates":["DSPX"],
+      "atoms":[
+        {"name": "AMI",  "type": "AMI", "charge":  0.7}
+      ],
+      "lengths":[
+        {"type": "ami-pho", "atoms":["AMI", "PHO"]}
+      ],
+      "angles":[
+        {"type": "cho-pho-gly", "atoms":["AMI", "PHO", "GLY"]}
       ]
     }
   }

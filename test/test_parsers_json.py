@@ -27,8 +27,8 @@ class TestParsersJson(unittest.TestCase):
         self.assertTrue("lipids" in elba.version)
 
         molecules = Parser("data/mol-elba.json", section="molecules")
-        self.assertTrue("DPC" in molecules)
-        self.assertTrue("DPE" in molecules)
+        self.assertTrue("DOPC" in molecules)
+        self.assertTrue("DOPE" in molecules)
 
     def test_missing_section(self):
         with self.assertRaises(KeyError):
