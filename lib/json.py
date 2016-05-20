@@ -26,10 +26,16 @@ class Parser:
         with open(filename) as f:
             self._json = json.load(f, object_hook=AttrDict)
 
+        included = set()
+
         # Recurse through include lists and add to self._json
         try:
             while self._json.include:
                 include_file = os.path.join(os.path.dirname(filename), self._json.include.pop())
+                if include_file in included:
+                    continue
+                included.add(include_file)
+
                 with open(include_file) as include_file:
                     include_json = json.load(include_file, object_hook=AttrDict)
 
