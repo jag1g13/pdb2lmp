@@ -8,6 +8,11 @@
       "atoms":[
         {"name": "O1",  "type": "WAT"}
       ]
+    },
+    "W":{
+      "atoms":[
+        {"name": "O1",  "type": "WAT"}
+      ]
     }
   }
 }

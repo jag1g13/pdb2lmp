@@ -26,6 +26,8 @@ class Counter:
 
 class PDB2LMP:
     def __init__(self, infile):
+        self._suppress_atom_names = False
+
         formats = {"pdb": PDBReader,
                    "gro": GROReader}
         coords = formats[os.path.splitext(infile)[1][1:]](infile)
@@ -81,13 +83,21 @@ class PDB2LMP:
                 collect_type(dbmol.impropers, self.nimpropers, self.bonddb.improper,
                              self.imptypes, self.impstyles)
 
-            for atom in dbmol.atoms.values():
-                if atom.type not in self.atomtypes:
-                    self.atomtypes.append(atom.type)
+            coordfile_atoms = [self.coords.atoms[x] for x in mol.atoms]
+            if len(coordfile_atoms) != len(dbmol.atoms):
+                raise ValueError("Number of atoms does not match between coordinate file and force field for molecule {0}.".format(mol.name))
+
+            for coordfile_atom, dbmol_atom in zip(coordfile_atoms, dbmol.atoms.values()):
+                if dbmol_atom.type not in self.atomtypes:
+                    self.atomtypes.append(dbmol_atom.type)
                     self.natoms.types += 1
-                if self.coords.atoms[atnum].name != atom.name:
-                    raise NonMatchingAtomException("Atom {0} in PDB ({1}) does not match atom in force field ({2}).".
-                                                   format(atnum, self.coords.atoms[atnum].name, atom.name))
+
+                if coordfile_atom.name != dbmol_atom.name:
+                    if self._suppress_atom_names:
+                            coordfile_atom.name = dbmol_atom.name
+                    else:
+                        raise NonMatchingAtomException("Atom {0} in coordinate file ({1}) does not match atom in force field ({2}).".
+                                                       format(atnum, coordfile_atom.name, dbmol_atom.name))
                 self.natoms.total += 1
                 atnum += 1
 

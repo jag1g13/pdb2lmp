@@ -30,6 +30,9 @@ class Atom:
         self.epsilon = epsilon
         self.dipole = dipole
 
+    def __repr__(self):
+        return "<Atom name={0}, resname={1}, resnum={2}, type={3}>".format(self.name, self.resname, self.resid, self.type)
+
     @classmethod
     def frompdb(cls, name, resname, resid, x, y, z):
         return cls(name=name, resname=resname, resid=resid, x=x, y=y, z=z)
