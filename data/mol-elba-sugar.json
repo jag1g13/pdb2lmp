@@ -4,7 +4,14 @@
   },
   "notes": "These parameters are temporary",
   "include":[
-    "elba-sugar/glucose.json"
+    "elba-sugar/allose.json",
+    "elba-sugar/altrose.json",
+    "elba-sugar/galactose.json",
+    "elba-sugar/glucose.json",
+    "elba-sugar/gulose.json",
+    "elba-sugar/idose.json",
+    "elba-sugar/mannose.json",
+    "elba-sugar/talose.json"
   ],
   "molecules":{
     "MEO":{

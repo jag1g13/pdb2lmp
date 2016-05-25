@@ -1,7 +1,7 @@
 {
   "notes": "These parameters are temporary",
   "molecules":{
-    "0GA":{
+    "0TA":{
       "polymer_type":["sugar"],
       "atoms":[
         {"name": "C1",  "type": "MEOH"},
@@ -37,13 +37,13 @@
       ],
       "impropers":[
         {"type": "dipole-cone-1", "atoms":["C1", "C2", "O5", "C1"]},
-        {"type": "dipole-cone-1", "atoms":["C2", "C3", "C1", "C2"]},
+        {"type": "dipole-cone-2", "atoms":["C2", "C3", "C1", "C2"]},
         {"type": "dipole-cone-2", "atoms":["C3", "C4", "C2", "C3"]},
-        {"type": "dipole-cone-1", "atoms":["C4", "C5", "C3", "C4"]},
+        {"type": "dipole-cone-2", "atoms":["C4", "C5", "C3", "C4"]},
         {"type": "dipole-cone-2", "atoms":["C5", "O5", "C4", "C5"]}
       ]
     },
-    "0GB":{
+    "0TB":{
       "polymer_type":["sugar"],
       "atoms":[
         {"name": "C1",  "type": "MEOH"},
@@ -79,68 +79,68 @@
       ],
       "impropers":[
         {"type": "dipole-cone-2", "atoms":["C1", "C2", "O5", "C1"]},
-        {"type": "dipole-cone-1", "atoms":["C2", "C3", "C1", "C2"]},
+        {"type": "dipole-cone-2", "atoms":["C2", "C3", "C1", "C2"]},
         {"type": "dipole-cone-2", "atoms":["C3", "C4", "C2", "C3"]},
-        {"type": "dipole-cone-1", "atoms":["C4", "C5", "C3", "C4"]},
+        {"type": "dipole-cone-2", "atoms":["C4", "C5", "C3", "C4"]},
         {"type": "dipole-cone-2", "atoms":["C5", "O5", "C4", "C5"]}
       ]
     },
-    "1GA":{
-      "templates":["0GA"],
+    "1TA":{
+      "templates":["0TA"],
       "lengths":[
         {"type": "sugar-glyc", "atoms":["C1", "+C1"]}
       ]
     },
-    "2GA":{
-      "templates":["0GA"],
+    "2TA":{
+      "templates":["0TA"],
       "lengths":[
         {"type": "sugar-glyc", "atoms":["C1", "+C2"]}
       ]
     },
-    "3GA":{
-      "templates":["0GA"],
+    "3TA":{
+      "templates":["0TA"],
       "lengths":[
         {"type": "sugar-glyc", "atoms":["C1", "+C3"]}
       ]
     },
-    "4GA":{
-      "templates":["0GA"],
+    "4TA":{
+      "templates":["0TA"],
       "lengths":[
         {"type": "sugar-glyc", "atoms":["C1", "+C4"]}
       ]
     },
-    "6GA":{
-      "templates":["0GA"],
+    "6TA":{
+      "templates":["0TA"],
       "lengths":[
         {"type": "sugar-glyc", "atoms":["C1", "+C5"]}
       ]
     },
-    "1GB":{
-      "templates":["0GB"],
+    "1TB":{
+      "templates":["0TB"],
       "lengths":[
         {"type": "sugar-glyc", "atoms":["C1", "+C1"]}
       ]
     },
-    "2GB":{
-      "templates":["0GB"],
+    "2TB":{
+      "templates":["0TB"],
       "lengths":[
         {"type": "sugar-glyc", "atoms":["C1", "+C2"]}
       ]
     },
-    "3GB":{
-      "templates":["0GB"],
+    "3TB":{
+      "templates":["0TB"],
       "lengths":[
         {"type": "sugar-glyc", "atoms":["C1", "+C3"]}
       ]
     },
-    "4GB":{
-      "templates":["0GB"],
+    "4TB":{
+      "templates":["0TB"],
       "lengths":[
         {"type": "sugar-glyc", "atoms":["C1", "+C4"]}
       ]
     },
-    "6GB":{
-      "templates":["0GB"],
+    "6TB":{
+      "templates":["0TB"],
       "lengths":[
         {"type": "sugar-glyc", "atoms":["C1", "+C5"]}
       ]

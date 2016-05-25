@@ -30,7 +30,7 @@
       "sigma":    1.684,
       "epsilon":  0.170,
       "dipole":   0,
-      "diameter": 0
+      "diameter": 5.0
     },
     "CHO": {
       "mass":    90,
