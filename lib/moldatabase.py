@@ -29,6 +29,8 @@ class Molecule:
 
     def extend(self, mol):
         for key in self.__slots__:
+            if key == "bonds":
+                continue
             try:
                 getattr(self, key).extend(getattr(mol, key))
             except AttributeError:
@@ -48,7 +50,10 @@ class MolDatabase:
                                     os.path.join("data", "mol-elba.json"))
 
         db = Parser(filename)
-        self.version = db.version
+        try:
+            self.version = db.version
+        except KeyError:
+            self.version = None
         self.molecules = {}
 
         for name, data in db.molecules.items():
