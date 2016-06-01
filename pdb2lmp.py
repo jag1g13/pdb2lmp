@@ -13,6 +13,12 @@ class NonMatchingAtomException(Exception):
     pass
 
 
+class PolymerError(Exception):
+    def __init__(self, name1, name2):
+        line = "Molecules {0} and {1} do not have matching polymer types"
+        super(PolymerError, self).__init__(line.format(name1, name2))
+
+
 class Counter:
     __slots__ = ["total", "types"]
 
@@ -145,8 +151,9 @@ class PDB2LMP:
                 data.write("\n" + header + "\n\n")
                 i = 1
                 for ii, mol in enumerate(self.coords.molecules):
-                    atom_list = list(self.moldb.molecules[mol.name].atoms.keys())
-                    for bond in getattr(self.moldb.molecules[mol.name], header.lower()):
+                    mol_db = self.moldb.molecules[mol.name]
+                    atom_list = list(mol_db.atoms.keys())
+                    for bond in getattr(mol_db, header.lower()):
                         data.write("{0:6d} {1:4d}".format(i, types.index(bond.type) + 1))
                         for atom in bond.atoms:
                             try:
@@ -154,14 +161,21 @@ class PDB2LMP:
                             except ValueError:
                                 if atom.startswith("+"):
                                     other_mol = self.coords.molecules[ii + 1]
-                                    other_atom_list = list(self.moldb.molecules[other_mol.name].atoms.keys())
-                                    atom_num = other_mol.atoms[other_atom_list.index(atom[1:])]
                                 elif atom.startswith("-"):
                                     other_mol = self.coords.molecules[ii - 1]
-                                    other_atom_list = list(self.moldb.molecules[other_mol.name].atoms.keys())
-                                    atom_num = other_mol.atoms[other_atom_list.index(atom[1:])]
                                 else:
                                     raise
+
+                                other_mol_db = self.moldb.molecules[other_mol.name]
+                                try:
+                                    if not mol_db.polymer_type.intersection(other_mol_db.polymer_type):
+                                        raise PolymerError(mol.name, other_mol.name) from None
+                                except AttributeError:
+                                    raise PolymerError(mol.name, other_mol.name) from None
+
+                                other_atom_list = list(other_mol_db.atoms.keys())
+                                atom_num = other_mol.atoms[other_atom_list.index(atom[1:])]
+
                             data.write(" {0:6d}".format(atom_num + 1))
                         data.write("\n")
                         i += 1
