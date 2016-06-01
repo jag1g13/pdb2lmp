@@ -29,12 +29,12 @@ class PDBReader(CoordReader):
 
             for line in f:
                 if line.startswith("ATOM  "):
-                    self.atoms.append(Atom.frompdb(line[13:17].strip(),
-                                                   line[17:21].strip(),
-                                                   int(line[22:26]),
-                                                   float(line[30:38]),
-                                                   float(line[38:46]),
-                                                   float(line[46:54])))
+                    self.atoms.append(Atom(name=line[13:17].strip(),
+                                           resname=line[17:21].strip(),
+                                           resid=int(line[22:26]),
+                                           x=float(line[30:38]),
+                                           y=float(line[38:46]),
+                                           z=float(line[46:54])))
                     if self.atoms[-1].resid != last_resid:
                         self.molecules.append(Molecule(self.atoms[-1].resname, []))
                         last_resid = self.atoms[-1].resid
@@ -56,12 +56,12 @@ class GROReader(CoordReader):
 
             for i in range(natoms):
                 line = f.readline()
-                self.atoms.append(Atom.frompdb(line[10:15].strip(),
-                                               line[5:10].strip(),
-                                               int(line[0:5]),
-                                               10*float(line[20:28]),
-                                               10*float(line[28:36]),
-                                               10*float(line[36:44])))
+                self.atoms.append(Atom(name=line[10:15].strip(),
+                                       resname=line[5:10].strip(),
+                                       resid=int(line[0:5]),
+                                       x=10*float(line[20:28]),
+                                       y=10*float(line[28:36]),
+                                       z=10*float(line[36:44])))
                 if self.atoms[-1].resid != last_resid:
                     self.molecules.append(Molecule(self.atoms[-1].resname, []))
                     last_resid = self.atoms[-1].resid

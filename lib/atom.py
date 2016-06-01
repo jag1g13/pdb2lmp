@@ -1,51 +1,19 @@
 
 class Atom:
-    __slots__ = ["name", "type",
-                 "resname", "resid",
-                 "x", "y", "z",
-                 "diameter", "rotmass",
-                 "charge", "mass",
-                 "sigma", "epsilon",
-                 "dipole"]
+    __slots__ = ["name", "type", "resname", "resid", "x", "y", "z",
+                 "diameter", "rotmass", "charge", "mass",
+                 "sigma", "epsilon", "dipole"]
 
-    def __init__(self, name=None, type=None,
-                 resname=None, resid=None,
-                 x=None, y=None, z=None,
-                 diameter=None, rotmass=None,
-                 charge=None, mass=None,
-                 sigma=None, epsilon=None,
-                 dipole=None):
-        self.name = name
-        self.type = type
-        self.resname = resname
-        self.resid = resid
-        self.x = x
-        self.y = y
-        self.z = z
-        self.diameter = diameter
-        self.rotmass = rotmass
-        self.charge = charge
-        self.mass = mass
-        self.sigma = sigma
-        self.epsilon = epsilon
-        self.dipole = dipole
+    def __init__(self, **kwargs):
+        for key in self.__slots__:
+            try:
+                setattr(self, key, kwargs[key])
+            except KeyError:
+                setattr(self, key, None)
 
     def __repr__(self):
-        return "<Atom name={0}, resname={1}, resnum={2}, type={3}>".format(self.name, self.resname, self.resid, self.type)
-
-    @classmethod
-    def frompdb(cls, name, resname, resid, x, y, z):
-        return cls(name=name, resname=resname, resid=resid, x=x, y=y, z=z)
-
-    @classmethod
-    def from_atom_db(cls, **kwargs):
-        if "rotmass" not in kwargs:
-            kwargs["rotmass"] = kwargs["mass"]
-        return cls(**kwargs)
-
-    @classmethod
-    def from_dict(cls, **kwargs):
-        return cls(**kwargs)
+        line = "<Atom name={0}, resname={1}, resnum={2}, type={3}>"
+        return line.format(self.name, self.resname, self.resid, self.type)
 
     @staticmethod
     def compare(val1, val2):
@@ -68,7 +36,7 @@ class Atom:
         elif val2 is None:
             return val1
         else:
-            raise Exception("Values for comparison are different and not None.")
+            raise ValueError("Values for comparison are different and not None.")
 
     def populate(self, other):
         """
@@ -80,6 +48,6 @@ class Atom:
         Returns: Nothing
 
         """
-        for item in self.__slots__:
-            self.__setattr__(item, Atom.compare(self.__getattribute__(item),
-                                                other.__getattribute__(item)))
+        for key in self.__slots__:
+            val = Atom.compare(getattr(self, key), getattr(other, key))
+            setattr(self, key, val)

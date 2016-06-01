@@ -25,7 +25,9 @@ class AtomDatabase:
 
         # Read atom types
         for name, data in db.atoms.items():
-            self.atoms[name] = Atom.from_atom_db(type=name, **data)
+            if "rotmass" not in data:
+                data.rotmass = data.mass
+            self.atoms[name] = Atom(type=name, **data)
 
         for name1, atom1 in self.atoms.items():
             for name2, atom2 in self.atoms.items():

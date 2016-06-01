@@ -8,7 +8,7 @@ class TestAtom(unittest.TestCase):
         atom = Atom()
 
     def test_store_atom(self):
-        atom = Atom("NamE", "TypE")
+        atom = Atom(name="NamE", type="TypE")
         self.assertEqual(atom.name, "NamE")
         self.assertEqual(atom.type, "TypE")
 
@@ -17,7 +17,7 @@ class TestAtom(unittest.TestCase):
         self.assertEqual(Atom.compare(None, 1), 1)
         self.assertEqual(Atom.compare(1, None), 1)
         self.assertEqual(Atom.compare(None, None), None)
-        with self.assertRaises(Exception):
+        with self.assertRaises(ValueError):
             Atom.compare(1, 2)
 
     def test_atom_populate(self):
@@ -31,8 +31,9 @@ class TestAtom(unittest.TestCase):
             "diameter": 1,
             "rotmass": -1
         }
-        atom1 = Atom.from_atom_db(**db_entry)
-        atom2 = Atom.frompdb("name", "resname", 1, 0.5, 0.5, 0.5)
+        atom1 = Atom(**db_entry)
+        atom2 = Atom(name="name", resname="resname",
+                     resid=1, x=0.5, y=0.5, z=0.5)
         atom1.populate(atom2)
 
         self.assertEqual(atom1.name, "name")

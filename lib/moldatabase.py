@@ -58,12 +58,13 @@ class MolDatabase:
 
         for name, data in db.molecules.items():
             try:
+                # Pop this because we want to add it separately
                 atoms = data.pop("atoms")
             except KeyError:
                 atoms = []
             self.molecules[name] = Molecule(**data)
             for atom in atoms:
-                self.molecules[name].atoms[atom.name] = Atom.from_dict(**atom)
+                self.molecules[name].atoms[atom.name] = Atom(**atom)
 
         for mol in self.molecules.values():
             for template in mol.templates:
