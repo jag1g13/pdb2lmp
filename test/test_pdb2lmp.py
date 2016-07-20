@@ -31,6 +31,25 @@ class TestPDB2LMP(unittest.TestCase):
         self.assertEqual(conv.nimpropers.total, 5)
         self.assertEqual(conv.nimpropers.types, 2)
 
+    def test_collect_types_multiple_residues(self):
+        conv = PDB2LMP("test/data/glc_crystal.gro")
+        conv.collect_types()
+        self.assertEqual(conv.moltypes, ["0GB"])
+        self.assertEqual(conv.atomtypes, ["MEOH", "ETOH", "OXY"])
+        self.assertEqual(conv.lentypes, ["sugar-ring"])
+        self.assertEqual(conv.lentypes, ["sugar-ring"])
+        self.assertEqual(conv.angtypes, ["sugar-ring"])
+        self.assertEqual(conv.natoms.total, 576)
+        self.assertEqual(conv.natoms.types, 3)
+        self.assertEqual(conv.nlengths.total, 576)
+        self.assertEqual(conv.nlengths.types, 1)
+        self.assertEqual(conv.nangles.total, 576)
+        self.assertEqual(conv.nangles.types, 1)
+        self.assertEqual(conv.ndihedrals.total, 576)
+        self.assertEqual(conv.ndihedrals.types, 2)
+        self.assertEqual(conv.nimpropers.total, 480)
+        self.assertEqual(conv.nimpropers.types, 2)
+
     def test_populate_pdb_data(self):
         conv = PDB2LMP("data/water.pdb")
         conv.collect_types()

@@ -82,14 +82,14 @@ class PDB2LMP:
             if mol.name not in self.moltypes:
                 self.moltypes.append(mol.name)
 
-                collect_type(dbmol.lengths, self.nlengths, self.bonddb.length,
-                             self.lentypes, self.lenstyles)
-                collect_type(dbmol.angles, self.nangles, self.bonddb.angle,
-                             self.angtypes, self.angstyles)
-                collect_type(dbmol.dihedrals, self.ndihedrals, self.bonddb.dihedral,
-                             self.dihtypes, self.dihstyles)
-                collect_type(dbmol.impropers, self.nimpropers, self.bonddb.improper,
-                             self.imptypes, self.impstyles)
+            collect_type(dbmol.lengths, self.nlengths, self.bonddb.length,
+                         self.lentypes, self.lenstyles)
+            collect_type(dbmol.angles, self.nangles, self.bonddb.angle,
+                         self.angtypes, self.angstyles)
+            collect_type(dbmol.dihedrals, self.ndihedrals, self.bonddb.dihedral,
+                         self.dihtypes, self.dihstyles)
+            collect_type(dbmol.impropers, self.nimpropers, self.bonddb.improper,
+                         self.imptypes, self.impstyles)
 
             coordfile_atoms = [self.coords.atoms[x] for x in mol.atoms]
             if len(coordfile_atoms) != len(dbmol.atoms):
