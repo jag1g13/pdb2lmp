@@ -38,7 +38,12 @@ class PDB2LMP:
 
         formats = {"pdb": PDBReader,
                    "gro": GROReader}
-        coords = formats[os.path.splitext(infile)[1][1:]](infile)
+        try:
+            ext = os.path.splitext(infile)[1][1:]
+            coords = formats[ext](infile)
+        except KeyError as e:
+            e.args = ("File extension '{0}' not recognised".format(ext),)
+            raise
 
         self.coords = coords
         self.moldb = MolDatabase()
