@@ -50,12 +50,6 @@
         {"type": "sugar-ring", "atoms":["C5", "O5", "C1"]},
         {"type": "sugar-ring", "atoms":["O5", "C1", "C2"]}
       ]
-    },
-    "HELLO":{
-      "atoms": [
-        {"name": 1, "type": 0}
-      ]
     }
-
   }
 }
