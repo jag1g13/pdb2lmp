@@ -79,6 +79,14 @@
       "epsilon":  0.837,
       "dipole":   0,
       "diameter": 0
+    },
+    "DUM": {
+      "mass":    10,
+      "charge":   0,
+      "sigma":    0,
+      "epsilon":  0,
+      "dipole":   0,
+      "diameter": 1
     }
   },
   "h_values":{

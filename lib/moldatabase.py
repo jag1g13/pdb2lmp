@@ -6,6 +6,10 @@ from lib.json import Parser
 from lib.atom import Atom
 
 
+class RecursiveTemplateError(BaseException):
+    pass
+
+
 class Molecule:
     __slots__ = ["atoms", "lengths", "angles", "dihedrals",
                  "impropers", "bonds", "polymer_type", "templates"]
@@ -62,10 +66,17 @@ class MolDatabase:
                 atoms = data.pop("atoms")
             except KeyError:
                 atoms = []
+
             self.molecules[name] = Molecule(**data)
             for atom in atoms:
                 self.molecules[name].atoms[atom.name] = Atom(**atom)
 
+        # Allow molecules to be based on templates
+        # Allow nested templates, but ignore duplicates
         for mol in self.molecules.values():
-            for template in mol.templates:
-                mol.extend(self.molecules[template])
+            used_templates = set()
+            while mol.templates:
+                template = mol.templates.pop()
+                if template not in used_templates:
+                    mol.extend(self.molecules[template])
+                    used_templates.add(template)

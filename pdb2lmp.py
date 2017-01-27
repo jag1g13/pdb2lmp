@@ -98,7 +98,7 @@ class PDB2LMP:
 
             coordfile_atoms = [self.coords.atoms[x] for x in mol.atoms]
             if len(coordfile_atoms) != len(dbmol.atoms):
-                raise ValueError("Number of atoms does not match between coordinate file and force field for molecule {0}.".format(mol.name))
+                raise ValueError("Number of atoms does not match between coordinate file ({0}) and force field ({1}) for molecule {2}.".format(len(coordfile_atoms), len(dbmol.atoms), mol.name))
 
             for coordfile_atom, dbmol_atom in zip(coordfile_atoms, dbmol.atoms.values()):
                 if dbmol_atom.type not in self.atomtypes:

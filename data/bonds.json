@@ -9,7 +9,8 @@
       "gly-est":          "harmonic   1.506 4.140",
       "est-tail":         "harmonic   1.506 4.095",
       "tail-tail":        "harmonic   1.506 4.050",
-      "ami-pho":          "harmonic   1.506 4.365"
+      "ami-pho":          "harmonic   1.506 4.365",
+      "sugar-dum":        "harmonic 100     3"
     },
     "angle":{
       "sugar-ring":       "cosine/squared 120     110.0",
@@ -18,7 +19,8 @@
       "pho-gly-est":      "cosine/squared   3.585  90.0",
       "tail-sat":         "cosine/squared   3.585 180.0",
       "tail-unsat":       "cosine/squared   3.585 120.0",
-      "gly-dipole":       "dipole           1.195   0.0"
+      "gly-dipole":       "dipole           1.195   0.0",
+      "sugar-dipole":     "dipole/harmonic  1     150"
     },
     "dihedral":{
       "sugar-dih-1":      "fourier 2    1.00 3 0    0.25 1 -120",

@@ -1,32 +1,8 @@
 {
   "notes": "These parameters are temporary",
   "molecules":{
-    "0MA":{
-      "polymer_type":["sugar"],
-      "atoms":[
-        {"name": "C1",  "type": "MEOH"},
-        {"name": "C2",  "type": "MEOH"},
-        {"name": "C3",  "type": "MEOH"},
-        {"name": "C4",  "type": "MEOH"},
-        {"name": "C5",  "type": "ETOH"},
-        {"name": "O5",  "type": "OXY"}
-      ],
-      "lengths":[
-        {"type": "sugar-ring", "atoms":["C1", "C2"]},
-        {"type": "sugar-ring", "atoms":["C2", "C3"]},
-        {"type": "sugar-ring", "atoms":["C3", "C4"]},
-        {"type": "sugar-ring", "atoms":["C4", "C5"]},
-        {"type": "sugar-ring", "atoms":["C5", "O5"]},
-        {"type": "sugar-ring", "atoms":["O5", "C1"]}
-      ],
-      "angles":[
-        {"type": "sugar-ring", "atoms":["C1", "C2", "C3"]},
-        {"type": "sugar-ring", "atoms":["C2", "C3", "C4"]},
-        {"type": "sugar-ring", "atoms":["C3", "C4", "C5"]},
-        {"type": "sugar-ring", "atoms":["C4", "C5", "O5"]},
-        {"type": "sugar-ring", "atoms":["C5", "O5", "C1"]},
-        {"type": "sugar-ring", "atoms":["O5", "C1", "C2"]}
-      ],
+    "0MX":{
+      "templates":["0XX"],
       "dihedrals":[
         {"type": "sugar-dih-1", "atoms":["C1", "C2", "C3", "C4"]},
         {"type": "sugar-dih-2", "atoms":["C2", "C3", "C4", "C5"]},
@@ -34,7 +10,10 @@
         {"type": "sugar-dih-2", "atoms":["C4", "C5", "O5", "C1"]},
         {"type": "sugar-dih-1", "atoms":["C5", "O5", "C1", "C2"]},
         {"type": "sugar-dih-2", "atoms":["O5", "C1", "C2", "C3"]}
-      ],
+      ]
+    },
+    "0MA":{
+      "templates":["0MX"],
       "impropers":[
         {"type": "dipole-cone-1", "atoms":["C1", "C2", "O5", "C1"]},
         {"type": "dipole-cone-2", "atoms":["C2", "C3", "C1", "C2"]},
@@ -44,39 +23,7 @@
       ]
     },
     "0MB":{
-      "polymer_type":["sugar"],
-      "atoms":[
-        {"name": "C1",  "type": "MEOH"},
-        {"name": "C2",  "type": "MEOH"},
-        {"name": "C3",  "type": "MEOH"},
-        {"name": "C4",  "type": "MEOH"},
-        {"name": "C5",  "type": "ETOH"},
-        {"name": "O5",  "type": "OXY"}
-      ],
-      "lengths":[
-        {"type": "sugar-ring", "atoms":["C1", "C2"]},
-        {"type": "sugar-ring", "atoms":["C2", "C3"]},
-        {"type": "sugar-ring", "atoms":["C3", "C4"]},
-        {"type": "sugar-ring", "atoms":["C4", "C5"]},
-        {"type": "sugar-ring", "atoms":["C5", "O5"]},
-        {"type": "sugar-ring", "atoms":["O5", "C1"]}
-      ],
-      "angles":[
-        {"type": "sugar-ring", "atoms":["C1", "C2", "C3"]},
-        {"type": "sugar-ring", "atoms":["C2", "C3", "C4"]},
-        {"type": "sugar-ring", "atoms":["C3", "C4", "C5"]},
-        {"type": "sugar-ring", "atoms":["C4", "C5", "O5"]},
-        {"type": "sugar-ring", "atoms":["C5", "O5", "C1"]},
-        {"type": "sugar-ring", "atoms":["O5", "C1", "C2"]}
-      ],
-      "dihedrals":[
-        {"type": "sugar-dih-1", "atoms":["C1", "C2", "C3", "C4"]},
-        {"type": "sugar-dih-2", "atoms":["C2", "C3", "C4", "C5"]},
-        {"type": "sugar-dih-1", "atoms":["C3", "C4", "C5", "O5"]},
-        {"type": "sugar-dih-2", "atoms":["C4", "C5", "O5", "C1"]},
-        {"type": "sugar-dih-1", "atoms":["C5", "O5", "C1", "C2"]},
-        {"type": "sugar-dih-2", "atoms":["O5", "C1", "C2", "C3"]}
-      ],
+      "templates":["0MX"],
       "impropers":[
         {"type": "dipole-cone-2", "atoms":["C1", "C2", "O5", "C1"]},
         {"type": "dipole-cone-2", "atoms":["C2", "C3", "C1", "C2"]},

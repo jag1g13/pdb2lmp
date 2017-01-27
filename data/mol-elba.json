@@ -11,7 +11,12 @@
     },
     "W":{
       "atoms":[
-        {"name": "O1",  "type": "WAT"}
+        {"name": "W",  "type": "WAT"}
+      ]
+    },
+    "SOL":{
+      "atoms":[
+        {"name": "OW",  "type": "WAT"}
       ]
     }
   }
