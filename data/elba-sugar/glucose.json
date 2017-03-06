@@ -95,35 +95,35 @@
     "0GAD":{
       "templates":["0GX"],
       "atoms":[
-        {"name": "DUM1", "type":"DUM"},
-        {"name": "DUM2", "type":"DUM"},
-        {"name": "DUM3", "type":"DUM"},
-        {"name": "DUM4", "type":"DUM"},
-        {"name": "DUM5", "type":"DUM"}
+        {"name": "D1", "type":"DUM"},
+        {"name": "D2", "type":"DUM"},
+        {"name": "D3", "type":"DUM"},
+        {"name": "D4", "type":"DUM"},
+        {"name": "D5", "type":"DUM"}
       ],
       "lengths":[
-        {"type": "sugar-dum", "atoms":["O5", "DUM1"]},
-        {"type": "sugar-dum", "atoms":["C1", "DUM1"]},
-        {"type": "sugar-dum", "atoms":["C2", "DUM1"]},
-        {"type": "sugar-dum", "atoms":["C1", "DUM2"]},
-        {"type": "sugar-dum", "atoms":["C2", "DUM2"]},
-        {"type": "sugar-dum", "atoms":["C3", "DUM2"]},
-        {"type": "sugar-dum", "atoms":["C2", "DUM3"]},
-        {"type": "sugar-dum", "atoms":["C3", "DUM3"]},
-        {"type": "sugar-dum", "atoms":["C4", "DUM3"]},
-        {"type": "sugar-dum", "atoms":["C3", "DUM4"]},
-        {"type": "sugar-dum", "atoms":["C4", "DUM4"]},
-        {"type": "sugar-dum", "atoms":["C5", "DUM4"]},
-        {"type": "sugar-dum", "atoms":["C4", "DUM5"]},
-        {"type": "sugar-dum", "atoms":["C5", "DUM5"]},
-        {"type": "sugar-dum", "atoms":["O5", "DUM5"]}
+        {"type": "sugar-dum", "atoms":["O5", "D1"]},
+        {"type": "sugar-dum", "atoms":["C1", "D1"]},
+        {"type": "sugar-dum", "atoms":["C2", "D1"]},
+        {"type": "sugar-dum", "atoms":["C1", "D2"]},
+        {"type": "sugar-dum", "atoms":["C2", "D2"]},
+        {"type": "sugar-dum", "atoms":["C3", "D2"]},
+        {"type": "sugar-dum", "atoms":["C2", "D3"]},
+        {"type": "sugar-dum", "atoms":["C3", "D3"]},
+        {"type": "sugar-dum", "atoms":["C4", "D3"]},
+        {"type": "sugar-dum", "atoms":["C3", "D4"]},
+        {"type": "sugar-dum", "atoms":["C4", "D4"]},
+        {"type": "sugar-dum", "atoms":["C5", "D4"]},
+        {"type": "sugar-dum", "atoms":["C4", "D5"]},
+        {"type": "sugar-dum", "atoms":["C5", "D5"]},
+        {"type": "sugar-dum", "atoms":["O5", "D5"]}
       ],
       "angles":[
-        {"type": "sugar-dipole", "atoms":["C1", "DUM1", "C1"]},
-        {"type": "sugar-dipole", "atoms":["C2", "DUM2", "C2"]},
-        {"type": "sugar-dipole", "atoms":["C3", "DUM3", "C3"]},
-        {"type": "sugar-dipole", "atoms":["C4", "DUM4", "C4"]},
-        {"type": "sugar-dipole", "atoms":["C5", "DUM5", "C5"]}
+        {"type": "sugar-dipole", "atoms":["C1", "D1", "C1"]},
+        {"type": "sugar-dipole", "atoms":["C2", "D2", "C2"]},
+        {"type": "sugar-dipole", "atoms":["C3", "D3", "C3"]},
+        {"type": "sugar-dipole", "atoms":["C4", "D4", "C4"]},
+        {"type": "sugar-dipole", "atoms":["C5", "D5", "C5"]}
       ]
     }
   }

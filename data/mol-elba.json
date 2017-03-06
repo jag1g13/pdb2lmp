@@ -18,6 +18,11 @@
       "atoms":[
         {"name": "OW",  "type": "WAT"}
       ]
+    },
+    "HOH":{
+      "atoms":[
+        {"name": "O1",  "type": "WAT"}
+      ]
     }
   }
 }
