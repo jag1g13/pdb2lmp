@@ -1,8 +1,13 @@
 #!/usr/bin/env python3
 
 import sys
+import os
 
 import mdtraj
+
+if "-h" in sys.argv or "--help" in sys.argv:
+    print("Takes MD coordinate filename")
+    sys.exit(os.EX_OK)
 
 gro = mdtraj.load(sys.argv[1])
 

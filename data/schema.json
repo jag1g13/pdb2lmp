@@ -23,6 +23,9 @@
             "items": {"type": "string"},
             "uniqueItems": true
           },
+          "comment": {
+            "type": "string"
+          },
           "atoms": {
             "type": "array",
             "items": {

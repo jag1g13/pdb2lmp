@@ -68,7 +68,14 @@ class PDB2LMP:
         self.ndihedrals = Counter()
         self.nimpropers = Counter()
 
-    def collect_types(self):
+    def collect_types(self, add_water=True):
+        """
+        Collect all bead and bond types used in simulation.
+
+        Args:
+            add_water: Add water bead type even if not present in input coordinates?
+
+        """
 
         def collect_type(values, counter, db_vals, typelist, stylelist):
             for val in values:
@@ -112,6 +119,10 @@ class PDB2LMP:
                         raise NonMatchingAtomException(atnum, coordfile_atom.name, dbmol_atom.name)
                 self.natoms.total += 1
                 atnum += 1
+
+        if add_water and "WAT" not in self.atomtypes:
+            self.atomtypes.append("WAT")
+            self.natoms.types += 1
 
     def populate_pdb_data(self):
         for mol in self.moldb.molecules.values():
