@@ -39,6 +39,14 @@ class TestPDB2LMP(unittest.TestCase):
         self.assertEqual(conv.natoms.total, 6)
         self.assertEqual(conv.natoms.types, 3)
 
+    def test_collect_types_subset(self):
+        conv = PDB2LMP("test/data/ala-aa.gro")
+        conv.collect_types(allow_atom_subset=True)
+        self.assertEqual(conv.moltypes, ["0NA"])
+        self.assertEqual(conv.atomtypes, ["MEOH", "ETOH", "OXY", "WAT"])
+        self.assertEqual(conv.natoms.total, 6)
+        self.assertEqual(conv.natoms.types, 4)
+
     def test_collect_types_multiple_residues(self):
         conv = PDB2LMP("test/data/glc_crystal.gro")
         conv.collect_types()

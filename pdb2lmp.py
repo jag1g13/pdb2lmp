@@ -34,8 +34,6 @@ class Counter:
 
 class PDB2LMP:
     def __init__(self, infile):
-        self._suppress_atom_names = False
-
         formats = {"pdb": PDBReader,
                    "gro": GROReader}
         try:
@@ -68,12 +66,13 @@ class PDB2LMP:
         self.ndihedrals = Counter()
         self.nimpropers = Counter()
 
-    def collect_types(self, add_water=True):
+    def collect_types(self, add_water=True, allow_atom_subset=False):
         """
         Collect all bead and bond types used in simulation.
 
         Args:
             add_water: Add water bead type even if not present in input coordinates?
+            allow_atom_subset: Allow converting only a subset of the atoms in coordinate file
 
         """
 
@@ -104,19 +103,27 @@ class PDB2LMP:
                          self.imptypes, self.impstyles)
 
             coordfile_atoms = [self.coords.atoms[x] for x in mol.atoms]
-            if len(coordfile_atoms) != len(dbmol.atoms):
-                raise ValueError("Number of atoms does not match between coordinate file ({0}) and force field ({1}) for molecule {2}.".format(len(coordfile_atoms), len(dbmol.atoms), mol.name))
 
-            for coordfile_atom, dbmol_atom in zip(coordfile_atoms, dbmol.atoms.values()):
+            if allow_atom_subset:
+                if len(coordfile_atoms) < len(dbmol.atoms):
+                    raise ValueError("Number of atoms is greater in coordinate file ({0}) than force field ({1}) for molecule {2}.".format(len(coordfile_atoms), len(dbmol.atoms), mol.name))
+            else:
+                if len(coordfile_atoms) != len(dbmol.atoms):
+                    raise ValueError("Number of atoms does not match between coordinate file ({0}) and force field ({1}) for molecule {2}.".format(len(coordfile_atoms), len(dbmol.atoms), mol.name))
+
+            # Convert atoms from coordinate file that are present in database
+            for coordfile_atom in coordfile_atoms:
+                try:
+                    dbmol_atom = dbmol.atoms[coordfile_atom.name]
+                except KeyError:
+                    if allow_atom_subset:
+                        continue
+                    raise
+
                 if dbmol_atom.type not in self.atomtypes:
                     self.atomtypes.append(dbmol_atom.type)
                     self.natoms.types += 1
 
-                if coordfile_atom.name != dbmol_atom.name:
-                    if self._suppress_atom_names:
-                            coordfile_atom.name = dbmol_atom.name
-                    else:
-                        raise NonMatchingAtomException(atnum, coordfile_atom.name, dbmol_atom.name)
                 self.natoms.total += 1
                 atnum += 1
 
