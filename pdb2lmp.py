@@ -33,7 +33,7 @@ class Counter:
 
 
 class PDB2LMP:
-    def __init__(self, infile):
+    def __init__(self, infile, moldb=None, atomdb=None, bonddb=None):
         formats = {"pdb": PDBReader,
                    "gro": GROReader}
         try:
@@ -44,9 +44,9 @@ class PDB2LMP:
             raise
 
         self.coords = coords
-        self.moldb = MolDatabase()
-        self.atomdb = AtomDatabase()
-        self.bonddb = BondDatabase()
+        self.moldb = MolDatabase() if moldb is None else moldb
+        self.atomdb = AtomDatabase() if atomdb is None else atomdb
+        self.bonddb = BondDatabase() if bonddb is None else bonddb
 
         self.moltypes = []
         self.atomtypes = []
