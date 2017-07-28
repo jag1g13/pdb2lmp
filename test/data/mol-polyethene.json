@@ -1,0 +1,24 @@
+{
+  "notes": "These parameters are temporary",
+  "molecules":{
+    "ETX":{
+      "polymer_type":["test"],
+      "atoms":[
+        {"name": "C1", "type": "TAIL"},
+        {"name": "C2", "type": "TAIL"}
+      ],
+      "lengths":[
+        {"type": "tail-tail", "atoms":["C1", "C2"]}
+      ]
+    },
+    "ETE":{
+      "templates":["ETX"]
+    },
+    "ETH":{
+      "templates":["ETX"],
+      "lengths":[
+        {"type": "test", "atoms":["C2", "+C1"], "ifnext":"..E"}
+      ]
+    }
+  }
+}

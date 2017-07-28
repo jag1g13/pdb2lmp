@@ -1,6 +1,6 @@
 .PHONY: clean
 clean:
-	rm *.ff *.data
+	rm *.ff *.data | true
 
 .PHONY: test
 test:

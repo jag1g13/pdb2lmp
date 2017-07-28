@@ -2,6 +2,7 @@
 
 import argparse
 import os
+import re
 
 from lib.coordreaders import PDBReader, GROReader
 from lib.moldatabase import MolDatabase
@@ -76,8 +77,16 @@ class PDB2LMP:
 
         """
 
-        def collect_type(values, counter, db_vals, typelist, stylelist):
+        def collect_type(values, counter, db_vals, typelist, stylelist, nextmol_name):
             for val in values:
+                try:
+                    regex = re.compile(val.ifnext)
+                    if regex.fullmatch(nextmol_name) is None:
+                        continue
+                except AttributeError:
+                    pass
+                except TypeError:
+                    continue
                 counter.total += 1
                 if val.type not in typelist:
                     typelist.append(val.type)
@@ -87,20 +96,24 @@ class PDB2LMP:
 
         atnum = 0
 
-        for mol in self.coords.molecules:
+        for i, mol in enumerate(self.coords.molecules):
             dbmol = self.moldb.molecules[mol.name]
+            try:
+                nextmol_name = self.coords.molecules[i+1].name
+            except IndexError:
+                nextmol_name = None
 
             if mol.name not in self.moltypes:
                 self.moltypes.append(mol.name)
 
             collect_type(dbmol.lengths, self.nlengths, self.bonddb.length,
-                         self.lentypes, self.lenstyles)
+                         self.lentypes, self.lenstyles, nextmol_name)
             collect_type(dbmol.angles, self.nangles, self.bonddb.angle,
-                         self.angtypes, self.angstyles)
+                         self.angtypes, self.angstyles, nextmol_name)
             collect_type(dbmol.dihedrals, self.ndihedrals, self.bonddb.dihedral,
-                         self.dihtypes, self.dihstyles)
+                         self.dihtypes, self.dihstyles, nextmol_name)
             collect_type(dbmol.impropers, self.nimpropers, self.bonddb.improper,
-                         self.imptypes, self.impstyles)
+                         self.imptypes, self.impstyles, nextmol_name)
 
             coordfile_atoms = [self.coords.atoms[x] for x in mol.atoms]
 
@@ -177,8 +190,21 @@ class PDB2LMP:
                 i = 1
                 for ii, mol in enumerate(self.coords.molecules):
                     mol_db = self.moldb.molecules[mol.name]
+                    try:
+                        nextmol_name = self.coords.molecules[ii+1].name
+                    except IndexError:
+                        nextmol_name = None
+
                     atom_list = list(mol_db.atoms.keys())
                     for bond in getattr(mol_db, header.lower()):
+                        try:
+                            regex = re.compile(bond.ifnext)
+                            if regex.fullmatch(nextmol_name) is None:
+                                continue
+                        except AttributeError:
+                            pass
+                        except TypeError:
+                            continue
                         print("{0:6d} {1:4d}".format(i, types.index(bond.type) + 1), file=data, end="")
                         for atom in bond.atoms:
                             try:
