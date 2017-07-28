@@ -80,8 +80,7 @@ class PDB2LMP:
         def collect_type(values, counter, db_vals, typelist, stylelist, nextmol_name):
             for val in values:
                 try:
-                    regex = re.compile(val.ifnext)
-                    if regex.fullmatch(nextmol_name) is None:
+                    if re.fullmatch(val.ifnext, nextmol_name) is None:
                         continue
                 except AttributeError:
                     pass
@@ -198,8 +197,7 @@ class PDB2LMP:
                     atom_list = list(mol_db.atoms.keys())
                     for bond in getattr(mol_db, header.lower()):
                         try:
-                            regex = re.compile(bond.ifnext)
-                            if regex.fullmatch(nextmol_name) is None:
+                            if re.fullmatch(bond.ifnext, nextmol_name) is None:
                                 continue
                         except AttributeError:
                             pass

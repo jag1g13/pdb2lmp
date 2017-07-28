@@ -2,6 +2,7 @@
 
 # pdb2lmp
 Convert PDB files to LAMMPS data and force field files.
+Requires Python 3.4 or greater.
 
 ## Aim
 This program uses a library of pre-defined molecule, atom, and bond types to convert PDB or GRO files into LAMMPS input DATA (topology) and FF (forcefield) files.  It was inspired by the GROMACS tool PDB2GMX as an attempt to make it easier to setup simulations using the [ELBA forcefield](https://github.com/orsim/elba-lammps).  It should however be more broadly applicable to molecular simulation in LAMMPS in general.
