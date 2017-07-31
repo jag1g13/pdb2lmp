@@ -1,119 +1,129 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "type": "object",
+  "required": ["molecules"],
+  "additionalProperties": false,
   "properties": {
-    "version":{
-      "type": "object"
-    },
-    "notes": {
-      "type": "string"
-    },
-    "include":{
+    "version": {"type": "object"},
+    "notes": {"type": "string"},
+    "include": {
       "type": "array",
-      "items": {"type": "string"},
-      "uniqueItems": true
+      "uniqueItems": true,
+      "items": {"type": "string"}
     },
     "molecules": {
       "type": "object",
-      "additionalProperties": {
-        "type": "object",
-        "properties": {
-          "polymer_type": {
-            "type": "array",
-            "items": {"type": "string"},
-            "uniqueItems": true
-          },
-          "comment": {
-            "type": "string"
-          },
-          "atoms": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "name": {"type": "string"},
-                "type": {"type": "string"},
-                "charge": {"type": "float"}
-              },
-              "additionalProperties": false,
-              "required": ["name", "type"]
-            },
-            "uniqueItems": true
-          },
-          "lengths": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "type": {"type": "string"},
-                "atoms": {
-                  "type": "array",
-                  "items": {"type": "string"},
-                  "minItems": 2,
-                  "maxItems": 2,
-                  "uniqueItems": true
-                }
-              }
-            },
-            "uniqueItems": true
-          },
-          "angles": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "type": {"type": "string"},
-                "atoms": {
-                  "type": "array",
-                  "items": {"type": "string"},
-                  "minItems": 3,
-                  "maxItems": 3,
-                  "uniqueItems": true
-                }
-              }
-            },
-            "uniqueItems": true
-          },
-          "dihedrals": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "type": {"type": "string"},
-                "atoms": {
-                  "type": "array",
-                  "items": {"type": "string"},
-                  "minItems": 4,
-                  "maxItems": 4,
-                  "uniqueItems": true
-                }
-              }
-            },
-            "uniqueItems": true
-          },
-          "impropers": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "type": {"type": "string"},
-                "atoms": {
-                  "type": "array",
-                  "items": {"type": "string"},
-                  "minItems": 4,
-                  "maxItems": 4,
-                  "uniqueItems": true
-                }
-              }
-            },
-            "uniqueItems": true
-          }
+      "additionalProperties": {"$ref": "#/definitions/molecule"}
+    }
+  },
+
+  "definitions": {
+
+    "molecule": {
+      "type": "object",
+      "anyOf": [
+        {"required": ["templates"]},
+        {"required": ["atoms"]}
+      ],
+      "properties": {
+        "comment": {"type": "string"},
+        "templates": {
+          "type": "array",
+          "minLength": 1,
+          "items": {"type": "string"}
+        },
+        "polymer_type": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string"}
+        },
+        "atoms": {
+          "type": "array",
+          "uniqueItems": true,
+          "minLength": 1,
+          "items": {"$ref": "#/definitions/atom"}
+        },
+        "lengths": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/definitions/length"}
+        },
+        "angles": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/definitions/angle"}
+        },
+        "dihedrals": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/definitions/dihedral"}
+        },
+        "impropers": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/definitions/dihedral"}
+        }
+      }
+    },
+
+    "atom": {
+      "type": "object",
+      "required": ["name", "type"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {"type": "string"},
+        "type": {"type": "string"},
+        "charge": {"type": "number"}
+      }
+    },
+
+    "length": {
+      "type": "object",
+      "required": ["type", "atoms"],
+      "additionalProperties": false,
+      "properties": {
+        "type": {"type": "string"},
+        "atoms": {
+          "type": "array",
+          "minLength": 2,
+          "maxLength": 2,
+          "uniqueItems": true,
+          "items": {"type": "string"}
+        }
+      }
+    },
+
+    "angle": {
+      "type": "object",
+      "required": ["type", "atoms"],
+      "additionalProperties": false,
+      "properties": {
+        "type": {"type": "string"},
+        "atoms": {
+          "type": "array",
+          "minLength": 3,
+          "maxLength": 3,
+          "uniqueItems": true,
+          "items": {"type": "string"}
+        }
+      }
+    },
+
+    "dihedral": {
+      "type": "object",
+      "required": ["type", "atoms"],
+      "additionalProperties": false,
+      "properties": {
+        "type": {"type": "string"},
+        "atoms": {
+          "type": "array",
+          "minLength": 4,
+          "maxLength": 4,
+          "uniqueItems": true,
+          "items": {"type": "string"}
         }
       }
     }
-  },
-  "required": [
-    "notes",
-    "molecules"
-  ]
+
+  }
 }
