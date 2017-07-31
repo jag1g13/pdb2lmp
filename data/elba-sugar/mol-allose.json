@@ -12,6 +12,17 @@
         {"type": "sugar-dih-2", "atoms":["O5", "C1", "C2", "C3"]}
       ]
     },
+    "0NXD":{
+      "templates":["0XXD"],
+      "dihedrals":[
+        {"type": "sugar-dih-1", "atoms":["C1", "C2", "C3", "C4"]},
+        {"type": "sugar-dih-2", "atoms":["C2", "C3", "C4", "C5"]},
+        {"type": "sugar-dih-1", "atoms":["C3", "C4", "C5", "O5"]},
+        {"type": "sugar-dih-2", "atoms":["C4", "C5", "O5", "C1"]},
+        {"type": "sugar-dih-1", "atoms":["C5", "O5", "C1", "C2"]},
+        {"type": "sugar-dih-2", "atoms":["O5", "C1", "C2", "C3"]}
+      ]
+    },
     "0NA":{
       "templates":["0NX"],
       "impropers":[
@@ -91,6 +102,9 @@
       "lengths":[
         {"type": "sugar-glyc", "atoms":["C1", "+C5"]}
       ]
+    },
+    "3NAD":{
+      "templates":["0NXD"]
     }
   }
 }

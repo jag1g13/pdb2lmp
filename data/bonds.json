@@ -21,7 +21,9 @@
       "tail-sat":         "cosine/squared   3.585 180.0",
       "tail-unsat":       "cosine/squared   3.585 120.0",
       "gly-dipole":       "dipole           1.195   0.0",
-      "sugar-dipole":     "dipole/harmonic  1     150"
+      "sugar-dipole":     "dipole/harmonic  1     150",
+      "sugar-glyc-1":     "cosine/squared   x     139",
+      "sugar-glyc-2":     "cosine/squared   x     139"
     },
     "dihedral":{
       "sugar-dih-1":      "fourier 2    1.00 3 0    0.25 1 -120",

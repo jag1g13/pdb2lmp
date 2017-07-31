@@ -12,6 +12,17 @@
         {"type": "sugar-dih-2", "atoms":["O5", "C1", "C2", "C3"]}
       ]
     },
+    "0GXD":{
+      "templates":["0XXD"],
+      "dihedrals":[
+        {"type": "sugar-dih-1", "atoms":["C1", "C2", "C3", "C4"]},
+        {"type": "sugar-dih-2", "atoms":["C2", "C3", "C4", "C5"]},
+        {"type": "sugar-dih-1", "atoms":["C3", "C4", "C5", "O5"]},
+        {"type": "sugar-dih-2", "atoms":["C4", "C5", "O5", "C1"]},
+        {"type": "sugar-dih-1", "atoms":["C5", "O5", "C1", "C2"]},
+        {"type": "sugar-dih-2", "atoms":["O5", "C1", "C2", "C3"]}
+      ]
+    },
     "0GA":{
       "templates":["0GX"],
       "impropers":[
@@ -92,38 +103,18 @@
         {"type": "sugar-glyc", "atoms":["C1", "+C5"]}
       ]
     },
-    "0GAD":{
-      "templates":["0GX"],
-      "atoms":[
-        {"name": "D1", "type":"DUM"},
-        {"name": "D2", "type":"DUM"},
-        {"name": "D3", "type":"DUM"},
-        {"name": "D4", "type":"DUM"},
-        {"name": "D5", "type":"DUM"}
-      ],
+    "0GAD": {
+      "templates": [
+        "0GXD"
+      ]
+    },
+    "1GAD":{
+      "templates":["0GAD"],
       "lengths":[
-        {"type": "sugar-dum", "atoms":["O5", "D1"]},
-        {"type": "sugar-dum", "atoms":["C1", "D1"]},
-        {"type": "sugar-dum", "atoms":["C2", "D1"]},
-        {"type": "sugar-dum", "atoms":["C1", "D2"]},
-        {"type": "sugar-dum", "atoms":["C2", "D2"]},
-        {"type": "sugar-dum", "atoms":["C3", "D2"]},
-        {"type": "sugar-dum", "atoms":["C2", "D3"]},
-        {"type": "sugar-dum", "atoms":["C3", "D3"]},
-        {"type": "sugar-dum", "atoms":["C4", "D3"]},
-        {"type": "sugar-dum", "atoms":["C3", "D4"]},
-        {"type": "sugar-dum", "atoms":["C4", "D4"]},
-        {"type": "sugar-dum", "atoms":["C5", "D4"]},
-        {"type": "sugar-dum", "atoms":["C4", "D5"]},
-        {"type": "sugar-dum", "atoms":["C5", "D5"]},
-        {"type": "sugar-dum", "atoms":["O5", "D5"]}
+        {"type": "sugar-glyc", "atoms":["C1", "+C1"]}
       ],
       "angles":[
-        {"type": "sugar-dipole", "atoms":["C1", "D1", "C1"]},
-        {"type": "sugar-dipole", "atoms":["C2", "D2", "C2"]},
-        {"type": "sugar-dipole", "atoms":["C3", "D3", "C3"]},
-        {"type": "sugar-dipole", "atoms":["C4", "D4", "C4"]},
-        {"type": "sugar-dipole", "atoms":["C5", "D5", "C5"]}
+        {"type": "sugar-glyc-1", "atoms":["C2", "C1", "+C1"]}
       ]
     }
   }

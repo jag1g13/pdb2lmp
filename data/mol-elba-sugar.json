@@ -16,23 +16,23 @@
   "molecules":{
     "MEO":{
       "atoms":[
-        {"name": "C",  "type": "MEOH"}
+        {"name": "C", "type": "MEOH"}
       ]
     },
     "ETO":{
       "atoms":[
-        {"name": "C",  "type": "ETOH"}
+        {"name": "C", "type": "ETOH"}
       ]
     },
     "0XX":{
       "polymer_type":["sugar"],
       "atoms":[
-        {"name": "C1",  "type": "MEOH"},
-        {"name": "C2",  "type": "MEOH"},
-        {"name": "C3",  "type": "MEOH"},
-        {"name": "C4",  "type": "MEOH"},
-        {"name": "C5",  "type": "ETOH"},
-        {"name": "O5",  "type": "OXY"}
+        {"name": "C1", "type": "MEOH"},
+        {"name": "C2", "type": "MEOH"},
+        {"name": "C3", "type": "MEOH"},
+        {"name": "C4", "type": "MEOH"},
+        {"name": "C5", "type": "ETOH"},
+        {"name": "O5", "type": "OXY"}
       ],
       "lengths":[
         {"type": "sugar-ring", "atoms":["C1", "C2"]},
@@ -49,6 +49,58 @@
         {"type": "sugar-ring", "atoms":["C4", "C5", "O5"]},
         {"type": "sugar-ring", "atoms":["C5", "O5", "C1"]},
         {"type": "sugar-ring", "atoms":["O5", "C1", "C2"]}
+      ]
+    },
+    "0XXD":{
+      "polymer_type":["sugar"],
+      "atoms":[
+        {"name": "C1", "type": "MEOH"},
+        {"name": "C2", "type": "MEOH"},
+        {"name": "C3", "type": "MEOH"},
+        {"name": "C4", "type": "MEOH"},
+        {"name": "C5", "type": "ETOH"},
+        {"name": "O5", "type": "OXY"},
+        {"name": "D1", "type": "DUM"},
+        {"name": "D2", "type": "DUM"},
+        {"name": "D3", "type": "DUM"},
+        {"name": "D4", "type": "DUM"},
+        {"name": "D5", "type": "DUM"}
+      ],
+      "lengths":[
+        {"type": "sugar-ring", "atoms":["C1", "C2"]},
+        {"type": "sugar-ring", "atoms":["C2", "C3"]},
+        {"type": "sugar-ring", "atoms":["C3", "C4"]},
+        {"type": "sugar-ring", "atoms":["C4", "C5"]},
+        {"type": "sugar-ring", "atoms":["C5", "O5"]},
+        {"type": "sugar-ring", "atoms":["O5", "C1"]},
+        {"type": "sugar-dum", "atoms":["O5", "D1"]},
+        {"type": "sugar-dum", "atoms":["C1", "D1"]},
+        {"type": "sugar-dum", "atoms":["C2", "D1"]},
+        {"type": "sugar-dum", "atoms":["C1", "D2"]},
+        {"type": "sugar-dum", "atoms":["C2", "D2"]},
+        {"type": "sugar-dum", "atoms":["C3", "D2"]},
+        {"type": "sugar-dum", "atoms":["C2", "D3"]},
+        {"type": "sugar-dum", "atoms":["C3", "D3"]},
+        {"type": "sugar-dum", "atoms":["C4", "D3"]},
+        {"type": "sugar-dum", "atoms":["C3", "D4"]},
+        {"type": "sugar-dum", "atoms":["C4", "D4"]},
+        {"type": "sugar-dum", "atoms":["C5", "D4"]},
+        {"type": "sugar-dum", "atoms":["C4", "D5"]},
+        {"type": "sugar-dum", "atoms":["C5", "D5"]},
+        {"type": "sugar-dum", "atoms":["O5", "D5"]}
+      ],
+      "angles":[
+        {"type": "sugar-ring", "atoms":["C1", "C2", "C3"]},
+        {"type": "sugar-ring", "atoms":["C2", "C3", "C4"]},
+        {"type": "sugar-ring", "atoms":["C3", "C4", "C5"]},
+        {"type": "sugar-ring", "atoms":["C4", "C5", "O5"]},
+        {"type": "sugar-ring", "atoms":["C5", "O5", "C1"]},
+        {"type": "sugar-ring", "atoms":["O5", "C1", "C2"]},
+        {"type": "sugar-dipole", "atoms":["C1", "D1", "C1"]},
+        {"type": "sugar-dipole", "atoms":["C2", "D2", "C2"]},
+        {"type": "sugar-dipole", "atoms":["C3", "D3", "C3"]},
+        {"type": "sugar-dipole", "atoms":["C4", "D4", "C4"]},
+        {"type": "sugar-dipole", "atoms":["C5", "D5", "C5"]}
       ]
     }
   }
