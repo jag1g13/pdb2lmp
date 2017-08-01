@@ -12,36 +12,11 @@
         {"type": "sugar-dih-2", "atoms":["O5", "C1", "C2", "C3"]}
       ]
     },
-    "0GXD":{
-      "templates":["0XXD"],
-      "dihedrals":[
-        {"type": "sugar-dih-1", "atoms":["C1", "C2", "C3", "C4"]},
-        {"type": "sugar-dih-2", "atoms":["C2", "C3", "C4", "C5"]},
-        {"type": "sugar-dih-1", "atoms":["C3", "C4", "C5", "O5"]},
-        {"type": "sugar-dih-2", "atoms":["C4", "C5", "O5", "C1"]},
-        {"type": "sugar-dih-1", "atoms":["C5", "O5", "C1", "C2"]},
-        {"type": "sugar-dih-2", "atoms":["O5", "C1", "C2", "C3"]}
-      ]
-    },
     "0GA":{
-      "templates":["0GX"],
-      "impropers":[
-        {"type": "dipole-cone-1", "atoms":["C1", "C2", "O5", "C1"]},
-        {"type": "dipole-cone-1", "atoms":["C2", "C3", "C1", "C2"]},
-        {"type": "dipole-cone-2", "atoms":["C3", "C4", "C2", "C3"]},
-        {"type": "dipole-cone-1", "atoms":["C4", "C5", "C3", "C4"]},
-        {"type": "dipole-cone-2", "atoms":["C5", "O5", "C4", "C5"]}
-      ]
+      "templates":["0GX"]
     },
     "0GB":{
-      "templates":["0GX"],
-      "impropers":[
-        {"type": "dipole-cone-2", "atoms":["C1", "C2", "O5", "C1"]},
-        {"type": "dipole-cone-1", "atoms":["C2", "C3", "C1", "C2"]},
-        {"type": "dipole-cone-2", "atoms":["C3", "C4", "C2", "C3"]},
-        {"type": "dipole-cone-1", "atoms":["C4", "C5", "C3", "C4"]},
-        {"type": "dipole-cone-2", "atoms":["C5", "O5", "C4", "C5"]}
-      ]
+      "templates":["0GX"]
     },
     "1GA":{
       "templates":["0GA"],
@@ -101,20 +76,6 @@
       "templates":["0GB"],
       "lengths":[
         {"type": "sugar-glyc", "atoms":["C1", "+C5"]}
-      ]
-    },
-    "0GAD": {
-      "templates": [
-        "0GXD"
-      ]
-    },
-    "1GAD":{
-      "templates":["0GAD"],
-      "lengths":[
-        {"type": "sugar-glyc", "atoms":["C1", "+C1"]}
-      ],
-      "angles":[
-        {"type": "sugar-glyc-1", "atoms":["C2", "C1", "+C1"]}
       ]
     }
   }

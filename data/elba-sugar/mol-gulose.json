@@ -13,24 +13,10 @@
       ]
     },
     "0KA":{
-      "templates":["0KX"],
-      "impropers":[
-        {"type": "dipole-cone-1", "atoms":["C1", "C2", "O5", "C1"]},
-        {"type": "dipole-cone-1", "atoms":["C2", "C3", "C1", "C2"]},
-        {"type": "dipole-cone-1", "atoms":["C3", "C4", "C2", "C3"]},
-        {"type": "dipole-cone-2", "atoms":["C4", "C5", "C3", "C4"]},
-        {"type": "dipole-cone-2", "atoms":["C5", "O5", "C4", "C5"]}
-      ]
+      "templates":["0KX"]
     },
     "0KB":{
-      "templates":["0KX"],
-      "impropers":[
-        {"type": "dipole-cone-2", "atoms":["C1", "C2", "O5", "C1"]},
-        {"type": "dipole-cone-1", "atoms":["C2", "C3", "C1", "C2"]},
-        {"type": "dipole-cone-1", "atoms":["C3", "C4", "C2", "C3"]},
-        {"type": "dipole-cone-2", "atoms":["C4", "C5", "C3", "C4"]},
-        {"type": "dipole-cone-2", "atoms":["C5", "O5", "C4", "C5"]}
-      ]
+      "templates":["0KX"]
     },
     "1KA":{
       "templates":["0KA"],

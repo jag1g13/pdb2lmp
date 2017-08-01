@@ -25,11 +25,12 @@
         {"required": ["templates"]},
         {"required": ["atoms"]}
       ],
+      "additionalProperties": false,
       "properties": {
         "comment": {"type": "string"},
         "templates": {
           "type": "array",
-          "minLength": 1,
+          "minLength": 0,
           "items": {"type": "string"}
         },
         "polymer_type": {
