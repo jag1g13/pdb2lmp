@@ -21,9 +21,9 @@
       "gly-dipole":       "dipole           1.195   0.0",
       "sugar-ring":       "cosine/squared 120     110.0",
       "sugar-dipole":     "dipole/harmonic  1     150",
-      "sugar-glyc-1":     "cosine/squared  63     139",
-      "sugar-glyc-2":     "cosine/squared  14     115.5",
-      "sugar-glyc-2-C6":  "cosine/squared   9.4   134"
+      "sugar-glyc-1":     "cosine/squared  14     115.5",
+      "sugar-glyc-1-C6":  "cosine/squared   9.4   134",
+      "sugar-glyc-2":     "cosine/squared  63     139"
     },
     "dihedral":{
       "sugar-dih-1":      "fourier 2    1.00 3 0    0.25 1 -120",
@@ -34,12 +34,15 @@
       "sugar-dih-30pc-2": "fourier 2    0.75 3 0   -0.10 1  120",
       "sugar-dih-80pc-1": "fourier 2    0.75 3 0   -0.32 1 -120",
       "sugar-dih-80pc-2": "fourier 2    0.75 3 0   -0.32 1  120",
-      "sugar-glyc-ax":    "charmm  10.0 1 170 0.0",
-      "sugar-glyc-ax-ax": "charmm  10.0 1 160 0.0",
-      "sugar-glyc-ax-eq": "charmm  10.0 1 185 0.0",
-      "sugar-glyc-eq":    "charmm   5.0 1  85 0.0",
-      "sugar-glyc-eq-ax": "charmm   5.0 1  95 0.0",
-      "sugar-glyc-eq-eq": "charmm   5.0 1  80 0.0"
+      "sugar-glyc-d13":   "charmm -0.1801345   1 -123.0662189 0.0",
+      "sugar-glyc-d14":   "charmm -0.8522      1 -146.907595  0.0",
+      "sugar-glyc-d16":   "charmm  0.4714055   1    0.8067885 0.0",
+      "sugar-glyc-d2a34": "charmm -0.819724    1  -65.408620  0.0",
+      "sugar-glyc-d2a6":  "charmm  1.312271    1   13.593349  0.0",
+      "sugar-glyc-d2b34": "charmm -0.2683885   1  -83.0853785 0.0",
+      "sugar-glyc-d2b6":  "charmm -0.542714    1  -26.391433  0.0",
+      "sugar-glyc-d3a":   "charmm -6.74014666  1  -83.661744  0.0",
+      "sugar-glyc-d3b":   "charmm -0.05605633  1  -42.276276  0.0"
     }
   }
 }

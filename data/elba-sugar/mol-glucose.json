@@ -22,60 +22,100 @@
       "templates":["0GA"],
       "lengths":[
         {"type": "sugar-glyc", "atoms":["C1", "+C1"]}
+      ],
+      "angles":[
+        {"type": "sugar-glyc-1", "atoms":["O5", "C1", "+C1"]},
+        {"type": "sugar-glyc-2", "atoms":["C1", "+C1", "+C2"]}
       ]
     },
     "2GA":{
       "templates":["0GA"],
       "lengths":[
-        {"type": "sugar-glyc", "atoms":["C1", "+C2"]}
+        {"type": "sugar-glyc", "atoms":["C2", "+C1"]}
+      ],
+      "angles":[
+        {"type": "sugar-glyc-1", "atoms":["C1", "C2", "+C1"]},
+        {"type": "sugar-glyc-2", "atoms":["C2", "+C1", "+C2"]}
       ]
     },
     "3GA":{
       "templates":["0GA"],
       "lengths":[
-        {"type": "sugar-glyc", "atoms":["C1", "+C3"]}
+        {"type": "sugar-glyc", "atoms":["C3", "+C1"]}
+      ],
+      "angles":[
+        {"type": "sugar-glyc-1", "atoms":["C2", "C3", "+C1"]},
+        {"type": "sugar-glyc-2", "atoms":["C3", "+C1", "+C2"]}
       ]
     },
     "4GA":{
       "templates":["0GA"],
       "lengths":[
-        {"type": "sugar-glyc", "atoms":["C1", "+C4"]}
+        {"type": "sugar-glyc", "atoms":["C4", "+C1"]}
+      ],
+      "angles":[
+        {"type": "sugar-glyc-1", "atoms":["C3", "C4", "+C1"]},
+        {"type": "sugar-glyc-2", "atoms":["C4", "+C1", "+C2"]}
       ]
     },
     "6GA":{
       "templates":["0GA"],
       "lengths":[
-        {"type": "sugar-glyc", "atoms":["C1", "+C5"]}
+        {"type": "sugar-glyc", "atoms":["C5", "+C1"]}
+      ],
+      "angles":[
+        {"type": "sugar-glyc-1",    "atoms":["C4", "C5", "+C1"]},
+        {"type": "sugar-glyc-2-C6", "atoms":["C5", "+C1", "+C2"]}
       ]
     },
     "1GB":{
       "templates":["0GB"],
       "lengths":[
         {"type": "sugar-glyc", "atoms":["C1", "+C1"]}
+      ],
+      "angles":[
+        {"type": "sugar-glyc-1", "atoms":["O5", "C1", "+C1"]},
+        {"type": "sugar-glyc-2", "atoms":["C1", "+C1", "+C2"]}
       ]
     },
     "2GB":{
       "templates":["0GB"],
       "lengths":[
-        {"type": "sugar-glyc", "atoms":["C1", "+C2"]}
+        {"type": "sugar-glyc", "atoms":["C2", "+C1"]}
+      ],
+      "angles":[
+        {"type": "sugar-glyc-1", "atoms":["C1", "C2", "+C1"]},
+        {"type": "sugar-glyc-2", "atoms":["C2", "+C1", "+C2"]}
       ]
     },
     "3GB":{
       "templates":["0GB"],
       "lengths":[
-        {"type": "sugar-glyc", "atoms":["C1", "+C3"]}
+        {"type": "sugar-glyc", "atoms":["C3", "+C1"]}
+      ],
+      "angles":[
+        {"type": "sugar-glyc-1", "atoms":["C2", "C3", "+C1"]},
+        {"type": "sugar-glyc-2", "atoms":["C3", "+C1", "+C2"]}
       ]
     },
     "4GB":{
       "templates":["0GB"],
       "lengths":[
-        {"type": "sugar-glyc", "atoms":["C1", "+C4"]}
+        {"type": "sugar-glyc", "atoms":["C4", "+C1"]}
+      ],
+      "angles":[
+        {"type": "sugar-glyc-1", "atoms":["C3", "C4", "+C1"]},
+        {"type": "sugar-glyc-2", "atoms":["C4", "+C1", "+C2"]}
       ]
     },
     "6GB":{
       "templates":["0GB"],
       "lengths":[
-        {"type": "sugar-glyc", "atoms":["C1", "+C5"]}
+        {"type": "sugar-glyc", "atoms":["C5", "+C1"]}
+      ],
+      "angles":[
+        {"type": "sugar-glyc-1",    "atoms":["C4", "C5", "+C1"]},
+        {"type": "sugar-glyc-2-C6", "atoms":["C5", "+C1", "+C2"]}
       ]
     }
   }

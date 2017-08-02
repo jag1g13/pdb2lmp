@@ -15,7 +15,10 @@ class BondDatabase:
 
         for tipe in ["length", "angle", "dihedral", "improper"]:
             setattr(self, tipe, dict())
-            for name, bond in db.bonds[tipe].items():
-                style, *params = bond.split()
-                getattr(self, tipe)[name] = Param(style, " ".join(params))
+            try:
+                for name, bond in db.bonds[tipe].items():
+                    style, *params = bond.split()
+                    getattr(self, tipe)[name] = Param(style, " ".join(params))
+            except KeyError:
+                continue
 
