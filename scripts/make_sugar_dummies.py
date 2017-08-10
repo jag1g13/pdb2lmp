@@ -3,8 +3,8 @@
 import sys
 import os
 
-from collections import namedtuple, deque
-from copy import copy
+from collections import namedtuple
+from copy import deepcopy
 
 import numpy as np
 
@@ -42,6 +42,47 @@ class Atom:
                                                                                self.id, *self.coords)
 
 
+class Residue:
+    def __init__(self, resid, resname):
+        self.resid = resid
+        self.resname = resname
+        self.atoms = []
+
+    @property
+    def natoms(self):
+        return len(self.atoms)
+
+    @property
+    def is_sugar(self):
+        try:
+            int(self.resname[0])
+            return True
+        except ValueError:
+            return False
+
+    @property
+    def is_water(self):
+        return self.resname in {"WAT", "SOL", "HOH"}
+
+    def atom_by_name(self, name):
+        for atom in self.atoms:
+            if atom.name == name:
+                return atom
+        raise ValueError("Atom {} not in Residue {}".format(name, self.resname))
+
+    def add_atom(self, atom, left=False):
+        atom.resid = self.resid
+        atom.resname = self.resname
+
+        if left:
+            self.atoms.insert(0, atom)
+        else:
+            self.atoms.append(atom)
+
+    def __iter__(self):
+        return iter(self.atoms)
+
+
 class Gro:
     def __init__(self, filename):
         with open(filename) as fin:
@@ -51,92 +92,122 @@ class Gro:
         self.natoms = int(lines.pop(0))
         self.box = np.fromiter(map(float, lines.pop().split()), dtype=float)
 
-        self.atoms = []
+        self.residues = []
+        resid_last = None
         for line in lines:
-            self.atoms.append(Atom.from_gro_line(line))
-        assert len(self.atoms) == self.natoms
+            atom = Atom.from_gro_line(line)
+            if atom.resid != resid_last:
+                self.residues.append(Residue(atom.resid, atom.resname))
+                resid_last = atom.resid
+            self.residues[-1].add_atom(atom)
+
+        assert sum(x.natoms for x in self.residues) == self.natoms
 
     def write(self, filename):
         with open(filename, mode="w") as fout:
             print(self.header, file=fout)
             print(" {0:d}".format(self.natoms), file=fout)
-            for atom in self.atoms:
-                print(atom.as_gro_line, file=fout)
-            print("{0:8.4f}{1:8.4f}{2:8.4f}".format(*self.box), file=fout)
+            for residue in self.residues:
+                for atom in residue:
+                    print(atom.as_gro_line, file=fout)
+            print("{0:10.4f}{1:10.4f}{2:10.4f}".format(*self.box), file=fout)
 
     def renumber(self):
-        resid, resid_prev = 0, None
-        resname_prev = None
-        for i, atom in enumerate(self.atoms, start=1):
-            atom.id = i
-            if (atom.resid != resid_prev) or (atom.resname != resname_prev):
-                resid_prev = atom.resid
-                resname_prev = atom.resname
-                resid += 1
-            atom.resid = resid
+        atom_id = 0
+        for i, residue in enumerate(self.residues, start=1):
+            residue.resid = i
+            for atom in residue:
+                atom.resid = i
+                atom_id += 1
+                atom.id = atom_id
 
-        self.natoms = len(self.atoms)
+        self.natoms = sum(x.natoms for x in self.residues)
 
-    def insert_atom_before_resid(self, resid, new_atom):
-        for insert_point, atom in enumerate(self.atoms):
-            if atom.resid == resid:
-                break
-        self.atoms.insert(insert_point, new_atom)
+    def prepend_atoms_to_residue(self, resid, atoms):
+        try:
+            for atom in reversed(atoms):
+                self.residues[resid].add_atom(atom, left=True)
+        except TypeError:
+            self.residues[resid].add_atom(atom, left=True)
 
-    def __iter__(self):
-        return iter(self.atoms)
-
-    def __reversed__(self):
-        return reversed(self.atoms)
+        self.renumber()
 
 
 def rename_roh(gro):
-    resname_next = None
-    for atom in reversed(gro):
-        if atom.resname == "ROH":
-            atom.resname = resname_next
-            atom.resid += 1
-        else:
-            resname_next = atom.resname
+    to_delete = []
+    for i, residue in enumerate(gro.residues):
+        if residue.resname == "ROH":
+            atoms = residue.atoms
+            gro.prepend_atoms_to_residue(i+1, atoms)
+            to_delete.append(i)
+
+    for offset, resid in enumerate(to_delete):
+        gro.residues.pop(resid - offset)
+
+    gro.renumber()
 
 
-def copy_atoms(gro):
-    insert_atoms = []
-
-    resname_queue = deque(maxlen=2)
-    res_sugar_num_next = None
-    for atom in reversed(gro):
+def copy_link_atoms(gro):
+    for i, residue in enumerate(gro.residues):
         try:
-            resname = resname_queue.pop()
-        except IndexError:
-            resname = None
-
-        print(resname, atom.resname)
-
-        if resname != atom.resname:
-            resname_queue.append(atom.resname)
-        resname_queue.append(resname)
-
-        try:
-            res_sugar_num = int(atom.resname[0])
-
-            if res_sugar_num_next is not None and (res_sugar_num == 6 and atom.name == "C6") or (6 > res_sugar_num > 0 and atom.name == "O{}".format(res_sugar_num)):
-                new_atom = copy(atom)
-                print()
-                print(new_atom)
-                new_atom.resname = resname
-                new_atom.resid += 1
-                print(new_atom)
-                insert_atoms.append(new_atom)
-
-            resname = atom.resname
-            res_sugar_num_next = int(atom.resname[0])
+            res_sugar_num = int(residue.resname[0])
+            res_next = gro.residues[i+1]
+            int(res_next.resname[0])
         except ValueError:
-            pass
+            continue
 
-    for atom in insert_atoms:
-        print(new_atom)
-        gro.insert_atom_before_resid(atom.resid, atom)
+        for atom in residue:
+            if (res_sugar_num == 6 and atom.name == "C6") or (6 > res_sugar_num > 0 and atom.name == "O{}".format(res_sugar_num)):
+                new_atom = deepcopy(atom)
+                new_atom.name = "O1"
+                res_next.add_atom(new_atom, left=True)
+
+    gro.renumber()
+
+
+def prune_atoms(gro):
+    keep_names = {"C1", "C2", "C3", "C4", "C5", "O5", "O1", "O2", "O3", "O4", "C6"}
+    for residue in gro.residues:
+        if residue.is_sugar:
+            residue.atoms = [atom for atom in residue if atom.name in keep_names]
+        elif residue.is_water:
+            residue.atoms = [atom for atom in residue if atom.name in {"O", "O1", "OW"}]
+    gro.renumber()
+
+
+def rename_dummies(gro):
+    dummy_names = {
+        "O1": "D1",
+        "O2": "D2",
+        "O3": "D3",
+        "O4": "D4",
+        "C6": "D5"
+    }
+    for residue in gro.residues:
+        if residue.is_sugar:
+            for atom in residue:
+                if atom.name in dummy_names:
+                    atom.name = dummy_names[atom.name]
+        elif residue.is_water:
+            residue.atoms[0].name = "O1"
+
+
+def sort_atoms(gro):
+    order = ["C1", "C2", "C3", "C4", "C5", "O5", "D1", "D2", "D3", "D4", "D5"]
+    for residue in gro.residues:
+        if residue.is_sugar:
+            residue.atoms = sorted(residue.atoms, key=lambda x: order.index(x.name))
+    gro.renumber()
+
+
+def move_dummies(gro):
+    for residue in gro.residues:
+        if residue.is_sugar:
+            for i in range(1, 6):
+                vec = residue.atom_by_name("D{}".format(i)).coords - residue.atom_by_name("C{}".format(i)).coords
+                residue.atom_by_name("D{}".format(i)).coords -= 1.5 * vec
+                print("D{}".format(i))
+                print(np.sum(vec*vec))
 
 
 if __name__ == "__main__":
@@ -145,10 +216,13 @@ if __name__ == "__main__":
         sys.exit(os.EX_OK)
 
     gro = Gro(sys.argv[1])
+
     rename_roh(gro)
-    gro.renumber()
-    gro.write("potato1.gro")
-    copy_atoms(gro)
-    gro.renumber()
-    gro.write("potato2.gro")
+    copy_link_atoms(gro)
+    prune_atoms(gro)
+    rename_dummies(gro)
+    sort_atoms(gro)
+    move_dummies(gro)
+
+    gro.write("dummies.gro")
 
