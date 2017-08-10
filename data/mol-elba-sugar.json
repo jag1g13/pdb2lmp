@@ -101,6 +101,13 @@
       "angles":[
         {"type": "sugar-glyc-1", "atoms":["C2", "C3", "+C1"]},
         {"type": "sugar-glyc-2", "atoms":["C3", "+C1", "+C2"]}
+      ],
+      "dihedrals":[
+        {"type": "sugar-glyc-d1-3",    "atoms":["C2",  "C3",  "C4", "+C1"]},
+        {"type": "sugar-glyc-d2-a-34", "atoms":["C3",  "C4", "+C1", "+C2"], "ifnext": "[0-9].A"},
+        {"type": "sugar-glyc-d2-b-34", "atoms":["C3",  "C4", "+C1", "+C2"], "ifnext": "[0-9].B"},
+        {"type": "sugar-glyc-d3-a",    "atoms":["C4", "+C1", "+C2", "+C3"], "ifnext": "[0-9].A"},
+        {"type": "sugar-glyc-d3-b",    "atoms":["C4", "+C1", "+C2", "+C3"], "ifnext": "[0-9].B"}
       ]
     },
     "4XX":{
@@ -110,6 +117,13 @@
       "angles":[
         {"type": "sugar-glyc-1", "atoms":["C3", "C4", "+C1"]},
         {"type": "sugar-glyc-2", "atoms":["C4", "+C1", "+C2"]}
+      ],
+      "dihedrals":[
+        {"type": "sugar-glyc-d1-4",    "atoms":["C2",  "C3",  "C4", "+C1"]},
+        {"type": "sugar-glyc-d2-a-34", "atoms":["C3",  "C4", "+C1", "+C2"], "ifnext": "[0-9].A"},
+        {"type": "sugar-glyc-d2-b-34", "atoms":["C3",  "C4", "+C1", "+C2"], "ifnext": "[0-9].B"},
+        {"type": "sugar-glyc-d3-a",    "atoms":["C4", "+C1", "+C2", "+C3"], "ifnext": "[0-9].A"},
+        {"type": "sugar-glyc-d3-b",    "atoms":["C4", "+C1", "+C2", "+C3"], "ifnext": "[0-9].B"}
       ]
     },
     "6XX":{
@@ -119,6 +133,13 @@
       "angles":[
         {"type": "sugar-glyc-1-C6",    "atoms":["C4", "C5", "+C1"]},
         {"type": "sugar-glyc-2", "atoms":["C5", "+C1", "+C2"]}
+      ],
+      "dihedrals":[
+        {"type": "sugar-glyc-d1-6",   "atoms":["C2",  "C3",  "C4", "+C1"]},
+        {"type": "sugar-glyc-d2-a-6", "atoms":["C3",  "C4", "+C1", "+C2"], "ifnext": "[0-9].A"},
+        {"type": "sugar-glyc-d2-b-6", "atoms":["C3",  "C4", "+C1", "+C2"], "ifnext": "[0-9].B"},
+        {"type": "sugar-glyc-d3-a",   "atoms":["C4", "+C1", "+C2", "+C3"], "ifnext": "[0-9].A"},
+        {"type": "sugar-glyc-d3-b",   "atoms":["C4", "+C1", "+C2", "+C3"], "ifnext": "[0-9].B"}
       ]
     }
   }

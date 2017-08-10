@@ -9,8 +9,11 @@ This program uses a library of pre-defined molecule, atom, and bond types to con
 
 ## Use
 To use the program, execute:
+
 `python pdb2lmp.py <PDB/GRO input> <output name>`
+
 e.g.:
+
 `python pdb2lmp.py data/water.pdb water`
 
-  Output DATA and FF files are created using the output name specified appended with the prefixes `.data` and `.ff` respectively.  For the conversion to be successful the molecule names in the import PDB/GRO must match an entry in the PDB2LMP molecule file.  If a molecule is missing it may be added to `data/mol.dat`.
+Output DATA and FF files are created using the output name specified appended with the prefixes `.data` and `.ff` respectively.  For the conversion to be successful the molecule names in the import PDB/GRO must match an entry in the PDB2LMP molecule file.  If a molecule is missing it may be added to `data/mol-elba.json`.

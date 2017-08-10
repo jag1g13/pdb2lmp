@@ -113,7 +113,8 @@
           "maxLength": 2,
           "uniqueItems": true,
           "items": {"type": "string"}
-        }
+        },
+        "ifnext": {"type": "string"}
       }
     },
 
@@ -129,7 +130,8 @@
           "maxLength": 3,
           "uniqueItems": true,
           "items": {"type": "string"}
-        }
+        },
+        "ifnext": {"type": "string"}
       }
     },
 
@@ -145,7 +147,8 @@
           "maxLength": 4,
           "uniqueItems": true,
           "items": {"type": "string"}
-        }
+        },
+        "ifnext": {"type": "string"}
       }
     },
 
