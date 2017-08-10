@@ -19,64 +19,34 @@
       "templates":["0MX"]
     },
     "1MA":{
-      "templates":["0MA"],
-      "lengths":[
-        {"type": "sugar-glyc", "atoms":["C1", "+C1"]}
-      ]
+      "templates":["0MA", "1XX"]
     },
     "2MA":{
-      "templates":["0MA"],
-      "lengths":[
-        {"type": "sugar-glyc", "atoms":["C1", "+C2"]}
-      ]
+      "templates":["0MA", "2XX"]
     },
     "3MA":{
-      "templates":["0MA"],
-      "lengths":[
-        {"type": "sugar-glyc", "atoms":["C1", "+C3"]}
-      ]
+      "templates":["0MA", "3XX"]
     },
     "4MA":{
-      "templates":["0MA"],
-      "lengths":[
-        {"type": "sugar-glyc", "atoms":["C1", "+C4"]}
-      ]
+      "templates":["0MA", "4XX"]
     },
     "6MA":{
-      "templates":["0MA"],
-      "lengths":[
-        {"type": "sugar-glyc", "atoms":["C1", "+C5"]}
-      ]
+      "templates":["0MA", "6XX"]
     },
     "1MB":{
-      "templates":["0MB"],
-      "lengths":[
-        {"type": "sugar-glyc", "atoms":["C1", "+C1"]}
-      ]
+      "templates":["0MB", "1XX"]
     },
     "2MB":{
-      "templates":["0MB"],
-      "lengths":[
-        {"type": "sugar-glyc", "atoms":["C1", "+C2"]}
-      ]
+      "templates":["0MB", "2XX"]
     },
     "3MB":{
-      "templates":["0MB"],
-      "lengths":[
-        {"type": "sugar-glyc", "atoms":["C1", "+C3"]}
-      ]
+      "templates":["0MB", "3XX"]
     },
     "4MB":{
-      "templates":["0MB"],
-      "lengths":[
-        {"type": "sugar-glyc", "atoms":["C1", "+C4"]}
-      ]
+      "templates":["0MB", "4XX"]
     },
     "6MB":{
-      "templates":["0MB"],
-      "lengths":[
-        {"type": "sugar-glyc", "atoms":["C1", "+C5"]}
-      ]
+      "templates":["0MB", "6XX"]
     }
   }
 }

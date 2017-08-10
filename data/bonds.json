@@ -11,7 +11,8 @@
       "ami-pho":          "harmonic   1.506 4.365",
       "sugar-ring":       "harmonic 200     1.520",
       "sugar-glyc":       "harmonic 110     2.458",
-      "sugar-dum":        "harmonic 100     3"
+      "sugar-dum":        "harmonic 100     1",
+      "sugar-dum-adj":    "harmonic 100     2"
     },
     "angle":{
       "cho-pho-gly":      "cosine/squared   3.585 115.0",
@@ -20,7 +21,8 @@
       "tail-unsat":       "cosine/squared   3.585 120.0",
       "gly-dipole":       "dipole           1.195   0.0",
       "sugar-ring":       "cosine/squared 120     110.0",
-      "sugar-dipole":     "dipole/harmonic  1     150",
+      "sugar-dipole":     "dipole           1     150",
+      "sugar-dipole-harmonic": "dipole/harmonic  1     150",
       "sugar-glyc-1":     "cosine/squared  14     115.5",
       "sugar-glyc-1-C6":  "cosine/squared   9.4   134",
       "sugar-glyc-2":     "cosine/squared  63     139"

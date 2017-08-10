@@ -1,7 +1,11 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "type": "object",
-  "required": ["molecules"],
+  "oneOf": [
+    {"required": ["molecules"]},
+    {"required": ["bonds"]},
+    {"required": ["atoms", "h_values"]}
+  ],
   "additionalProperties": false,
   "properties": {
     "version": {"type": "object"},
@@ -14,6 +18,29 @@
     "molecules": {
       "type": "object",
       "additionalProperties": {"$ref": "#/definitions/molecule"}
+    },
+    "bonds": {
+      "type": "object",
+      "properties": {
+        "length": {"$ref": "#/definitions/bondset"},
+        "angle": {"$ref": "#/definitions/bondset"},
+        "dihedral": {"$ref": "#/definitions/bondset"},
+        "improper": {"$ref": "#/definitions/bondset"}
+      }
+    },
+    "atoms": {
+      "type": "object",
+      "additionalProperties": {"$ref": "#/definitions/libatom"}
+    },
+    "h_values": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
     }
   },
 
@@ -21,10 +48,6 @@
 
     "molecule": {
       "type": "object",
-      "anyOf": [
-        {"required": ["templates"]},
-        {"required": ["atoms"]}
-      ],
       "additionalProperties": false,
       "properties": {
         "comment": {"type": "string"},
@@ -124,7 +147,41 @@
           "items": {"type": "string"}
         }
       }
-    }
+    },
 
+    "bondset": {
+      "type": "object",
+      "additionalProperties": {"type": "string"}
+    },
+
+    "libatom": {
+      "type": "object",
+      "required": ["mass", "charge", "sigma", "epsilon", "dipole", "diameter"],
+      "properties": {
+        "mass": {
+          "type": "number",
+          "minimum": 0
+        },
+        "charge": {
+          "type": "number"
+        },
+        "sigma": {
+          "type": "number",
+          "minimum": 0
+        },
+        "epsilon": {
+          "type": "number",
+          "minimum": 0
+        },
+        "dipole": {
+          "type": "number",
+          "minimum": 0
+        },
+        "diameter": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    }
   }
 }
