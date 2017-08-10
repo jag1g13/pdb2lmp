@@ -21,9 +21,5 @@ class TestBondDatabase(unittest.TestCase):
         self.assertEqual(db.dihedral["sugar-dih-1"].style, "fourier")
         self.assertEqual(db.dihedral["sugar-dih-1"].params, "2 1.00 3 0 0.25 1 -120")
 
-        self.assertTrue("dipole-cone-1" in db.improper)
-        self.assertEqual(db.improper["dipole-cone-1"].style, "dipole/cone")
-        self.assertEqual(db.improper["dipole-cone-1"].params, "200 120 60")
-
 if __name__ == '__main__':
     unittest.main()

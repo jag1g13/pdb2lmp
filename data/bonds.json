@@ -36,15 +36,19 @@
       "sugar-dih-30pc-2": "fourier 2    0.75 3 0   -0.10 1  120",
       "sugar-dih-80pc-1": "fourier 2    0.75 3 0   -0.32 1 -120",
       "sugar-dih-80pc-2": "fourier 2    0.75 3 0   -0.32 1  120",
-      "sugar-glyc-d13":   "charmm -0.1801345   1 -123.0662189 0.0",
-      "sugar-glyc-d14":   "charmm -0.8522      1 -146.907595  0.0",
-      "sugar-glyc-d16":   "charmm  0.4714055   1    0.8067885 0.0",
-      "sugar-glyc-d2a34": "charmm -0.819724    1  -65.408620  0.0",
-      "sugar-glyc-d2a6":  "charmm  1.312271    1   13.593349  0.0",
-      "sugar-glyc-d2b34": "charmm -0.2683885   1  -83.0853785 0.0",
-      "sugar-glyc-d2b6":  "charmm -0.542714    1  -26.391433  0.0",
-      "sugar-glyc-d3a":   "charmm -6.74014666  1  -83.661744  0.0",
-      "sugar-glyc-d3b":   "charmm -0.05605633  1  -42.276276  0.0"
+      "sugar-glyc-d1-3":   "charmm -0.1801345   1 -123.0662189 0.0",
+      "sugar-glyc-d1-4":   "charmm -0.8522      1 -146.907595  0.0",
+      "sugar-glyc-d1-6":   "charmm  0.4714055   1    0.8067885 0.0",
+      "sugar-glyc-d2-a-34": "charmm -0.819724    1  -65.408620  0.0",
+      "sugar-glyc-d2-a-6":  "charmm  1.312271    1   13.593349  0.0",
+      "sugar-glyc-d2-b-34": "charmm -0.2683885   1  -83.0853785 0.0",
+      "sugar-glyc-d2-b-6":  "charmm -0.542714    1  -26.391433  0.0",
+      "sugar-glyc-d3-a":   "charmm -6.74014666  1  -83.661744  0.0",
+      "sugar-glyc-d3-b":   "charmm -0.05605633  1  -42.276276  0.0"
+    },
+    "improper":{
+      "dipole-cone-1":    "dipole/cone 200  120 60",
+      "dipole-cone-2":    "dipole/cone 200 -120 60"
     }
   }
 }

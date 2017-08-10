@@ -21,7 +21,7 @@ class Molecule:
         self.dihedrals = []
         self.impropers = []
         self.polymer_type = set()
-        self.templates = set()
+        self.templates = []
 
         for key, value in kwargs.items():
             try:
@@ -76,6 +76,7 @@ class MolDatabase:
         for mol in self.molecules.values():
             used_templates = set()
             while mol.templates:
+                print(mol.templates)
                 template = mol.templates.pop()
                 if template not in used_templates:
                     mol.extend(self.molecules[template])
