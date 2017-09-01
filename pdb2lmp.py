@@ -96,7 +96,10 @@ class PDB2LMP:
         atnum = 0
 
         for i, mol in enumerate(self.coords.molecules):
-            dbmol = self.moldb.molecules[mol.name]
+            try:
+                dbmol = self.moldb.molecules[mol.name]
+            except KeyError as e:
+                raise KeyError("Residue name {0} does not exist in residue database.".format(e)) from None
             try:
                 nextmol_name = self.coords.molecules[i+1].name
             except IndexError:
