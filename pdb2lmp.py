@@ -167,6 +167,9 @@ class PDB2LMP:
             print("{0:8d} improper types".format(self.nimpropers.types), file=data)
             print(file=data)
             cell = [val / 2 for val in self.coords.cell]
+            if cell == [0, 0, 0]:
+                print("WARNING: The simulation box/unit cell size is zero.")
+                print("  If this is not intentional, please check your input files.")
             print("{0:8.3f} {1:8.3f} xlo xhi".format(-cell[0], cell[0]), file=data)
             print("{0:8.3f} {1:8.3f} ylo yhi".format(-cell[1], cell[1]), file=data)
             print("{0:8.3f} {1:8.3f} zlo zhi".format(-cell[2], cell[2]), file=data)

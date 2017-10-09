@@ -9,7 +9,7 @@ class CoordReader:
     def __init__(self):
         self.atoms = []
         self.molecules = []
-        self.cell = []
+        self.cell = [0, 0, 0]
 
     @property
     def natoms(self):
